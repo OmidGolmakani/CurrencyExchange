@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Model.Entity
+namespace CurrencyExchange.Models.Entity
 {
     public class ApplicationUser : IdentityUser<long>
     {

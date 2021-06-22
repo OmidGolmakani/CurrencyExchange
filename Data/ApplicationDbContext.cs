@@ -27,6 +27,7 @@ namespace CurrencyExchange.Data
         {
             base.OnModelCreating(builder);
         }
-        public virtual DbSet<RolePermission> Laws { get; set; }
+        public virtual DbSet<RolePermission> RolePermissions { get; set; }
+        public virtual DbSet<Currency> Laws { get; set; }
     }
 }

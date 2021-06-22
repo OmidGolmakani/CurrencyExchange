@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace CurrencyExchange.Model.Entity
+namespace CurrencyExchange.Models.Entity
 {
     public class ApplicationRole : IdentityRole<long>
     {

@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Model.Entity
+namespace CurrencyExchange.Models.Entity
 {
     public class ApplicationUserStore : UserStore<ApplicationUser,
                                                   ApplicationRole, 

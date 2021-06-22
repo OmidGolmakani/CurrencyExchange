@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Model.Entity
+namespace CurrencyExchange.Models.Entity
 {
     public class AcceptAdminBase : Base
     {
