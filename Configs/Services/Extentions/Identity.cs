@@ -1,5 +1,5 @@
 ﻿using CurrencyExchange.Data;
-using CurrencyExchange.Model.Entity;
+using CurrencyExchange.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

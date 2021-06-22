@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CurrencyExchange.Model.Entity;
+using CurrencyExchange.Models.Entity;
 using NetTopologySuite.Geometries;
 
 namespace CurrencyExchange.Configs
