@@ -13,7 +13,8 @@ namespace CurrencyExchange.Models.Entity
     {
         public ApplicationUser()
         {
-
+            Orders = new HashSet<Order>();
         }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
