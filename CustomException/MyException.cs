@@ -17,7 +17,7 @@ namespace CurrencyExchange.CustomException
         {
         }
 
-        public MyException(string message, Exception inner)
+        public MyException(string message, MyException inner)
             : base(message, inner)
         {
         }

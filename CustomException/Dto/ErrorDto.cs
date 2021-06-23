@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selle.WebApp.CustomException.Dto
+namespace CurrencyExchange.CustomException.Dto
 {
     public class ErrorDto
     {
