@@ -31,6 +31,9 @@ namespace CurrencyExchange.Data
             //Order
             builder.Entity<Currency>().HasMany(Orders => Orders.Orders)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
+            //Buy
+            builder.Entity<Currency>().HasMany(Buys => Buys.Buys)
+                .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
             //Currency Change
             builder.Entity<Currency>().HasMany(CurrencyChanges => CurrencyChanges.CurrencyChanges)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.Cascade);
@@ -43,6 +46,9 @@ namespace CurrencyExchange.Data
             ///Order
             builder.Entity<ApplicationUser>().HasMany(Orders => Orders.Orders)
                 .WithOne(ApplicationUser => ApplicationUser.OrderUser).OnDelete(DeleteBehavior.NoAction);
+            ///Buy
+            builder.Entity<ApplicationUser>().HasMany(Buys => Buys.Buys)
+                .WithOne(ApplicationUser => ApplicationUser.BuyUser).OnDelete(DeleteBehavior.NoAction);
             #endregion Application User
             #region Role Permission
             builder.Entity<RolePermission>().HasOne(Role => Role.Role).
@@ -52,12 +58,17 @@ namespace CurrencyExchange.Data
             builder.Entity<Order>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
             builder.Entity<Order>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
             #endregion Order
+            #region Buy
+            builder.Entity<Buy>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
+            builder.Entity<Buy>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
+            #endregion Buy
             #endregion DbLogigs
         }
         #region Add DbSets
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Buy> Buys { get; set; }
         public virtual DbSet<CurrencyChange> CurrencyChanges { get; set; }
         #endregion Add DbSets
     }

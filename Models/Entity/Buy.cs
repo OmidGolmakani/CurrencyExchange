@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Entity
 {
-    [Table("Order")]
-    public class Order : AcceptAdminBase
+    [Table("Buy")]
+    public class Buy : AcceptAdminBase
     {
         [Key]
         public long Id { get; set; }
-        public Nullable<long> BuyId { get; set; }
+        public Nullable<long> OrderId { get; set; }
         [Required]
         [StringLength(10)]
-        public string OrderDate { get; set; }
+        public string BuyDate { get; set; }
         [Required]
-        public long OrderNum { get; set; }
+        public long BuyNum { get; set; }
         [Required]
         public long UserId { get; set; }
         [Required]
@@ -36,10 +36,8 @@ namespace CurrencyExchange.Models.Entity
         [StringLength(500)]
         public string Description { get; set; }
         [ForeignKey("UserId")]
-        public virtual ApplicationUser OrderUser { get; set; }
+        public virtual ApplicationUser BuyUser { get; set; }
         [ForeignKey("CurrencyId")]
-        public virtual Currency Currency { get; set; }
-        [ForeignKey("BuyId")]
-        public virtual Buy Buy { get; set; }
+        public virtual Currency  Currency { get; set; }
     }
 }
