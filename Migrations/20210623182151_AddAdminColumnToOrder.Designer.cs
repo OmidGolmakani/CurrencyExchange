@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CurrencyExchange.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210623174704_AddCurrencyChange")]
-    partial class AddCurrencyChange
+    [Migration("20210623182151_AddAdminColumnToOrder")]
+    partial class AddAdminColumnToOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -293,11 +293,16 @@ namespace CurrencyExchange.Migrations
                     b.Property<bool>("AdminAccept")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("AdminAcceptDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("AdminAcceptDate")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<long?>("AdminAcceptId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("AdminAcceptTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -338,17 +343,13 @@ namespace CurrencyExchange.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminAcceptId");
 
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Order");
                 });
@@ -452,6 +453,10 @@ namespace CurrencyExchange.Migrations
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Order", b =>
                 {
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "AdminUser")
+                        .WithMany()
+                        .HasForeignKey("AdminAcceptId");
+
                     b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
                         .WithMany("Orders")
                         .HasForeignKey("CurrencyId")
@@ -459,22 +464,16 @@ namespace CurrencyExchange.Migrations
                         .IsRequired();
 
                     b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "OrderUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("AdminUser");
 
                     b.Navigation("Currency");
 
                     b.Navigation("OrderUser");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.RolePermission", b =>

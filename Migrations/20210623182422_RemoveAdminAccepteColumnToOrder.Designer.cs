@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CurrencyExchange.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210623160658_AddOrderAndCurrency")]
-    partial class AddOrderAndCurrency
+    [Migration("20210623182422_RemoveAdminAccepteColumnToOrder")]
+    partial class RemoveAdminAccepteColumnToOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -239,7 +239,48 @@ namespace CurrencyExchange.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currency");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.CurrencyChange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CurrencyPrice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastChangeDate")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("LastChangeTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("LastChangeDate", "LastChangeTime")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyChange");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Order", b =>
@@ -249,14 +290,16 @@ namespace CurrencyExchange.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("AdminAccept")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("AdminAcceptDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("AdminAcceptDate")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<long?>("AdminAcceptId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("AdminAcceptTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -297,17 +340,13 @@ namespace CurrencyExchange.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminAcceptId");
 
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Order");
                 });
@@ -398,8 +437,23 @@ namespace CurrencyExchange.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.CurrencyChange", b =>
+                {
+                    b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
+                        .WithMany("CurrencyChanges")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Order", b =>
                 {
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "AdminUser")
+                        .WithMany()
+                        .HasForeignKey("AdminAcceptId");
+
                     b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
                         .WithMany("Orders")
                         .HasForeignKey("CurrencyId")
@@ -407,22 +461,16 @@ namespace CurrencyExchange.Migrations
                         .IsRequired();
 
                     b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "OrderUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("AdminUser");
 
                     b.Navigation("Currency");
 
                     b.Navigation("OrderUser");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.RolePermission", b =>
@@ -448,6 +496,8 @@ namespace CurrencyExchange.Migrations
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Currency", b =>
                 {
+                    b.Navigation("CurrencyChanges");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

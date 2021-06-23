@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CurrencyExchange.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210622201238_AddIdentityWithRolePermission")]
-    partial class AddIdentityWithRolePermission
+    [Migration("20210623181727_dbInit")]
+    partial class dbInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace CurrencyExchange.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationRole", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,7 +73,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUser", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,7 +140,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,7 +163,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -184,7 +184,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserRole", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserRole", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -199,7 +199,7 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserToken", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserToken", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -218,7 +218,127 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.RolePermission", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("CurrencyTypeId")
+                        .HasColumnType("tinyint");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Currency");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.CurrencyChange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CurrencyPrice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastChangeDate")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("LastChangeTime")
+                        .HasMaxLength(8)
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("LastChangeDate", "LastChangeTime")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyChange");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CurrencyPrice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal>("InstantPrice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime?>("LastModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderDate")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<long>("OrderNum")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.RolePermission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,60 +373,90 @@ namespace CurrencyExchange.Migrations
                     b.ToTable("RolePermission");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationRoleClaim", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationRole", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserClaim", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationUser", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserLogin", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationUser", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserRole", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserRole", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationRole", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationUser", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationUserToken", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUserToken", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationUser", null)
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.RolePermission", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.CurrencyChange", b =>
                 {
-                    b.HasOne("CurrencyExchange.Model.Entity.ApplicationRole", "Role")
+                    b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
+                        .WithMany("CurrencyChanges")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.Order", b =>
+                {
+                    b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
+                        .WithMany("Orders")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "OrderUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("OrderUser");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.RolePermission", b =>
+                {
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationRole", "Role")
                         .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -315,9 +465,21 @@ namespace CurrencyExchange.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Model.Entity.ApplicationRole", b =>
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationRole", b =>
                 {
                     b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("CurrencyExchange.Models.Entity.Currency", b =>
+                {
+                    b.Navigation("CurrencyChanges");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

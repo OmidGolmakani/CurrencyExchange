@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CurrencyExchange.Migrations
 {
-    public partial class AddIdentityWithRolePermission : Migration
+    public partial class dbInit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,22 @@ namespace CurrencyExchange.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyTypeId = table.Column<byte>(type: "tinyint", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,6 +194,65 @@ namespace CurrencyExchange.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CurrencyChange",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    CurrencyPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    LastChangeDate = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    LastChangeTime = table.Column<int>(type: "int", maxLength: 8, nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrencyChange", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CurrencyChange_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderDate = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    OrderNum = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    InstantPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    CurrencyPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Order_Currency_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currency",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -218,6 +293,27 @@ namespace CurrencyExchange.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CurrencyChange_CurrencyId",
+                table: "CurrencyChange",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurrencyChange_LastChangeDate_LastChangeTime",
+                table: "CurrencyChange",
+                columns: new[] { "LastChangeDate", "LastChangeTime" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_CurrencyId",
+                table: "Order",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_UserId",
+                table: "Order",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_RoleId",
                 table: "RolePermission",
                 column: "RoleId");
@@ -241,10 +337,19 @@ namespace CurrencyExchange.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CurrencyChange");
+
+            migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
                 name: "RolePermission");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Currency");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
