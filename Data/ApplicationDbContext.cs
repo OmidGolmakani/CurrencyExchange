@@ -28,13 +28,21 @@ namespace CurrencyExchange.Data
             base.OnModelCreating(builder);
             #region Db Logigs
             #region Currency
+            //Order
             builder.Entity<Currency>().HasMany(Orders => Orders.Orders)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
+            //Currency Change
+            builder.Entity<Currency>().HasMany(CurrencyChanges => CurrencyChanges.CurrencyChanges)
+                .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.Cascade);
             #endregion Currency
+            #region Currency Change
+            builder.Entity<CurrencyChange>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
+            builder.Entity<CurrencyChange>().HasIndex(p => new { p.LastChangeDate, p.LastChangeTime }).IsUnique();
+            #endregion Currency Change
             #region Application User
             ///Order
-            builder.Entity<ApplicationUser>().HasMany(Orders=> Orders.Orders)
-                .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<ApplicationUser>().HasMany(Orders => Orders.Orders)
+                .WithOne(ApplicationUser => ApplicationUser.OrderUser).OnDelete(DeleteBehavior.NoAction);
             #endregion Application User
             #region Role Permission
             builder.Entity<RolePermission>().HasOne(Role => Role.Role).

@@ -14,7 +14,9 @@ namespace CurrencyExchange.Models.Entity
         public ApplicationUser()
         {
             Orders = new HashSet<Order>();
+            AdminUsers = new HashSet<AcceptAdminBase>();
         }
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<AcceptAdminBase> AdminUsers { get; set; }
     }
 }

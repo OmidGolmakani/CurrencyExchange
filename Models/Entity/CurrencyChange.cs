@@ -24,5 +24,7 @@ namespace CurrencyExchange.Models.Entity
         [Required]
         [StringLength(8)]
         public int LastChangeTime { get; set; }
+        [ForeignKey("CurrencyId")]
+        public virtual Currency Currency { get; set; }
     }
 }
