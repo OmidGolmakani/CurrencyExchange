@@ -9,14 +9,13 @@ using System.Threading.Tasks;
 namespace CurrencyExchange.Models.Entity
 {
     [Table("Trades")]
-    public class Trades : AcceptAdminBase
+    public class Trades : AdminBase
     {
         [Key]
         public long Id { get; set; }
         public Nullable<long> OrderId { get; set; }
         [Required]
-        [StringLength(10)]
-        public string BuyDate { get; set; }
+        public DateTime BuyDate { get; set; }
         [Required]
         public long BuyNum { get; set; }
         [Required]

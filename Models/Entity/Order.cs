@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CurrencyExchange.Models.Entity
 {
     [Table("Order")]
-    public class Order : AcceptAdminBase
+    public class Order : AdminBase
     {
         [Key]
         public long Id { get; set; }

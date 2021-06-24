@@ -9,17 +9,15 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Entity
 {
-    public class AcceptAdminBase : Base
+    public class AdminBase : Base
     {
-        public AcceptAdminBase()
+        public AdminBase()
         {
         }
-        public long? AdminAcceptId { get; set; }
-        [StringLength(10)]
-        public string AdminAcceptDate { get; set; }
-        [StringLength(8)]
-        public string AdminAcceptTime { get; set; }
-        [ForeignKey("AdminAcceptId")]
+        public Nullable<long> AdminId { get; set; }
+        public byte VerifyType { get; set; }
+        public Nullable<DateTime> AdminConfirmDate { get; set; }
+        [ForeignKey("AdminId")]
         public virtual ApplicationUser AdminUser { get; set; }
     }
 }

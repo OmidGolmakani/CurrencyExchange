@@ -14,13 +14,15 @@ namespace CurrencyExchange.Models.Entity
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public int CurrencyId { get; set; }
+        [Required]
+        public byte CurrencyChangeId { get; set; }
         [Required]
         [DataType("decimal(18 ,4)")]
         public decimal CurrencyPrice { get; set; }
         [Required]
-        [StringLength(10)]
-        public string LastChangeDate { get; set; }
+        public DateTime LastChangeDate { get; set; }
         [Required]
         [StringLength(8)]
         public int LastChangeTime { get; set; }
