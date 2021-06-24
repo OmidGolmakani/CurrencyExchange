@@ -40,6 +40,6 @@ namespace CurrencyExchange.Models.Entity
         [ForeignKey("CurrencyId")]
         public virtual Currency Currency { get; set; }
         [ForeignKey("BuyId")]
-        public virtual Buy Buy { get; set; }
+        public virtual Trades Buy { get; set; }
     }
 }

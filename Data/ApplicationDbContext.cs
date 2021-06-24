@@ -58,17 +58,17 @@ namespace CurrencyExchange.Data
             builder.Entity<Order>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
             builder.Entity<Order>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
             #endregion Order
-            #region Buy
-            builder.Entity<Buy>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
-            builder.Entity<Buy>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
-            #endregion Buy
+            #region Trades
+            builder.Entity<Trades>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
+            builder.Entity<Trades>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
+            #endregion Trades
             #endregion DbLogigs
         }
         #region Add DbSets
         public virtual DbSet<RolePermission> RolePermissions { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Buy> Buys { get; set; }
+        public virtual DbSet<Trades> Trades { get; set; }
         public virtual DbSet<CurrencyChange> CurrencyChanges { get; set; }
         #endregion Add DbSets
     }

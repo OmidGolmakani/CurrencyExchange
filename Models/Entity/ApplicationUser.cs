@@ -14,13 +14,13 @@ namespace CurrencyExchange.Models.Entity
         public ApplicationUser()
         {
             Orders = new HashSet<Order>();
-            Buys = new HashSet<Buy>();
+            Buys = new HashSet<Trades>();
         }
         [StringLength(60)]
         public string Name { get; set; }
         [StringLength(60)]
         public string Family { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Buy> Buys { get; set; }
+        public virtual ICollection<Trades> Buys { get; set; }
     }
 }

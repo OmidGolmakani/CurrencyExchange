@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Entity
 {
-    [Table("Buy")]
-    public class Buy : AcceptAdminBase
+    [Table("Trades")]
+    public class Trades : AcceptAdminBase
     {
         [Key]
         public long Id { get; set; }
