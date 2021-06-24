@@ -51,7 +51,10 @@ namespace CurrencyExchange.Data
                 .WithOne(ApplicationUser => ApplicationUser.TradesUser).OnDelete(DeleteBehavior.NoAction);
             ///BankAccount
             builder.Entity<ApplicationUser>().HasMany(BankAccounts => BankAccounts.BankAccounts)
-                .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.Cascade);
+                .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.NoAction);
+            //Image
+            builder.Entity<ApplicationUser>().HasMany(Images => Images.Images)
+                .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.NoAction);
             #endregion Application User
             #region Role Permission
             builder.Entity<RolePermission>().HasOne(Role => Role.Role).
@@ -73,6 +76,7 @@ namespace CurrencyExchange.Data
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Trades> Trades { get; set; }
         public virtual DbSet<CurrencyChange> CurrencyChanges { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
         #endregion Add DbSets
     }
 }

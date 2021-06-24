@@ -8,18 +8,20 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Entity
 {
-    [Table("BankAccount")]
-    public class BankAccount : AdminBase
+    public class Image : AdminBase
     {
         [Key]
         public long Id { get; set; }
         [Required]
         public long UserId { get; set; }
         [Required]
-        public byte IdType { get; set; }
+        public byte ImageTypeId { get; set; }
+        [MaxLength(70)]
         [Required]
-        [StringLength(24)]
-        public string Value { get; set; }
+        public string ImageName { get; set; }
+        [MaxLength(200)]
+        [Required]
+        public string FileName { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
     }
