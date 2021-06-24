@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using Selle.WebApp.CustomException.Dto;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,7 +30,7 @@ namespace Selle.WebApp.Filter
             {
                 return;
             }
-            ErrorDto Err = null;
+            //ErrorDto Err = null;
             bool hasAllowAnonymous = context.ActionDescriptor.EndpointMetadata
                                 .Any(em => em.GetType() == typeof(AllowAnonymousAttribute));
             //if (!hasAllowAnonymous)

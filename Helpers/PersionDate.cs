@@ -30,7 +30,7 @@ namespace CurrencyExchange.Helper
                 int day = pc.GetDayOfMonth(MildadiDate);
                 return FormatShamsiDate(year, month.ToString(), day.ToString());
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
                 throw new MyException("GetShamsi", ex);
             }
@@ -56,7 +56,7 @@ namespace CurrencyExchange.Helper
                 int day = pc.GetDayOfMonth(MildadiDate);
                 return FormatShamsiDate(year, month.ToString(), day.ToString());
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
                 throw new MyException("GetShamsiToday", ex);
             }

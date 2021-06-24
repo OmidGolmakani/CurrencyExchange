@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Selle.WebApp.CustomException.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Selle.WebApp.Filter
+namespace CurrencyExchange.Filter
 {
     public class AnyExceptExceptionFilter : Attribute, IAllowAnonymous, IActionFilter
     {

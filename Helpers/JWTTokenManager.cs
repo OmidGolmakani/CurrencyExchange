@@ -199,7 +199,7 @@ namespace Selle.WebApp.Helper
                 username = usernameClaim.Value;
                 return username;
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
                 throw new MyException("ValidateToken", ex);
             }

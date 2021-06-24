@@ -1,5 +1,4 @@
 ﻿using CurrencyExchange.CustomException;
-using Selle.WebApp.CustomException;
 using System;
 
 namespace CurrencyExchange.Helper
