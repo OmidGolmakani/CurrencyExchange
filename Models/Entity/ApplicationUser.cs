@@ -16,6 +16,10 @@ namespace CurrencyExchange.Models.Entity
             Orders = new HashSet<Order>();
             Buys = new HashSet<Buy>();
         }
+        [StringLength(60)]
+        public string Name { get; set; }
+        [StringLength(60)]
+        public string Family { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Buy> Buys { get; set; }
     }
