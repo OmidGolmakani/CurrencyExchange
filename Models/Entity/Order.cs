@@ -13,10 +13,8 @@ namespace CurrencyExchange.Models.Entity
     {
         [Key]
         public long Id { get; set; }
-        public Nullable<long> BuyId { get; set; }
         [Required]
-        [StringLength(10)]
-        public string OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
         [Required]
         public long OrderNum { get; set; }
         [Required]
@@ -39,7 +37,5 @@ namespace CurrencyExchange.Models.Entity
         public virtual ApplicationUser OrderUser { get; set; }
         [ForeignKey("CurrencyId")]
         public virtual Currency Currency { get; set; }
-        [ForeignKey("BuyId")]
-        public virtual Trades Buy { get; set; }
     }
 }
