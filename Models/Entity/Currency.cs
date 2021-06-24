@@ -19,7 +19,7 @@ namespace CurrencyExchange.Models.Entity
         [MaxLength(5)]
         public string CurrencyAbbreviationName { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Trades> Buys { get; set; }
+        public virtual ICollection<Trades> Trades { get; set; }
         public virtual ICollection<CurrencyChange> CurrencyChanges { get; set; }
     }
 }

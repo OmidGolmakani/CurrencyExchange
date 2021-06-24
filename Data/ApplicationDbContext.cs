@@ -32,7 +32,7 @@ namespace CurrencyExchange.Data
             builder.Entity<Currency>().HasMany(Orders => Orders.Orders)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
             //Buy
-            builder.Entity<Currency>().HasMany(Buys => Buys.Buys)
+            builder.Entity<Currency>().HasMany(Trades => Trades.Trades)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
             //Currency Change
             builder.Entity<Currency>().HasMany(CurrencyChanges => CurrencyChanges.CurrencyChanges)
@@ -46,9 +46,12 @@ namespace CurrencyExchange.Data
             ///Order
             builder.Entity<ApplicationUser>().HasMany(Orders => Orders.Orders)
                 .WithOne(ApplicationUser => ApplicationUser.OrderUser).OnDelete(DeleteBehavior.NoAction);
-            ///Buy
-            builder.Entity<ApplicationUser>().HasMany(Buys => Buys.Buys)
-                .WithOne(ApplicationUser => ApplicationUser.BuyUser).OnDelete(DeleteBehavior.NoAction);
+            ///Trades
+            builder.Entity<ApplicationUser>().HasMany(Trades => Trades.Trades)
+                .WithOne(ApplicationUser => ApplicationUser.TradesUser).OnDelete(DeleteBehavior.NoAction);
+            ///BankAccount
+            builder.Entity<ApplicationUser>().HasMany(BankAccounts => BankAccounts.BankAccounts)
+                .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.Cascade);
             #endregion Application User
             #region Role Permission
             builder.Entity<RolePermission>().HasOne(Role => Role.Role).

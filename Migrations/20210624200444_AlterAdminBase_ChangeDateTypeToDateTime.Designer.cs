@@ -4,14 +4,16 @@ using CurrencyExchange.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CurrencyExchange.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624200444_AlterAdminBase_ChangeDateTypeToDateTime")]
+    partial class AlterAdminBase_ChangeDateTypeToDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,51 +235,6 @@ namespace CurrencyExchange.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("CurrencyExchange.Models.Entity.BankAccount", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("AdminConfirmDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("AdminId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<byte>("IdType")
-                        .HasColumnType("tinyint");
-
-                    b.Property<DateTime?>("LastModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(24)
-                        .HasColumnType("nvarchar(24)");
-
-                    b.Property<byte>("VerifyType")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdminId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BankAccount");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Currency", b =>
@@ -568,23 +525,6 @@ namespace CurrencyExchange.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CurrencyExchange.Models.Entity.BankAccount", b =>
-                {
-                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "AdminUser")
-                        .WithMany()
-                        .HasForeignKey("AdminId");
-
-                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "User")
-                        .WithMany("BankAccounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AdminUser");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CurrencyExchange.Models.Entity.CurrencyChange", b =>
                 {
                     b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
@@ -639,22 +579,22 @@ namespace CurrencyExchange.Migrations
                         .HasForeignKey("AdminId");
 
                     b.HasOne("CurrencyExchange.Models.Entity.Currency", "Currency")
-                        .WithMany("Trades")
+                        .WithMany("Buys")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "TradesUser")
-                        .WithMany("Trades")
+                    b.HasOne("CurrencyExchange.Models.Entity.ApplicationUser", "BuyUser")
+                        .WithMany("Buys")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AdminUser");
 
-                    b.Navigation("Currency");
+                    b.Navigation("BuyUser");
 
-                    b.Navigation("TradesUser");
+                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationRole", b =>
@@ -664,20 +604,18 @@ namespace CurrencyExchange.Migrations
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.ApplicationUser", b =>
                 {
-                    b.Navigation("BankAccounts");
+                    b.Navigation("Buys");
 
                     b.Navigation("Orders");
-
-                    b.Navigation("Trades");
                 });
 
             modelBuilder.Entity("CurrencyExchange.Models.Entity.Currency", b =>
                 {
+                    b.Navigation("Buys");
+
                     b.Navigation("CurrencyChanges");
 
                     b.Navigation("Orders");
-
-                    b.Navigation("Trades");
                 });
 #pragma warning restore 612, 618
         }

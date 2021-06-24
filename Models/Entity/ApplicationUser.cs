@@ -15,7 +15,7 @@ namespace CurrencyExchange.Models.Entity
         public ApplicationUser()
         {
             Orders = new HashSet<Order>();
-            Buys = new HashSet<Trades>();
+            Trades = new HashSet<Trades>();
         }
         [MaxLength(100)]
         public override string SecurityStamp { get => base.SecurityStamp; set => base.SecurityStamp = value; }
@@ -42,6 +42,7 @@ namespace CurrencyExchange.Models.Entity
         [DefaultValue(false)]
         public bool NationalCodeConfirmed { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<Trades> Buys { get; set; }
+        public virtual ICollection<Trades> Trades { get; set; }
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
     }
 }

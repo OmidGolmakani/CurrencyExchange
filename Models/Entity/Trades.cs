@@ -35,7 +35,7 @@ namespace CurrencyExchange.Models.Entity
         [StringLength(500)]
         public string Description { get; set; }
         [ForeignKey("UserId")]
-        public virtual ApplicationUser BuyUser { get; set; }
+        public virtual ApplicationUser TradesUser { get; set; }
         [ForeignKey("CurrencyId")]
         public virtual Currency  Currency { get; set; }
     }
