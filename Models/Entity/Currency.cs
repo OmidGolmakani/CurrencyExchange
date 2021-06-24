@@ -15,6 +15,9 @@ namespace CurrencyExchange.Models.Entity
         public int Id { get; set; }
         [Required]
         public byte CurrencyTypeId { get; set; }
+        [Required]
+        [MaxLength(5)]
+        public string CurrencyAbbreviationName { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Trades> Buys { get; set; }
         public virtual ICollection<CurrencyChange> CurrencyChanges { get; set; }
