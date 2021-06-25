@@ -1,22 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CurrencyExchange.Controllers
 {
-    public class BaseController<T> : Controller, IController<T> where T : class, new()
+    public abstract class BaseController<T> : Controller
     {
         private readonly IMapper _mapper;
-        public BaseController(IMapper mapper)
+        private readonly ILogger<T> _logger;
+
+        protected BaseController(IMapper mapper,
+                                 ILogger<T> logger)
         {
             this._mapper = mapper;
+            this._logger = logger;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+
     }
 }
