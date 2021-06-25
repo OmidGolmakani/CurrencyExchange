@@ -1,4 +1,6 @@
-﻿using CurrencyExchange.Data;
+﻿using AutoMapper;
+using CurrencyExchange.Data;
+using CurrencyExchange.Models.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,13 +8,16 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Models.IRepository
+namespace CurrencyExchange.Models.Repository.Services
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, new()
+    public abstract class Repository<T> : IRepository<T> where T : class, new()
     {
+        protected IMapper Mapper;
         protected readonly ApplicationDbContext _context;
-        public BaseRepository(ApplicationDbContext context)
+
+        public Repository(ApplicationDbContext context, IMapper Mapper)
         {
+            this.Mapper = Mapper;
             _context = context;
         }
         public void Add(T entity)
@@ -60,5 +65,6 @@ namespace CurrencyExchange.Models.IRepository
         {
             _context.Set<T>().UpdateRange(entities);
         }
+
     }
 }

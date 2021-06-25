@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Models.IRepository
+namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IBaseRepository<T>
+    public interface IRepository<T> where T : class
     {
         T GetById(object id);
         IEnumerable<T> GetAll();

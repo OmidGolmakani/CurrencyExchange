@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Models.Repository
+namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IApplicationUser:BaseRepository<ApplicationUser>
+    public interface IApplicationUser : IRepository<ApplicationUser>
     {
-        
+
     }
 }

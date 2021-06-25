@@ -38,8 +38,4 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Vakidation\" />
-  </ItemGroup>
-
 </Project>
