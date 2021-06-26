@@ -113,7 +113,7 @@ namespace CurrencyExchange
                 endpoints.MapAreaControllerRoute(
                     "Membership",
                     "Membership",
-                    "Membership/{controller=Accounts}/{action=Index}"
+                    "Membership/{controller=Account}/{action=Index}"
                     );
             });
 

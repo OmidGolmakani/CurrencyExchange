@@ -15,7 +15,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Abakary API", Version = string.Format("V1{0}{1} Version",Environment.NewLine, env.EnvironmentName) });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Spad API", Version = string.Format("V1{0}{1} Version",Environment.NewLine, env.EnvironmentName) });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
