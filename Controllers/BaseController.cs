@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Selle.WebApp.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,14 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Controllers
 {
-    public abstract class BaseController<T> : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [CustomExceptionFilter]
+    [CustomAuthorizationFilter]
+    //[AnyExceptExceptionFilter]
+    [EnableCors("MyCorsPolicy")]
+    public abstract class BaseController<T> : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogger<T> _logger;

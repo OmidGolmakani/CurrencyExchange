@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
-using CurrencyExchange.Models;
-using Microsoft.AspNetCore.Authorization;
+using CurrencyExchange.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Controllers
+namespace CurrencyExchange.Areas.Membership.Controllers
 {
     public class HomeController : BaseController<HomeController>, IController<HomeController>
     {
@@ -22,25 +20,24 @@ namespace CurrencyExchange.Controllers
             _logger = logger;
             _mapper = mapper;
         }
-
         public IActionResult Delete()
         {
             throw new NotImplementedException();
         }
-        [HttpGet]
+
         public IActionResult Index(object Id = null)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public IActionResult Index(Expression<Func<HomeController, bool>> expression = null)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public IActionResult Submit(HomeController data)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

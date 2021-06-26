@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Selle.WebApp.Configs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

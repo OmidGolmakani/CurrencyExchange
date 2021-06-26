@@ -34,6 +34,27 @@ namespace CurrencyExchange
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddMyDbContext(_configuration);
+            //services.AddMyIdentity();
+            //services.AddHttpContextAccessor();
+            //services.AddScopeds();
+            //services.AutoMapperConfig();
+            //services.AddRazorPages();
+            //services.AddControllers();
+            //services.AddAuthentication();
+            ////services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            ////    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+
+            //services.AddControllersWithViews(options =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //    options.Filters.Add(new AuthorizeFilter(policy));
+            //});
+            //services.AddRazorPages()
+            //     .AddMicrosoftIdentityUI();
+
             services.AddMyDbContext(_configuration);
             services.AddMyIdentity();
             services.AddHttpContextAccessor();
@@ -41,19 +62,18 @@ namespace CurrencyExchange
             services.AutoMapperConfig();
             services.AddRazorPages();
             services.AddControllers();
-            services.AddAuthentication();
-            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            //    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+            services.AddSwagger(_env);
 
-            services.AddControllersWithViews(options =>
+            services.FluentValidationConfig();
+            services.AppSettings(_configuration);
+            services.AddCors(o => o.AddPolicy("MyCorsPolicy", builder =>
             {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            });
-            services.AddRazorPages()
-                 .AddMicrosoftIdentityUI();
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddMyAuthorization(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,12 +82,12 @@ namespace CurrencyExchange
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.ConfigureExceptionHandler(logger);
+
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -76,14 +96,27 @@ namespace CurrencyExchange
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSwagger();
 
+
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Spad API V1");
+                c.RoutePrefix = string.Empty;
+            });
+            app.UseCors("MyCorsPolicy");
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapAreaControllerRoute(
+                    "Membership",
+                    "Membership",
+                    "Membership/{controller=Accounts}/{action=Index}"
+                    );
             });
+
         }
     }
 }

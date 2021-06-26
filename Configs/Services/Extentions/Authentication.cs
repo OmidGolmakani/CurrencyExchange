@@ -8,7 +8,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace  CurrencyExchange.Configs.ServicesConfigs.Extentions
+namespace CurrencyExchange.Configs.Servises.Extentions
 {
     public static class Authentication
     {
@@ -23,22 +23,6 @@ namespace  CurrencyExchange.Configs.ServicesConfigs.Extentions
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddGoogle(options =>
-                {
-                    options.ClientId = authorizationOption.Google.ClientId;
-                    options.ClientSecret = authorizationOption.Google.ClientSecret;
-                    options.SaveTokens = true;
-                    options.Events.OnTicketReceived = (context) =>
-                    {
-                        Console.WriteLine(context.HttpContext.User);
-                        return Task.CompletedTask;
-                    };
-                    options.Events.OnCreatingTicket = (context) =>
-                    {
-                        Console.WriteLine(context.Identity);
-                        return Task.CompletedTask;
-                    };
-                }).AddCookie()
             .AddJwtBearer(option =>
             {
                 option.RequireHttpsMetadata = false;

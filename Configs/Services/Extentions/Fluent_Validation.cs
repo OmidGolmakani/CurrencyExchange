@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Selle.WebApp.Configs.ServicesConfigs.Extentions
+namespace CurrencyExchange.Configs.Servises.Extentions
 {
     public static class Fluent_Validation
     {
