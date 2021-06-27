@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Data;
 using CurrencyExchange.Models.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,30 +21,40 @@ namespace CurrencyExchange.Models.Repository.Services
             this.Mapper = Mapper;
             _context = context;
         }
-        public void Add(T entity)
+
+        public ValueTask<T> GetById(object Id)
         {
-            _context.Set<T>().Add(entity);
+            return _context.Set<T>().FindAsync(Id);
         }
 
-        public void AddRange(IEnumerable<T> entities)
+        public Task<IEnumerable<T>> GetAll()
         {
-            _context.Set<T>().AddRange(entities);
+            return Task.FromResult(_context.Set<T>().AsEnumerable());
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+        public Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
         {
-            return _context.Set<T>().Where(expression);
+            return Task.FromResult(_context.Set<T>().Where(expression).AsEnumerable());
         }
 
-        public IEnumerable<T> GetAll()
+        public ValueTask<EntityEntry<T>> Add(T entity)
         {
-            return _context.Set<T>().AsQueryable();
-
+            return _context.Set<T>().AddAsync(entity);
         }
 
-        public T GetById(object id)
+        public Task AddRange(IEnumerable<T> entities)
         {
-            return _context.Set<T>().Find(id);
+            return _context.Set<T>().AddRangeAsync(entities);
+        }
+
+        public EntityEntry<T> Update(T entity)
+        {
+            return _context.Set<T>().Update(entity);
+        }
+
+        public void UpdateRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().UpdateRange(entities);
         }
 
         public void Remove(T entity)
@@ -55,16 +66,5 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             _context.Set<T>().RemoveRange(entities);
         }
-
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
-
-        public void UpdateRange(IEnumerable<T> entities)
-        {
-            _context.Set<T>().UpdateRange(entities);
-        }
-
     }
 }

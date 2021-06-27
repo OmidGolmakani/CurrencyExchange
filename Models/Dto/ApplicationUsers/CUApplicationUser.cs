@@ -16,13 +16,6 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public string UserName { get; set; }
         public string Name { get; set; }
         public string Family { get; set; }
-        public string UserFullName
-        {
-            get
-            {
-                return string.Format("{0} {1}", this.Name, this.Family);
-            }
-        }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
     }
