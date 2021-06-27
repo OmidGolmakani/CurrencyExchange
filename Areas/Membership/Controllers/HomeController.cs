@@ -8,36 +8,23 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Areas.Membership.Controllers
+namespace CurrencyExchange.Areas.Membership
 {
-    public class HomeController : BaseController<HomeController>, IController<HomeController>
+    public class HomeController : ControllerBase/*BaseController<HomeController>, IController<HomeController>*/
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
 
-        public HomeController(IMapper mapper, ILogger<HomeController> logger) : base(mapper, logger)
+        public HomeController(IMapper mapper, ILogger<HomeController> logger) 
         {
             _logger = logger;
             _mapper = mapper;
         }
-        public IActionResult Delete()
+        [HttpGet("test")]
+        public IActionResult Index()
         {
-            throw new NotImplementedException();
+            return Ok("");
         }
 
-        public IActionResult Index(object Id = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IActionResult Index(Expression<Func<HomeController, bool>> expression = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IActionResult Submit(HomeController data)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

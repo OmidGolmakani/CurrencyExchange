@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Areas.Membership
 {
-    public abstract class AccountController : BaseController<AccountController>
+    public class AccountController : BaseController<AccountController>
     {
 
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAccounts")]
         public IActionResult Index()
         {
-            return null;
+            return Ok("");
         }
     }
 }

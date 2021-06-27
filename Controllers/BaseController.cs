@@ -18,7 +18,7 @@ namespace CurrencyExchange.Controllers
     [CustomAuthorizationFilter]
     //[AnyExceptExceptionFilter]
     [EnableCors("MyCorsPolicy")]
-    public abstract class BaseController<T> : ControllerBase
+    public class BaseController<T> : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogger<T> _logger;

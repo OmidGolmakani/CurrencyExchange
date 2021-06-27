@@ -12,33 +12,19 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Controllers
 {
-    public class HomeController : BaseController<HomeController>, IController<HomeController>
+    public class HomeController : Controller// BaseController<HomeController>, IController<HomeController>
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
 
-        public HomeController(IMapper mapper, ILogger<HomeController> logger) : base(mapper, logger)
+        public HomeController()
         {
-            _logger = logger;
-            _mapper = mapper;
+            //_logger = logger;
+            //_mapper = mapper;
         }
 
-        public IActionResult Delete()
-        {
-            throw new NotImplementedException();
-        }
         [HttpGet]
-        public IActionResult Index(object Id = null)
-        {
-            return null;
-        }
-
-        public IActionResult Index(Expression<Func<HomeController, bool>> expression = null)
-        {
-            return null;
-        }
-
-        public IActionResult Submit(HomeController data)
+        public IActionResult Index()
         {
             return null;
         }
