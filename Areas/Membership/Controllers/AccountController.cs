@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Controllers;
+using CurrencyExchange.CustomException;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -50,7 +51,7 @@ namespace CurrencyExchange.Areas.Membership
                 }
                 return Ok(Result);
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
                 throw ex;
             }
@@ -65,7 +66,7 @@ namespace CurrencyExchange.Areas.Membership
                 var SignIn = await _account.SignIn(user);
                 return Ok(SignIn);
             }
-            catch (Exception ex) { throw ex; }
+            catch (MyException ex) { throw ex; }
         }
         [AllowAnonymous]
         [HttpPost("SignOut")]
@@ -76,7 +77,20 @@ namespace CurrencyExchange.Areas.Membership
                 var Result = _account.SignOut();
                 return Ok(await Task.FromResult(Result.IsCompletedSuccessfully));
             }
-            catch (Exception ex) { throw ex; }
+            catch (MyException ex) { throw ex; }
+        }
+        [HttpPost("VerifyChangeEmail")]
+        public async Task<IActionResult> VerifyChangeEmail(string UserId, string newEmail, string Token)
+        {
+            try
+            {
+                var Result = await _account.ChangeEmailVerify(UserId, newEmail, Token);
+                return Ok(Result.Succeeded);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

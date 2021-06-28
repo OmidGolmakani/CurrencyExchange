@@ -213,9 +213,24 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> VerifyEmail(string UserId, string Token)
+        public Task<IdentityResult> VerifyEmail(string UserId, string Token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                if (_user.Result == null)
+                {
+                    throw GetAccountExceptions(ErrorMessageType.UserNotFound);
+                }
+                Task<IdentityResult> ComfirmResult = null;
+                ComfirmResult = _UserManager.ConfirmEmailAsync(_user.Result, Token);
+                ComfirmResult.Wait();
+                return ComfirmResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Task<IdentityResult> VerifyPhoneNumber(string UserId, string Token, string PhoneNumber = "")
@@ -254,6 +269,25 @@ namespace CurrencyExchange.Models.Repository.Services
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+        }
+        internal Task<IdentityResult> ChangeEmailVerify(string UserId, string newEmail, string Token)
+        {
+            try
+            {
+                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                if (_user.Result == null)
+                {
+                    throw GetAccountExceptions(ErrorMessageType.UserNotFound);
+                }
+                Task<IdentityResult> ComfirmResult = null;
+                ComfirmResult = _UserManager.ChangeEmailAsync(_user.Result, newEmail, Token);
+                ComfirmResult.Wait();
+                return ComfirmResult;
+            }
+            catch (MyException ex)
+            {
                 throw ex;
             }
         }
