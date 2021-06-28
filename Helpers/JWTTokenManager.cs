@@ -13,7 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace Selle.WebApp.Helper
+namespace CurrencyExchange.Helper
 {
     public class JWTTokenManager
     {

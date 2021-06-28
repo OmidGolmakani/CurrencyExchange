@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Selle.WebApp.Filter
+namespace CurrencyExchange.Filter
 {
     public class CustomAuthorizationFilter : ActionFilterAttribute, IAllowAnonymous //, IAuthorizationFilter, IAllowAnonymous, IAuthorizeData, IActionFilter
     {

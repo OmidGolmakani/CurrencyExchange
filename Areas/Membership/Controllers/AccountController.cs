@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Controllers;
+using CurrencyExchange.Models.Dto.ApplicationUsers;
+using CurrencyExchange.Models.Repository.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,18 +17,66 @@ namespace CurrencyExchange.Areas.Membership
 
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
+        private readonly Account _account;
 
         public AccountController(IMapper mapper,
-                                 ILogger<AccountController> logger)
+                                 ILogger<AccountController> logger,
+                                 Account account)
             : base(mapper, logger)
         {
             this._mapper = mapper;
             this._logger = logger;
+            this._account = account;
         }
         [HttpGet("GetAccounts")]
-        public IActionResult Index()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok("");
+            return Ok(await _account.GetAll());
+        }
+        [HttpGet("GetAccount")]
+        public async Task<IActionResult> GetById(long Id)
+        {
+            return Ok(await _account.GetById(Id));
+        }
+        [HttpPost("VerifyPhoneNumber")]
+        public async Task<IActionResult> VerifyPhoneNumber(string UserId, string Token)
+        {
+            try
+            {
+                var Result = await _account.VerifyPhoneNumber(UserId, Token);
+                if (Result.Errors.Count() != 0)
+                {
+                    return new ObjectResult(Result.Errors);
+                }
+                return Ok(Result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [AllowAnonymous]
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignInUser(UserLoginDto user)
+        {
+
+            try
+            {
+                var SignIn = await _account.SignIn(user);
+                return Ok(SignIn);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+        [AllowAnonymous]
+        [HttpPost("SignOut")]
+        public async Task<IActionResult> SignOutUser()
+        {
+            try
+            {
+                var Result = _account.SignOut();
+                return Ok(await Task.FromResult(Result.IsCompletedSuccessfully));
+            }
+            catch (Exception ex) { throw ex; }
         }
     }
 }

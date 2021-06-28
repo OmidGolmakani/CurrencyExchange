@@ -14,8 +14,8 @@ namespace CurrencyExchange.Controllers
 {
     public class HomeController : Controller// BaseController<HomeController>, IController<HomeController>
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IMapper _mapper;
+        //private readonly ILogger<HomeController> _logger;
+        //private readonly IMapper _mapper;
 
         public HomeController()
         {

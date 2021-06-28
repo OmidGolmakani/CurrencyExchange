@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Selle.WebApp.Filter
+namespace CurrencyExchange.Filter
 {
     public class CustomExceptionFilter : ExceptionFilterAttribute
     {

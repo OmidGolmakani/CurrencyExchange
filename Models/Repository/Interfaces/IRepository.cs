@@ -10,12 +10,12 @@ namespace CurrencyExchange.Models.Repository.Interfaces
 {
     public interface IRepository<T> where T : class, new()
     {
-        ValueTask<T> GetById(object Id);
+        Task<T> GetById(object Id);
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression);
-        ValueTask<EntityEntry<T>> Add(T entity);
+        object Add(T entity);
         Task AddRange(IEnumerable<T> entities);
-        EntityEntry<T> Update(T entity);
+        void Update(T entity);
         void UpdateRange(IEnumerable<T> entities);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);

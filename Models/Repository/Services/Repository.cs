@@ -22,9 +22,9 @@ namespace CurrencyExchange.Models.Repository.Services
             _context = context;
         }
 
-        public ValueTask<T> GetById(object Id)
+        public Task<T> GetById(object Id)
         {
-            return _context.Set<T>().FindAsync(Id);
+            return _context.Set<T>().FindAsync(Id).AsTask();
         }
 
         public Task<IEnumerable<T>> GetAll()
@@ -37,7 +37,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(_context.Set<T>().Where(expression).AsEnumerable());
         }
 
-        public ValueTask<EntityEntry<T>> Add(T entity)
+        public object Add(T entity)
         {
             return _context.Set<T>().AddAsync(entity);
         }
@@ -47,9 +47,9 @@ namespace CurrencyExchange.Models.Repository.Services
             return _context.Set<T>().AddRangeAsync(entities);
         }
 
-        public EntityEntry<T> Update(T entity)
+        public void Update(T entity)
         {
-            return _context.Set<T>().Update(entity);
+            _context.Set<T>().Update(entity);
         }
 
         public void UpdateRange(IEnumerable<T> entities)

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CurrencyExchange.Models.Entity;
+using CurrencyExchange.Models.Repository.Interfaces;
+using CurrencyExchange.Models.Repository.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +16,19 @@ namespace CurrencyExchange.Configs.Servises.Extentions
         /// <returns></returns>
         public static IServiceCollection AddScopeds(this IServiceCollection services)
         {
+            #region Identity
+            services.AddScoped<UserManager<ApplicationUser>>();
+            services.AddScoped<RoleManager<ApplicationRole>>();
+            services.AddScoped<ApplicationUser>();
+            services.AddScoped<ApplicationRole>();
+            services.AddScoped<ApplicationUserRole>();
+            services.AddScoped<ApplicationRoleClaim>();
+            services.AddScoped<ApplicationUserClaim>();
+            services.AddScoped<ApplicationUserLogin>();
+            services.AddScoped<ApplicationUserToken>();
+            #endregion Identity
+            //services.AddScoped<IAccount, Account>();
+            services.AddScoped<Account, Account>();
             return services;
         }
     }

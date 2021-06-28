@@ -2,37 +2,45 @@
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
+using CurrencyExchange.Helper;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public abstract class Account : IAccount
+    public class Account : IAccount
     {
-        protected Account(UserManager<ApplicationUser> UserManager,
-                          IMapper mapper,
-                          ApplicationDbContext dbContext)
+        private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
+        public Account(UserManager<ApplicationUser> userManager,
+                       SignInManager<ApplicationUser> signInManager,
+                       IMapper mapper,
+                       ApplicationDbContext dbContext)
         {
-            this._UserManager = UserManager;
+            this._UserManager = userManager;
             this._mapper = mapper;
             this._dbContext = dbContext;
+            this._signInManager = signInManager;
         }
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ValueTask<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
+        public object Add(ApplicationUserDto entity)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +59,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _UserManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
-                //PasswordValidation(Password);
+                PasswordValidation(password);
                 UserTask = _UserManager.CreateAsync(_user);
                 if (UserTask.Result.Errors.Count() != 0)
                 {
@@ -83,12 +91,13 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<ApplicationUserDto>> GetAll()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_mapper.Map<IEnumerable<ApplicationUserDto>>(GetAccounts()));
         }
 
-        public ValueTask<ApplicationUserDto> GetById(object Id)
+        public Task<ApplicationUserDto> GetById(object Id)
         {
-            throw new NotImplementedException();
+            var Result = _mapper.Map<ApplicationUserDto>(GetAccounts().FirstOrDefault(x => x.Id == Id.ToLong()));
+            return Task.FromResult(Result);
         }
 
         public Task<bool> GetChangeEmailToken(string UserId, string newEmail)
@@ -136,19 +145,62 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<SignInResultDto> SignIn(ApplicationUserLogin login)
+        public Task<SignInResultDto> SignIn(UserLoginDto login)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var _user = _UserManager.FindByNameAsync(login.UserName);
+                string _token = "";
+                _user.Wait();
+                if (_user.Result == null || _user.Result.Id == 0)
+                {
+                    return Task.FromResult(new SignInResultDto() { SignIn = SignInResult.Failed });
+                }
+                else
+                {
+                    var SigninResult = _signInManager.PasswordSignInAsync(_user.Result, login.Password, false, false);
+                    SigninResult.Wait();
+                    if (SigninResult.Result.Succeeded)
+                    {
+                        _token = Helper.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
+                    }
+                    SignInResultDto Result = new SignInResultDto()
+                    {
+                        SignIn = SigninResult.Result,
+                        UserId = _user.Result.Id,
+                        Token = _token
+                    };
+                    return Task.FromResult(Result);
+                }
+            }
+            catch (MyException ex)
+            {
+                throw ex;
+            }
         }
 
         public Task SignOut()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var Result = _signInManager.SignOutAsync();
+                return Result;
+            }
+            catch (MyException ex)
+            {
+                throw ex;
+            }
         }
 
-        public EntityEntry<ApplicationUserDto> Update(ApplicationUserDto entity)
+        public void Update(ApplicationUserDto entity)
         {
-            throw new NotImplementedException();
+            ApplicationUser _entity = null;
+            _mapper.Map<ApplicationUserDto, ApplicationUser>(entity, _entity);
+            var Result = _UserManager.UpdateAsync(_entity);
+            if (Result.Result.Succeeded == false)
+            {
+                throw new Exception(Result.Result.Errors.FirstOrDefault().Description);
+            }
         }
 
         public void UpdateRange(IEnumerable<ApplicationUserDto> entities)
@@ -166,9 +218,95 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> VerifyPhoneNumber(string UserId, string Token)
+        public Task<IdentityResult> VerifyPhoneNumber(string UserId, string Token, string PhoneNumber = "")
         {
-            throw new NotImplementedException();
+            try
+            {
+                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                if (_user.Result == null)
+                {
+                    throw GetAccountExceptions(ErrorMessageType.UserNotFound);
+                }
+                Task<IdentityResult> ComfirmResult = null;
+                if (PhoneNumber == "") PhoneNumber = _user.Result.PhoneNumber;
+                ComfirmResult = _UserManager.ChangePhoneNumberAsync(_user.Result, PhoneNumber, Token);
+                ComfirmResult.Wait();
+                return ComfirmResult;
+            }
+            catch (MyException ex)
+            {
+                throw ex;
+            }
         }
+        public Task<string> ResetPasswordToken(string UserInfo)
+        {
+            try
+            {
+                var user = _UserManager.Users.FirstOrDefaultAsync(x => x.UserName == UserInfo ||
+                                                                  x.Email == UserInfo ||
+                                                                  x.PhoneNumber == UserInfo);
+                if (user.Result == null)
+                {
+                    throw GetAccountExceptions(ErrorMessageType.UserNotFound);
+                }
+                return _UserManager.GeneratePasswordResetTokenAsync(user.Result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        private bool PasswordValidation(string Password)
+        {
+            try
+            {
+                List<string> Err = new List<string>();
+                Err.Add("طول رمز عبور  باید حداقل 10 کاراکتر باشد");
+                Err.Add("در رمز عبور باید از حروف غیر الفبایی مانند @ استفاده نمایید");
+                Err.Add("رمز عبور باید حداقل شامل یک عدد باشد");
+                Err.Add("رمز عبور باید شامل یک حرف بزرگ باشد");
+                Err.Add("رمز عبور باید شامل یک حرف کوچک باشد");
+                MyException ex = new MyException(JsonConvert.SerializeObject(string.Join(Environment.NewLine, Err)));
+                if (Password.Length == 0)
+                {
+                    throw ex;
+                }
+                if (Password.Length < 10) throw new MyException(JsonConvert.SerializeObject("طول رمز عبور  باید حداقل 10 کاراکتر باشد"));
+                if (Regex.Match(Password, @"[^a-zA-Z\d\s:]").Success == false) throw new MyException(JsonConvert.SerializeObject("در رمز عبور باید از حروف غیر الفبایی مانند @ استفاده نمایید"));
+                if (Regex.Match(Password, @"[\d]").Success == false) throw new MyException(JsonConvert.SerializeObject("رمز عبور باید حداقل شامل یک عدد باشد"));
+                if (Password.Any(char.IsUpper) == false) throw new MyException(JsonConvert.SerializeObject("رمز عبور باید شامل یک حرف بزرگ باشد"));
+                if (Password.Any(char.IsLower) == false) throw new MyException(JsonConvert.SerializeObject("رمز عبور باید شامل یک حرف کوچک باشد"));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Get Error Exception Before Database Validation
+        /// </summary>
+        /// <param name="ErrorType"></param>
+        /// <returns></returns>
+        private MyException GetAccountExceptions(ErrorMessageType ErrorType)
+        {
+            try
+            {
+                switch (ErrorType)
+                {
+                    case ErrorMessageType.UserNotFound:
+                        return new MyException("کاربر مورد نظر یافت نشد");
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        private enum ErrorMessageType { UserNotFound = 1 }
     }
 }
