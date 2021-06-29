@@ -39,7 +39,8 @@ namespace CurrencyExchange.Data
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.Cascade);
             #endregion Currency
             #region Currency Change
-            builder.Entity<CurrencyChange>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
+            builder.Entity<CurrencyChange>().Property(p => p.BuyPrice).HasColumnType("decimal(18,4)");
+            builder.Entity<CurrencyChange>().Property(p => p.SalePrice).HasColumnType("decimal(18,4)");
             builder.Entity<CurrencyChange>().HasIndex(p => new { p.LastChangeDate, p.LastChangeTime }).IsUnique();
             #endregion Currency Change
             #region Application User

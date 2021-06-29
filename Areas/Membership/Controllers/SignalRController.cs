@@ -19,7 +19,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("SendTestMessage")]
         public async Task<IActionResult> SendTestMessage()
         {
-            await _chatHub.SendMessage("Test User", "This is a test message");
+            await _chatHub.CurrencyChange("Test User", "This is a test message");
             return Ok("Message is sent");
         }
     }

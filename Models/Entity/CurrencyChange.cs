@@ -17,10 +17,11 @@ namespace CurrencyExchange.Models.Entity
         [Required]
         public int CurrencyId { get; set; }
         [Required]
-        public byte CurrencyChangeId { get; set; }
+        [DataType("decimal(18 ,4)")]
+        public decimal BuyPrice { get; set; }
         [Required]
         [DataType("decimal(18 ,4)")]
-        public decimal CurrencyPrice { get; set; }
+        public decimal SalePrice { get; set; }
         [Required]
         public DateTime LastChangeDate { get; set; }
         [Required]

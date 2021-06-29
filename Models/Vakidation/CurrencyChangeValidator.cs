@@ -15,8 +15,8 @@ namespace CurrencyExchange.Validation
         {
             context = dbContext;
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.CurrencyChangeId).Must(x => EnumHelper.Helper.EnumValidator<Models.Enum.CurrencyChange.ChangeType>(x)).WithMessage("لطفا نوع را مشخص نمایید");
-            RuleFor(x => x.CurrencyPrice).NotNull().NotEmpty().WithMessage("مبلغ ارز اجباری می باشد");
+            RuleFor(x => x.BuyPrice).NotNull().NotEmpty().WithMessage("مبلغ خرید ارز اجباری می باشد");
+            RuleFor(x => x.SalePrice).NotNull().NotEmpty().WithMessage("مبلغ فروش ارز اجباری می باشد");
             RuleFor(x => x.CurrencyId).NotEmpty().NotNull().WithMessage("نوع ارز را مشخص نمایید");
             RuleFor(x => x.CreateDate).NotEmpty().NotNull().WithMessage("تاریخ اجباری می باشد");
         }
