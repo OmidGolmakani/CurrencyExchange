@@ -1,0 +1,26 @@
+﻿using CurrencyExchange.Controllers;
+using CurrencyExchange.Models.Repository.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CurrencyExchange.Areas.Membership
+{
+    public class SignalRController : BaseController<SignalRController>
+    {
+        private readonly ChatHub _chatHub;
+
+        public SignalRController(ChatHub chatHub)
+        {
+            this._chatHub = chatHub;
+        }
+        [HttpPost("SendTestMessage")]
+        public async Task<IActionResult> SendTestMessage()
+        {
+            await _chatHub.SendMessage("Test User", "This is a test message");
+            return Ok("Message is sent");
+        }
+    }
+}

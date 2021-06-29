@@ -3,6 +3,7 @@ using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CurrencyExchange.Configs.Servises.Extentions
@@ -29,6 +30,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             #endregion Identity
             //services.AddScoped<IAccount, Account>();
             services.AddScoped<Account, Account>();
+            services.AddScoped<ChatHub, ChatHub>();
             return services;
         }
     }

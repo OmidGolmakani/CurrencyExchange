@@ -23,11 +23,15 @@ namespace CurrencyExchange.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<T> _logger;
 
-        protected BaseController(IMapper mapper,
-                                 ILogger<T> logger)
+        public BaseController(IMapper mapper,
+                              ILogger<T> logger)
         {
             this._mapper = mapper;
             this._logger = logger;
+        }
+        public BaseController()
+        {
+            
         }
 
     }

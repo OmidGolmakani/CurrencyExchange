@@ -1,4 +1,5 @@
 using CurrencyExchange.Configs.Servises.Extentions;
+using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -61,6 +62,16 @@ namespace CurrencyExchange
             services.AddScopeds();
             services.AutoMapperConfig();
             services.AddRazorPages();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                .WithOrigins("http://localhost:60658/")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            });
+
             services.AddControllers();
             services.AddSwagger(_env);
 
@@ -73,6 +84,7 @@ namespace CurrencyExchange
                        .AllowAnyHeader();
             }));
 
+            services.AddSignalR();
             services.AddMyAuthorization(_configuration);
         }
 
@@ -93,12 +105,16 @@ namespace CurrencyExchange
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
 
 
+            //var hubConfiguration = new HubConfiguration { EnableDetailedErrors = true };
+            //ConfigureAuth(app);
+            //app.MapSignalR(hubConfiguration);
 
             app.UseSwaggerUI(c =>
             {
@@ -109,6 +125,7 @@ namespace CurrencyExchange
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllers();
                 endpoints.MapAreaControllerRoute(
                     "Membership",

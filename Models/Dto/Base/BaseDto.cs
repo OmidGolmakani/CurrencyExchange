@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Base
 {
-    public class BaseDto
+    public class BaseDto : EmptyBaseDto
     {
         public BaseDto()
         {
