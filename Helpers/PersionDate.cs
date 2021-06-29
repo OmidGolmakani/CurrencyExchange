@@ -107,6 +107,18 @@ namespace CurrencyExchange.Helper
                 return false;
             }
         }
+        public static string GetTimeFromDate(DateTime date)
+        {
+            try
+            {
+                return date.ToString("HH:mm:ss");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         /// <summary>
         /// تاریخ شمسی را به رشته استاندارد تاریخ شمسی برمیگرداند
         /// </summary>

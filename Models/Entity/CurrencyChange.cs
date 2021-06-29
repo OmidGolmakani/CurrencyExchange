@@ -24,9 +24,6 @@ namespace CurrencyExchange.Models.Entity
         public decimal SalePrice { get; set; }
         [Required]
         public DateTime LastChangeDate { get; set; }
-        [Required]
-        [StringLength(8)]
-        public int LastChangeTime { get; set; }
         [ForeignKey("CurrencyId")]
         public virtual Currency Currency { get; set; }
     }
