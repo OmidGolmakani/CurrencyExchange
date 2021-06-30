@@ -41,7 +41,7 @@ namespace CurrencyExchange.Data
             #region Currency Change
             builder.Entity<CurrencyChange>().Property(p => p.BuyPrice).HasColumnType("decimal(18,4)");
             builder.Entity<CurrencyChange>().Property(p => p.SalePrice).HasColumnType("decimal(18,4)");
-            builder.Entity<CurrencyChange>().HasIndex(p => new { p.LastChangeDate, p.LastChangeTime }).IsUnique();
+            builder.Entity<CurrencyChange>().HasIndex(p => new { p.LastChangeDate }).IsUnique();
             #endregion Currency Change
             #region Application User
             ///Order

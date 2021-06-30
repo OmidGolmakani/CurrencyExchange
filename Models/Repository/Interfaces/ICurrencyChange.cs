@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CurrencyExchange.Models.Dto.CurrencyChange;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
 {
     public interface ICurrencyChange : IRepository<CurrencyChangeDto>
     {
-        
+
     }
 }

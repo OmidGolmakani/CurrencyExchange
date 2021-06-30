@@ -34,6 +34,19 @@ namespace CurrencyExchange.Areas.Membership
         {
             return Ok(await _account.GetAll());
         }
+        [HttpPost("Register")]
+        public async Task<IActionResult> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
+        {
+            try
+            {
+                return Ok(await _account.AddUserWithPhone(RegisterInfo));
+            }
+            catch (MyException ex)
+            {
+
+                throw ex;
+            }
+        }
         [HttpGet("GetAccount")]
         public async Task<IActionResult> GetById(long Id)
         {

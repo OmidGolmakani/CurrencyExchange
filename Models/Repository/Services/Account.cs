@@ -30,12 +30,12 @@ namespace CurrencyExchange.Models.Repository.Services
                        IMapper mapper,
                        ApplicationDbContext dbContext)
         {
-            this._UserManager = userManager;
+            this._userManager = userManager;
             this._mapper = mapper;
             this._dbContext = dbContext;
             this._signInManager = signInManager;
         }
-        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -43,32 +43,32 @@ namespace CurrencyExchange.Models.Repository.Services
         public object Add(ApplicationUserDto entity)
         {
             throw new NotImplementedException();
-        }
 
+        }
         public Task AddRange(IEnumerable<ApplicationUserDto> entities)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUserDto> AddUser(ApplicationUserDto user, string password)
+        public Task<ApplicationUserDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
             {
-                var _user = _mapper.Map<ApplicationUser>(user);
-                _user.PasswordHash = _UserManager.PasswordHasher.HashPassword(_user, password);
-                ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _UserManager);
+                var _user = _mapper.Map<ApplicationUser>(RegisterInfo);
+                _user.PasswordHash = _userManager.PasswordHasher.HashPassword(_user, RegisterInfo.Password);
+                ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _userManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
-                PasswordValidation(password);
-                UserTask = _UserManager.CreateAsync(_user);
+                PasswordValidation(RegisterInfo.Password);
+                UserTask = _userManager.CreateAsync(_user);
                 if (UserTask.Result.Errors.Count() != 0)
                 {
-                    throw new Exception(UserTask.Result.Errors.First().Description);
+                    throw new MyException(UserTask.Result.Errors.First().Description);
                 }
                 UserTask.Wait();
                 if (UserTask.Result.Succeeded)
                 {
-                    _user = _UserManager.FindByIdAsync(_user.Id.ToString()).Result;
+                    _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                 }
                 return Task.FromResult(_mapper.Map<ApplicationUserDto>(_user));
             }
@@ -149,7 +149,7 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             try
             {
-                var _user = _UserManager.FindByNameAsync(login.UserName);
+                var _user = _userManager.FindByNameAsync(login.UserName);
                 string _token = "";
                 _user.Wait();
                 if (_user.Result == null || _user.Result.Id == 0)
@@ -196,7 +196,7 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             ApplicationUser _entity = null;
             _mapper.Map<ApplicationUserDto, ApplicationUser>(entity, _entity);
-            var Result = _UserManager.UpdateAsync(_entity);
+            var Result = _userManager.UpdateAsync(_entity);
             if (Result.Result.Succeeded == false)
             {
                 throw new Exception(Result.Result.Errors.FirstOrDefault().Description);
@@ -217,13 +217,13 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             try
             {
-                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                Task<ApplicationUser> _user = _userManager.FindByIdAsync(UserId);
                 if (_user.Result == null)
                 {
                     throw GetAccountExceptions(ErrorMessageType.UserNotFound);
                 }
                 Task<IdentityResult> ComfirmResult = null;
-                ComfirmResult = _UserManager.ConfirmEmailAsync(_user.Result, Token);
+                ComfirmResult = _userManager.ConfirmEmailAsync(_user.Result, Token);
                 ComfirmResult.Wait();
                 return ComfirmResult;
             }
@@ -237,14 +237,14 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             try
             {
-                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                Task<ApplicationUser> _user = _userManager.FindByIdAsync(UserId);
                 if (_user.Result == null)
                 {
                     throw GetAccountExceptions(ErrorMessageType.UserNotFound);
                 }
                 Task<IdentityResult> ComfirmResult = null;
                 if (PhoneNumber == "") PhoneNumber = _user.Result.PhoneNumber;
-                ComfirmResult = _UserManager.ChangePhoneNumberAsync(_user.Result, PhoneNumber, Token);
+                ComfirmResult = _userManager.ChangePhoneNumberAsync(_user.Result, PhoneNumber, Token);
                 ComfirmResult.Wait();
                 return ComfirmResult;
             }
@@ -257,14 +257,14 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             try
             {
-                var user = _UserManager.Users.FirstOrDefaultAsync(x => x.UserName == UserInfo ||
+                var user = _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserInfo ||
                                                                   x.Email == UserInfo ||
                                                                   x.PhoneNumber == UserInfo);
                 if (user.Result == null)
                 {
                     throw GetAccountExceptions(ErrorMessageType.UserNotFound);
                 }
-                return _UserManager.GeneratePasswordResetTokenAsync(user.Result);
+                return _userManager.GeneratePasswordResetTokenAsync(user.Result);
             }
             catch (Exception ex)
             {
@@ -276,13 +276,13 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             try
             {
-                Task<ApplicationUser> _user = _UserManager.FindByIdAsync(UserId);
+                Task<ApplicationUser> _user = _userManager.FindByIdAsync(UserId);
                 if (_user.Result == null)
                 {
                     throw GetAccountExceptions(ErrorMessageType.UserNotFound);
                 }
                 Task<IdentityResult> ComfirmResult = null;
-                ComfirmResult = _UserManager.ChangeEmailAsync(_user.Result, newEmail, Token);
+                ComfirmResult = _userManager.ChangeEmailAsync(_user.Result, newEmail, Token);
                 ComfirmResult.Wait();
                 return ComfirmResult;
             }
