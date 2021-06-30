@@ -37,9 +37,11 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(_context.Set<TEntity>().Where(expression).AsEnumerable());
         }
 
-        public Task<EntityEntry<TEntity>> Add(TEntity entity)
+        public Task<EntityEntry<TEntity>> Add(TEntity entity, Type source)
         {
-            return _context.Set<TEntity>().AddAsync(entity).AsTask();
+            TEntity _entity = Mapper.Map(entity, typeof(TEntity), source) as TEntity;
+            var Result = _context.Set<TEntity>().AddAsync(_entity).AsTask();
+            return Result;
         }
 
         public Task AddRange(IEnumerable<TEntity> entities)

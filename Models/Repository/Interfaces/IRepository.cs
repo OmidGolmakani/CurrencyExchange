@@ -13,7 +13,7 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         Task<TEntiy> GetById(object Id);
         Task<IEnumerable<TEntiy>> GetAll();
         Task<IEnumerable<TEntiy>> Find(Expression<Func<TEntiy, bool>> expression);
-        Task<EntityEntry<TEntiy>> Add(TEntiy entity);
+        Task<EntityEntry<TEntiy>> Add(TEntiy entity,Type description);
         Task AddRange(IEnumerable<TEntiy> entities);
         void Update(TEntiy entity);
         void UpdateRange(IEnumerable<TEntiy> entities);

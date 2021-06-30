@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Entity;
+﻿using CurrencyExchange.Models.Dto.CurrencyChanges;
+using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             //services.AddScoped<IAccount, Account>();
             services.AddScoped<Account, Account>();
             services.AddScoped<ChatHub, ChatHub>();
+            services.AddScoped(typeof(Repository<CurrencyChangeDto>),typeof(Repository<CurrencyChangeDto>));
             return services;
         }
     }
