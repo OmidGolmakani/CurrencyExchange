@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IRepository<T> where T : class, new()
+    public interface IRepository<TEntiy> where TEntiy : class, new()
     {
-        Task<T> GetById(object Id);
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression);
-        object Add(T entity);
-        Task AddRange(IEnumerable<T> entities);
-        void Update(T entity);
-        void UpdateRange(IEnumerable<T> entities);
-        void Remove(T entity);
-        void RemoveRange(IEnumerable<T> entities);
+        Task<TEntiy> GetById(object Id);
+        Task<IEnumerable<TEntiy>> GetAll();
+        Task<IEnumerable<TEntiy>> Find(Expression<Func<TEntiy, bool>> expression);
+        Task<EntityEntry<TEntiy>> Add(TEntiy entity);
+        Task AddRange(IEnumerable<TEntiy> entities);
+        void Update(TEntiy entity);
+        void UpdateRange(IEnumerable<TEntiy> entities);
+        void Remove(TEntiy entity);
+        void RemoveRange(IEnumerable<TEntiy> entities);
     }
 }

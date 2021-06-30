@@ -40,7 +40,7 @@ namespace CurrencyExchange.Models.Repository.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public object Add(ApplicationUserDto entity)
+        public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
         {
             throw new NotImplementedException();
 

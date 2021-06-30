@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public abstract class Repository<T> : IRepository<T> where T : class, new()
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
     {
         protected IMapper Mapper;
         protected readonly ApplicationDbContext _context;
@@ -22,49 +22,50 @@ namespace CurrencyExchange.Models.Repository.Services
             _context = context;
         }
 
-        public Task<T> GetById(object Id)
+        public Task<TEntity> GetById(object Id)
         {
-            return _context.Set<T>().FindAsync(Id).AsTask();
+            return _context.Set<TEntity>().FindAsync(Id).AsTask();
         }
 
-        public Task<IEnumerable<T>> GetAll()
+        public Task<IEnumerable<TEntity>> GetAll()
         {
-            return Task.FromResult(_context.Set<T>().AsEnumerable());
+            return Task.FromResult(_context.Set<TEntity>().AsEnumerable());
         }
 
-        public Task<IEnumerable<T>> Find(Expression<Func<T, bool>> expression)
+        public Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return Task.FromResult(_context.Set<T>().Where(expression).AsEnumerable());
+            return Task.FromResult(_context.Set<TEntity>().Where(expression).AsEnumerable());
         }
 
-        public object Add(T entity)
+        public Task<EntityEntry<TEntity>> Add(TEntity entity)
         {
-            return _context.Set<T>().AddAsync(entity);
+            return _context.Set<TEntity>().AddAsync(entity).AsTask();
         }
 
-        public Task AddRange(IEnumerable<T> entities)
+        public Task AddRange(IEnumerable<TEntity> entities)
         {
-            return _context.Set<T>().AddRangeAsync(entities);
+            return _context.Set<TEntity>().AddRangeAsync(entities);
         }
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
-            _context.Set<T>().Update(entity);
+            _context.Set<TEntity>().Update(entity);
         }
 
-        public void UpdateRange(IEnumerable<T> entities)
+        public void UpdateRange(IEnumerable<TEntity> entities)
         {
-            _context.Set<T>().UpdateRange(entities);
+            _context.Set<TEntity>().UpdateRange(entities);
         }
 
-        public void Remove(T entity)
+        public void Remove(TEntity entity)
         {
-            _context.Set<T>().Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<T> entities)
+        public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            _context.Set<T>().RemoveRange(entities);
+            _context.Set<TEntity>().RemoveRange(entities);
         }
+
     }
 }
