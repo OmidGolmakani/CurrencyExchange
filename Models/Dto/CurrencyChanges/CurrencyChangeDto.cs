@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Models.Dto.CurrencyChange
+namespace CurrencyExchange.Models.Dto.CurrencyChanges
 {
     public class CurrencyChangeDto
     {

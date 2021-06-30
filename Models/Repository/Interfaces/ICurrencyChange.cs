@@ -1,4 +1,4 @@
-﻿using CurrencyExchange.Models.Dto.CurrencyChange;
+﻿using CurrencyExchange.Models.Dto.CurrencyChanges;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Models.Dto.ChatHub
+namespace CurrencyExchange.Models.Dto.ChatHubs
 {
     public class CurrencyChangeDto : EmptyBaseDto
     {
