@@ -11,6 +11,8 @@ namespace CurrencyExchange.Configs
         {
             #region Identity Tables
             CreateMap<ApplicationUser, CUApplicationUser>().ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserDto>().ReverseMap();
+            CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             //CreateMap<ApplicationUser, ApplicationUserSimpleDto>().ReverseMap();
             //CreateMap<ApplicationRole, ApplicationRoleDto>().ReverseMap();
             //CreateMap<ApplicationUserLogin, ApplicationUserLoginDto>().ReverseMap();

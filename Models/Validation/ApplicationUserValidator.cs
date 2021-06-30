@@ -20,12 +20,11 @@ namespace CurrencyExchange.Models.Validation
             context = dbContext;
             _userManager = userManager;
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.UserName).NotNull().NotEmpty().WithMessage("نام کاربری اجباری می باشد");
-            RuleFor(x => x.Email).NotEmpty().NotNull().Must(IsUserNameUnique).WithMessage("نام کاربری تکراری می باشد");
-            RuleFor(x => x.Email).NotEmpty().NotNull().WithMessage("پست الکترونیک اجباری می باشد")
-                                 .EmailAddress().WithMessage("پست الکترونیک غیر مجاز می باشد")
-                                 .Must(IsEmailUnique).WithMessage("پست الکترونیک تکراری می باشد");
-            RuleFor(x => x.PhoneNumber).Empty().Must(PhoneNumberValidator).WithMessage("تلفن همراه غیر مجاز است");
+            RuleFor(x => x.UserName).NotNull().NotEmpty().WithMessage("نام کاربری اجباری می باشد")
+                                    .NotEmpty().NotNull()
+                                    .Must(IsUserNameUnique).WithMessage("نام کاربری تکراری می باشد"); 
+            //RuleFor(x => x.Email).Empty().EmailAddress().WithMessage("پست الکترونیک غیر مجاز می باشد");
+            //RuleFor(x => x.PhoneNumber).Empty().Must(PhoneNumberValidator).WithMessage("تلفن همراه غیر مجاز است");
         }
 
         internal bool IsEmailUnique(ApplicationUser editedApplicationUser, string newValue)
@@ -61,7 +60,7 @@ namespace CurrencyExchange.Models.Validation
         internal bool PhoneNumberValidator(string PhoneNumber)
         {
             if (PhoneNumber.Length == 0) return true;
-            var reg = Regex.Match(PhoneNumber, @"^(\\+98|0)?9\\d{9}$");
+            var reg = Regex.Match(PhoneNumber, @"(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}");
             return reg.Success;
         }
 

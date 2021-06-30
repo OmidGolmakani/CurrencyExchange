@@ -15,14 +15,14 @@ namespace CurrencyExchange.Configs.Servises.Extentions
         public static IServiceCollection AddMyIdentity(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, ApplicationRole>(config => {
-                config.Password.RequireDigit = true;
-                config.Password.RequiredLength = 10;
-                config.Password.RequireLowercase = true;
-                config.Password.RequireUppercase = true;
-                config.Password.RequireNonAlphanumeric = true;
-                config.User.RequireUniqueEmail = true;
+                config.Password.RequireDigit = false;
+                //config.Password.RequiredLength = 10;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.User.RequireUniqueEmail = false;
                 config.SignIn.RequireConfirmedEmail = false;
-                config.SignIn.RequireConfirmedPhoneNumber = false;
+                config.SignIn.RequireConfirmedPhoneNumber = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddUserStore<ApplicationUserStore>()
