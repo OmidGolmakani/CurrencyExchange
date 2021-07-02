@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CurrencyExchange.Data;
 using CurrencyExchange.Filter;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,21 @@ namespace CurrencyExchange.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger<T> _logger;
+        private readonly ApplicationDbContext dbContext;
 
         public BaseController(IMapper mapper,
-                              ILogger<T> logger)
+                              ILogger<T> logger,
+                              ApplicationDbContext DbContext)
         {
             this._mapper = mapper;
             this._logger = logger;
+            this.dbContext = DbContext;
+        }
+        public BaseController(IMapper mapper,
+                              ApplicationDbContext DbContext)
+        {
+            this._mapper = mapper;
+            this.dbContext = DbContext;
         }
         public BaseController()
         {

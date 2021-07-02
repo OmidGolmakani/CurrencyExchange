@@ -40,7 +40,7 @@ namespace CurrencyExchange.Models.Repository.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity,Type description)
+        public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
         {
             throw new NotImplementedException();
 
@@ -342,6 +342,12 @@ namespace CurrencyExchange.Models.Repository.Services
                 throw ex;
             }
         }
+
+        public int SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
         private enum ErrorMessageType { UserNotFound = 1 }
     }
 }

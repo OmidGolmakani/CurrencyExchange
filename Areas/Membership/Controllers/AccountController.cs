@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Controllers;
 using CurrencyExchange.CustomException;
+using CurrencyExchange.Data;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,15 +19,18 @@ namespace CurrencyExchange.Areas.Membership
 
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
+        private readonly ApplicationDbContext dbContext;
         private readonly Account _account;
 
         public AccountController(IMapper mapper,
                                  ILogger<AccountController> logger,
+                                 ApplicationDbContext DbContext,
                                  Account account)
-            : base(mapper, logger)
+            : base(mapper, logger,DbContext)
         {
             this._mapper = mapper;
             this._logger = logger;
+            this.dbContext = DbContext;
             this._account = account;
         }
         [HttpGet("GetAccounts")]

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
+using CurrencyExchange.Models.Dto.CurrencyChanges;
 using CurrencyExchange.Models.Entity;
 using NetTopologySuite.Geometries;
 
@@ -13,12 +14,8 @@ namespace CurrencyExchange.Configs
             CreateMap<ApplicationUser, CUApplicationUser>().ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserDto>().ReverseMap();
             CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
-            //CreateMap<ApplicationUser, ApplicationUserSimpleDto>().ReverseMap();
-            //CreateMap<ApplicationRole, ApplicationRoleDto>().ReverseMap();
-            //CreateMap<ApplicationUserLogin, ApplicationUserLoginDto>().ReverseMap();
-            //CreateMap<ApplicationRoleClaim, ApplicationRoleClaimDto>().ReverseMap();
-            //CreateMap<ApplicationUserClaim, ApplicationUserClaimDto>().ReverseMap();
-            //CreateMap<ApplicationUserToken, ApplicationUserTokenDto>().ReverseMap();
+            CreateMap<CurrencyChange, CurrencyChangeDto>().ReverseMap();
+           
             #endregion Identity Tables
         }
     }

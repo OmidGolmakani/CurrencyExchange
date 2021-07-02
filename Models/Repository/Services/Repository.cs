@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected IMapper Mapper;
         protected readonly ApplicationDbContext _context;
@@ -37,10 +37,9 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(_context.Set<TEntity>().Where(expression).AsEnumerable());
         }
 
-        public Task<EntityEntry<TEntity>> Add(TEntity entity, Type source)
+        public Task<EntityEntry<TEntity>> Add(TEntity entity)
         {
-            TEntity _entity = Mapper.Map(entity, typeof(TEntity), source) as TEntity;
-            var Result = _context.Set<TEntity>().AddAsync(_entity).AsTask();
+            var Result = _context.Set<TEntity>().AddAsync(entity).AsTask();
             return Result;
         }
 
@@ -63,10 +62,13 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             _context.Set<TEntity>().Remove(entity);
         }
-
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             _context.Set<TEntity>().RemoveRange(entities);
+        }
+        public int SaveChanges()
+        {
+            return _context.SaveChanges();
         }
 
     }

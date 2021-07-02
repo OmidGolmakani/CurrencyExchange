@@ -18,8 +18,14 @@ namespace CurrencyExchange.Validation
             RuleFor(x => x.BuyPrice).NotNull().NotEmpty().WithMessage("مبلغ خرید ارز اجباری می باشد");
             RuleFor(x => x.SalePrice).NotNull().NotEmpty().WithMessage("مبلغ فروش ارز اجباری می باشد");
             RuleFor(x => x.CurrencyId).NotEmpty().NotNull().WithMessage("نوع ارز را مشخص نمایید");
-            RuleFor(x => x.CreateDate).NotEmpty().NotNull().WithMessage("تاریخ اجباری می باشد");
+            RuleFor(x => x.LastChangeDate).NotEmpty().NotNull().WithMessage("تاریخ اجباری می باشد")
+                                          .Must(IsLastChangeDateUnique).WithMessage("تاریخ و ساعت تکراری می باشد");
         }
 
+        internal bool IsLastChangeDateUnique(CurrencyChange edited, DateTime newValue)
+        {
+            return context.CurrencyChanges.All(c =>
+              c.Equals(edited) || c.LastChangeDate != newValue);
+        }
     }
 }

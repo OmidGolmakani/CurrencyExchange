@@ -32,7 +32,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             //services.AddScoped<IAccount, Account>();
             services.AddScoped<Account, Account>();
             services.AddScoped<ChatHub, ChatHub>();
-            services.AddScoped(typeof(Repository<CurrencyChangeDto>),typeof(Repository<CurrencyChangeDto>));
+            services.AddScoped(typeof(IRepository< >),typeof(Repository< >));
             return services;
         }
     }

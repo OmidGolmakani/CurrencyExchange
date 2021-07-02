@@ -1,5 +1,4 @@
-﻿using CurrencyExchange.Models.Dto.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,20 +6,26 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.CurrencyChanges
 {
-    public class CurrencyChangeDto : BaseDto
+    public class CUCurrencyChangeDto
     {
         public int Id { get; set; }
         public int CurrencyId { get; set; }
         public decimal BuyPrice { get; set; }
         public decimal SalePrice { get; set; }
-        public DateTime LastChangeDate
+        public DateTime LastChangeDate { get; set; }
+        public string LastChangeSolarDate
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(LastChangeSolarDate, LastChangeTime) ?? DateTime.Now);
+                return Helper.PersionDate.GetShamsi(LastChangeDate);
             }
         }
-        public string LastChangeSolarDate { get; set; }
-        public string LastChangeTime { get; set; }
+        public string LastChangeTime
+        {
+            get
+            {
+                return Helper.PersionDate.GetTimeFromDate(LastChangeDate);
+            }
+        }
     }
 }

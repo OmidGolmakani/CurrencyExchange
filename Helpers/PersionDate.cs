@@ -66,7 +66,7 @@ namespace CurrencyExchange.Helper
         /// </summary>
         /// <param name="ShamsiDate"></param>
         /// <returns></returns>
-        public static DateTime? GetMiladi(string ShamsiDate)
+        public static DateTime? GetMiladi(string ShamsiDate, string Time = "")
         {
             try
             {
@@ -76,7 +76,16 @@ namespace CurrencyExchange.Helper
                 }
                 PersianCalendar pc = new PersianCalendar();
                 var split = ShamsiDate.Split(char.Parse("/"));
-                var Date = pc.ToDateTime(split[0].ToInt(), split[1].ToInt(), split[2].ToInt(), 0, 0, 0, 0);
+                DateTime t ;
+                DateTime Date;
+                if (DateTime.TryParse(Time, out t))
+                {
+                    Date = pc.ToDateTime(split[0].ToInt(), split[1].ToInt(), split[2].ToInt(), t.Hour, t.Minute, t.Second, t.Millisecond);
+                }
+                else
+                {
+                    Date = pc.ToDateTime(split[0].ToInt(), split[1].ToInt(), split[2].ToInt(), 0, 0, 0, 0);
+                }
                 return Date;
             }
             catch (MyException ex)
