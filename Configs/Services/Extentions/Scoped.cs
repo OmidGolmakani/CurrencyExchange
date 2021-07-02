@@ -29,8 +29,8 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<ApplicationUserLogin>();
             services.AddScoped<ApplicationUserToken>();
             #endregion Identity
-            //services.AddScoped<IAccount, Account>();
             services.AddScoped<Account, Account>();
+            services.AddScoped<Models.Repository.Services.Order>();
             services.AddScoped<ChatHub, ChatHub>();
             services.AddScoped(typeof(IRepository< >),typeof(Repository< >));
             return services;

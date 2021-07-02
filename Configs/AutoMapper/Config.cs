@@ -2,8 +2,8 @@
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Dto.Currencies;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
+using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Entity;
-using NetTopologySuite.Geometries;
 
 namespace CurrencyExchange.Configs
 {
@@ -17,7 +17,7 @@ namespace CurrencyExchange.Configs
             CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             CreateMap<CurrencyChange, CurrencyChangeDto>().ReverseMap();
             CreateMap<Currency, CurrencyDto>().ReverseMap();
-
+            CreateMap<Order, OrderDto>().ReverseMap();
             #endregion Identity Tables
         }
     }
