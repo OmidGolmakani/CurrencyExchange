@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CurrencyExchange.EnumHelper
+namespace CurrencyExchange.Models.EnumHelper
 {
     public static class Helper
     {
@@ -15,7 +15,7 @@ namespace CurrencyExchange.EnumHelper
         static internal List<EnumListStructure> GetEnumLists<T>()
         {
             if (!typeof(T).IsEnum) // just to be safe
-                throw new MyException(string.Format("Type {0} is not an enumeration.", typeof(T)));
+                throw new MyException(string.Format("نوع ارسال شده {0} غیر مجاز می باشد", typeof(T)));
             var q = System.Enum.GetValues(typeof(T)).Cast<T>()
               .Select(x => new EnumListStructure { id = Convert.ToInt32(x), Name = x.ToString() })
               .ToList();

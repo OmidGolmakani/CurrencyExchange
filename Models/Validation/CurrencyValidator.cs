@@ -15,7 +15,7 @@ namespace CurrencyExchange.Validation
         {
             context = dbContext;
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.CurrencyTypeId).Must(x => EnumHelper.Helper.EnumValidator<Models.Enum.Currency>(x)).WithMessage("لطفا نوع ارز را مشخص نمایید"); 
+            RuleFor(x => x.CurrencyTypeId).Must(x => Models.EnumHelper.Helper.EnumValidator<Models.Enum.Currency.CurrencyTypeId>(x)).WithMessage("لطفا نوع ارز را مشخص نمایید"); 
         }
 
     }
