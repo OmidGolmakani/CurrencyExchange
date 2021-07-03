@@ -106,7 +106,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public void Remove(ApplicationUserDto entity)
+        public void Remove(object Id)
         {
             throw new NotImplementedException();
         }

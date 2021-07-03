@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Entity;
+﻿using CurrencyExchange.Data;
+using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -14,9 +15,9 @@ namespace CurrencyExchange.Models.Repository.Services
     {
         private readonly Repository<Entity.Order> orderRepository;
 
-        public Order(Repository<Entity.Order> orderRepository)
+        public Order(Repository<Entity.Order> repository)
         {
-            this.orderRepository = orderRepository;
+            this.orderRepository = repository;
         }
 
         public Task<EntityEntry<Entity.Order>> Add(Entity.Order entity)
@@ -26,52 +27,53 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task AddRange(IEnumerable<Entity.Order> entities)
         {
-            throw new NotImplementedException();
+            return orderRepository.AddRange(entities);
         }
 
         public Task<IEnumerable<Entity.Order>> Find(Expression<Func<Entity.Order, bool>> expression)
         {
-            throw new NotImplementedException();
+            return orderRepository.Find(expression);
         }
 
         public Task<IEnumerable<Entity.Order>> GetAll()
         {
-            throw new NotImplementedException();
+            return orderRepository.GetAll();
         }
 
         public Task<Entity.Order> GetById(object Id)
         {
-            throw new NotImplementedException();
+            return orderRepository.GetById(Id);
         }
 
         public Task<long> GetNeOrderNum()
         {
-            throw new NotImplementedException();
+            var Result = GetAll().Result;
+            return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.OrderNum));
         }
 
-        public void Remove(Entity.Order entity)
+        public void Remove(object Id)
         {
-            throw new NotImplementedException();
+            orderRepository.Remove(Id);
         }
 
         public void RemoveRange(IEnumerable<Entity.Order> entities)
         {
-            throw new NotImplementedException();
+            orderRepository.RemoveRange(entities);
         }
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return orderRepository.SaveChanges();
         }
 
         public void Update(Entity.Order entity)
         {
-            throw new NotImplementedException();
+            orderRepository.Update(entity);
         }
 
         public void UpdateRange(IEnumerable<Entity.Order> entities)
         {
-            throw new NotImplementedException();
+            orderRepository.UpdateRange(entities);
         }
     }
 }

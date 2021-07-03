@@ -31,7 +31,9 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> Add(OrderDto entity)
         {
             var _entity = mapper.Map<OrderDto, Order>(entity);
+            _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             OrderValidator validator = new OrderValidator(dbContext);
+            _entity.OrderNum = await _OrderSrv.GetNeOrderNum();
             validator.ValidateAndThrow(_entity);
             var Result = _OrderSrv.Add(_entity);
             _OrderSrv.SaveChanges();

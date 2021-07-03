@@ -42,7 +42,7 @@ namespace CurrencyExchange.Areas.Membership
         {
             var _entity = await _CurrencySrv.GetById(Id);
             if (_entity == null) return NotFound(DefaultMessages.NotFound);
-            _CurrencySrv.Remove(_entity);
+            _CurrencySrv.Remove(Id);
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]

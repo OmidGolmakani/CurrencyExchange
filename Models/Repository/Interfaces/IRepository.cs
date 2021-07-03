@@ -17,7 +17,7 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         Task AddRange(IEnumerable<TEntiy> entities);
         void Update(TEntiy entity);
         void UpdateRange(IEnumerable<TEntiy> entities);
-        void Remove(TEntiy entity);
+        void Remove(object Id);
         void RemoveRange(IEnumerable<TEntiy> entities);
         int SaveChanges();
     }

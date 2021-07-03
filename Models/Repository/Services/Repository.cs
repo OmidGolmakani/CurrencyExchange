@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace CurrencyExchange.Models.Repository.Services
     {
         protected IMapper Mapper;
         protected readonly ApplicationDbContext _context;
+        IEnumerable<TEntity> GetEntities() => _context.Set<TEntity>().Where("Deleted==false");
 
         public Repository(ApplicationDbContext context, IMapper Mapper)
         {
@@ -29,12 +31,12 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<TEntity>> GetAll()
         {
-            return Task.FromResult(_context.Set<TEntity>().AsEnumerable());
+            return Task.FromResult(GetEntities().AsEnumerable());
         }
 
         public Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            return Task.FromResult(_context.Set<TEntity>().Where(expression).AsEnumerable());
+            return Task.FromResult(GetEntities().Where(expression.Compile()).AsEnumerable());
         }
 
         public Task<EntityEntry<TEntity>> Add(TEntity entity)
@@ -58,9 +60,15 @@ namespace CurrencyExchange.Models.Repository.Services
             _context.Set<TEntity>().UpdateRange(entities);
         }
 
-        public void Remove(TEntity entity)
+        public void Remove(object Id)
         {
-            _context.Set<TEntity>().Remove(entity);
+            var Current = GetById(Id);
+            if (Current.Result != null)
+            {
+                var p = Current.Result.GetType().GetProperty("Id");
+                p.SetValue(Current.Result, false);
+                _context.Set<TEntity>().Update(Current.Result);
+            }
         }
         public void RemoveRange(IEnumerable<TEntity> entities)
         {

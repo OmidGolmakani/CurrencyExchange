@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -11,11 +12,17 @@ namespace CurrencyExchange.Models.Dto.Orders
     {
         public long Id { get; set; }
         public string OrderSolarDate { get; set; }
-        public DateTime LastChangeDate
+        private DateTime _OrderDate;
+        [JsonIgnore]
+        public DateTime OrderDate
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(OrderSolarDate,OrderTime) ?? DateTime.Now);
+                return (Helper.PersionDate.GetMiladi(OrderSolarDate, OrderTime) ?? DateTime.Now);
+            }
+            set
+            {
+                _OrderDate = value;
             }
         }
         public string OrderTime { get; set; }
@@ -26,6 +33,8 @@ namespace CurrencyExchange.Models.Dto.Orders
         public int Quantity { get; set; }
         public decimal InstantPrice { get; set; }
         public decimal CurrencyPrice { get; set; }
+        [JsonIgnore]
+        [DefaultValue(Models.Enum.Order.Status.AwaitingConfirmation)]
         public byte Status { get; set; }
         public string Description { get; set; }
     }

@@ -30,9 +30,11 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<ApplicationUserToken>();
             #endregion Identity
             services.AddScoped<Account, Account>();
-            services.AddScoped<Models.Repository.Services.Order>();
             services.AddScoped<ChatHub, ChatHub>();
             services.AddScoped(typeof(IRepository< >),typeof(Repository< >));
+            services.AddScoped(typeof(Repository<Models.Entity.Order>), typeof(Repository<Models.Entity.Order>));
+            services.AddScoped(typeof(IOrder), typeof(Models.Repository.Services.Order));
+            services.AddScoped<Models.Repository.Services.Order, Models.Repository.Services.Order>();
             return services;
         }
     }
