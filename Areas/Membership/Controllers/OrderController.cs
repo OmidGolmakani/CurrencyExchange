@@ -28,9 +28,9 @@ namespace CurrencyExchange.Areas.Membership
             this.dbContext = DbContext;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(OrderDto entity)
+        public async Task<IActionResult> Add(CUOrderDto entity)
         {
-            var _entity = mapper.Map<OrderDto, Order>(entity);
+            var _entity = mapper.Map<CUOrderDto, Order>(entity);
             _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             OrderValidator validator = new OrderValidator(dbContext);
             _entity.OrderNum = await _OrderSrv.GetNeOrderNum();
@@ -48,11 +48,11 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit(OrderDto entity)
+        public async Task<IActionResult> Edit(CUOrderDto entity)
         {
             if (entity.Id == 0) return BadRequest(DefaultMessages.IdBadRequestWithAdd);
             Order _entity = new Order();
-            mapper.Map<OrderDto, Order>(entity, _entity);
+            mapper.Map<CUOrderDto, Order>(entity, _entity);
             OrderValidator validator = new OrderValidator(dbContext);
             validator.ValidateAndThrow(_entity);
             _OrderSrv.Update(_entity);
