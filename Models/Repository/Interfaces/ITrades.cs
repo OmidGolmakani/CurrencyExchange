@@ -9,6 +9,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
 {
     public interface ITrades<T> : IRepository<Trades,T>
     {
-        Task<long> GetNeTradesNum();
+        Task<long> GetNeTradeNum();
     }
 }
