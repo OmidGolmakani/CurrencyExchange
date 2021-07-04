@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class OrderController : BaseController<OrderController>, IController<CUOrderDto>
+    public class OrderController : BaseController<OrderController>, IController<CUOrderDto, long>
     {
         private readonly Models.Repository.Services.Order _OrderSrv;
         private readonly IMapper mapper;
@@ -40,11 +40,11 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }
         [HttpPost("Delete{Id}")]
-        public async Task<IActionResult> Delete(object Id)
+        public async Task<IActionResult> Delete(long Id)
         {
             var _entity = await _OrderSrv.GetById(Id);
             if (_entity == null) return NotFound(DefaultMessages.NotFound);
-            _OrderSrv.Remove(_entity);
+            _OrderSrv.Remove(Id);
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]
@@ -73,7 +73,7 @@ namespace CurrencyExchange.Areas.Membership
             }
         }
         [HttpGet("GetDetail{Id}")]
-        public async Task<IActionResult> GetById(object Id)
+        public async Task<IActionResult> GetById(long Id)
         {
             var Result = await _OrderSrv.GetById(Id);
             if (Result == null)

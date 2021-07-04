@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IOrder : IRepository<Order>
+    public interface IOrder<T> : IRepository<Order,T>
     {
         Task<long> GetNeOrderNum();
     }

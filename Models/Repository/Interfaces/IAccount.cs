@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IAccount : IRepository<ApplicationUserDto>
+    public interface IAccount : IRepository<ApplicationUserDto, long>
     {
         public Task<ApplicationUserDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo);
         public Task<SignInResultDto> SignIn(UserLoginDto login);

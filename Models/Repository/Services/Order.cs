@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class Order : IOrder
+    public class Order : IOrder<long>
     {
-        private readonly Repository<Entity.Order> orderRepository;
+        private readonly Repository<Entity.Order, long> orderRepository;
 
-        public Order(Repository<Entity.Order> repository)
+        public Order(Repository<Entity.Order, long> repository)
         {
             this.orderRepository = repository;
         }
@@ -40,7 +40,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return orderRepository.GetAll();
         }
 
-        public Task<Entity.Order> GetById(object Id)
+        public Task<Entity.Order> GetById(long Id)
         {
             return orderRepository.GetById(Id);
         }
@@ -51,7 +51,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.OrderNum));
         }
 
-        public void Remove(object Id)
+        public void Remove(long Id)
         {
             orderRepository.Remove(Id);
         }

@@ -13,13 +13,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class CurrencyController : BaseController<CurrencyController>, IController<CUCurrencyDto>
+    public class CurrencyController : BaseController<CurrencyController>, IController<CUCurrencyDto, int>
     {
-        private readonly IRepository<Currency> _CurrencySrv;
+        private readonly IRepository<Currency,int> _CurrencySrv;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext;
 
-        public CurrencyController(IRepository<Currency> CurrencySrv,
+        public CurrencyController(IRepository<Currency,int> CurrencySrv,
                                   IMapper mapper,
                                   ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
@@ -38,11 +38,12 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }
         [HttpPost("Delete{Id}")]
-        public async Task<IActionResult> Delete(object Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             var _entity = await _CurrencySrv.GetById(Id);
             if (_entity == null) return NotFound(DefaultMessages.NotFound);
             _CurrencySrv.Remove(Id);
+            _CurrencySrv.SaveChanges();
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]
@@ -71,7 +72,7 @@ namespace CurrencyExchange.Areas.Membership
             }
         }
         [HttpGet("GetDetail{Id}")]
-        public async Task<IActionResult> GetById(object Id)
+        public async Task<IActionResult> GetById(int Id)
         {
             var Result = await _CurrencySrv.GetById(Id);
             if (Result == null)

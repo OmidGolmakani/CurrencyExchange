@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity, T> : IRepository<TEntity, T> where TEntity : class
     {
         protected IMapper Mapper;
         protected readonly ApplicationDbContext _context;
@@ -24,7 +24,7 @@ namespace CurrencyExchange.Models.Repository.Services
             _context = context;
         }
 
-        public Task<TEntity> GetById(object Id)
+        public Task<TEntity> GetById(T Id)
         {
             return _context.Set<TEntity>().FindAsync(Id).AsTask();
         }
@@ -60,12 +60,12 @@ namespace CurrencyExchange.Models.Repository.Services
             _context.Set<TEntity>().UpdateRange(entities);
         }
 
-        public void Remove(object Id)
+        public void Remove(T Id)
         {
             var Current = GetById(Id);
             if (Current.Result != null)
             {
-                var p = Current.Result.GetType().GetProperty("Id");
+                var p = Current.Result.GetType().GetProperty("Deleted");
                 p.SetValue(Current.Result, false);
                 _context.Set<TEntity>().Update(Current.Result);
             }
