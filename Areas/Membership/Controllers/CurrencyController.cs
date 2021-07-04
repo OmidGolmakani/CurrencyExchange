@@ -57,7 +57,7 @@ namespace CurrencyExchange.Areas.Membership
             _CurrencySrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }
-        [HttpPost("GetAll")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var Result = mapper.Map<List<CurrencyDto>>(await _CurrencySrv.GetAll());
@@ -70,7 +70,7 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-        [HttpPost("GetDetail{Id}")]
+        [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(object Id)
         {
             var Result = await _CurrencySrv.GetById(Id);

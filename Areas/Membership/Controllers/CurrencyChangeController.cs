@@ -27,7 +27,7 @@ namespace CurrencyExchange.Areas.Membership
             this.mapper = mapper;
             this.dbContext = DbContext;
         }
-        [HttpPost("Add")]
+        [HttpGet("Add")]
         public async Task<IActionResult> Add(CurrencyChangeDto entity)
         {
             var _entity = mapper.Map<CurrencyChangeDto, CurrencyChange>(entity);
@@ -57,7 +57,7 @@ namespace CurrencyExchange.Areas.Membership
             _currencyChangeSrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }
-        [HttpPost("GetAll")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var Result = mapper.Map<List<CurrencyChangeDto>>(await _currencyChangeSrv.GetAll());

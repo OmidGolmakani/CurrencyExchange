@@ -59,7 +59,7 @@ namespace CurrencyExchange.Areas.Membership
             _OrderSrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }
-        [HttpPost("GetAll")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetAll());
@@ -72,7 +72,7 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-        [HttpPost("GetDetail{Id}")]
+        [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(object Id)
         {
             var Result = await _OrderSrv.GetById(Id);
