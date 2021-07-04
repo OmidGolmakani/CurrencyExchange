@@ -76,7 +76,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(long Id)
         {
-            var Result = await _OrderSrv.GetById(Id);
+            var Result = mapper.Map<OrderDto>(await _OrderSrv.GetById(Id));
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
