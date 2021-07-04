@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class Account : IAccount
+    public class Account : IAccount<long>
     {
         private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
         public Account(UserManager<ApplicationUser> userManager,
@@ -95,7 +95,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(_mapper.Map<IEnumerable<ApplicationUserDto>>(GetAccounts()));
         }
 
-        public Task<ApplicationUserDto> GetById(object Id)
+        public Task<ApplicationUserDto> GetById(long Id)
         {
             var Result = _mapper.Map<ApplicationUserDto>(GetAccounts().FirstOrDefault(x => x.Id == Id.ToLong()));
             return Task.FromResult(Result);
@@ -106,7 +106,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public void Remove(object Id)
+        public void Remove(long Id)
         {
             throw new NotImplementedException();
         }
