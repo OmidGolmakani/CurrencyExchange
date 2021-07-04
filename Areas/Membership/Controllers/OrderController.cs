@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class OrderController : BaseController<OrderController>, IController<OrderDto>
+    public class OrderController : BaseController<OrderController>, IController<CUOrderDto>
     {
         private readonly Models.Repository.Services.Order _OrderSrv;
         private readonly IMapper mapper;
