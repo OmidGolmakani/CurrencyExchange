@@ -66,7 +66,7 @@ namespace CurrencyExchange.Models.Repository.Services
             if (Current.Result != null)
             {
                 var p = Current.Result.GetType().GetProperty("Deleted");
-                p.SetValue(Current.Result, false);
+                p.SetValue(Current.Result, true);
                 _context.Set<TEntity>().Update(Current.Result);
             }
         }

@@ -45,6 +45,7 @@ namespace CurrencyExchange.Areas.Membership
             var _entity = await _OrderSrv.GetById(Id);
             if (_entity == null) return NotFound(DefaultMessages.NotFound);
             _OrderSrv.Remove(Id);
+            _OrderSrv.SaveChanges();
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]

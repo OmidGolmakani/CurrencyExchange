@@ -31,9 +31,9 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             #endregion Identity
             services.AddScoped<Account, Account>();
             services.AddScoped<ChatHub, ChatHub>();
-            services.AddScoped(typeof(IRepository< >),typeof(Repository< >));
-            services.AddScoped(typeof(Repository<Models.Entity.Order>), typeof(Repository<Models.Entity.Order>));
-            services.AddScoped(typeof(IOrder), typeof(Models.Repository.Services.Order));
+            services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped(typeof(Repository<Models.Entity.Order, long>), typeof(Repository<Models.Entity.Order, long>));
+            services.AddScoped(typeof(IOrder<long>), typeof(Models.Repository.Services.Order));
             services.AddScoped<Models.Repository.Services.Order, Models.Repository.Services.Order>();
             return services;
         }
