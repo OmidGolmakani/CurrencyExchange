@@ -32,9 +32,16 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<Account, Account>();
             services.AddScoped<ChatHub, ChatHub>();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            #region Order
             services.AddScoped(typeof(Repository<Models.Entity.Order, long>), typeof(Repository<Models.Entity.Order, long>));
             services.AddScoped(typeof(IOrder<long>), typeof(Models.Repository.Services.Order));
             services.AddScoped<Models.Repository.Services.Order, Models.Repository.Services.Order>();
+            #endregion Order
+            #region Trades
+            services.AddScoped(typeof(Repository<Models.Entity.Trades, long>), typeof(Repository<Models.Entity.Trades, long>));
+            services.AddScoped(typeof(ITrades<long>), typeof(Models.Repository.Services.Trades));
+            services.AddScoped<Models.Repository.Services.Trades, Models.Repository.Services.Trades>();
+            #endregion Trades
             return services;
         }
     }

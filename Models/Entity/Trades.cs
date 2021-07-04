@@ -15,9 +15,9 @@ namespace CurrencyExchange.Models.Entity
         public long Id { get; set; }
         public Nullable<long> OrderId { get; set; }
         [Required]
-        public DateTime BuyDate { get; set; }
+        public DateTime TradeDate { get; set; }
         [Required]
-        public long BuyNum { get; set; }
+        public long TradeNum { get; set; }
         [Required]
         public long UserId { get; set; }
         [Required]
