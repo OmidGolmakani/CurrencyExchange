@@ -17,6 +17,7 @@ namespace CurrencyExchange.Configs
             CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             CreateMap<CurrencyChange, CurrencyChangeDto>().ReverseMap();
             CreateMap<Currency, CurrencyDto>().ReverseMap();
+            CreateMap<Currency, CUCurrencyDto>().ReverseMap();
             CreateMap<Order, OrderDto>().ReverseMap();
             #endregion Identity Tables
         }
