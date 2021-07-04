@@ -10,7 +10,7 @@ namespace CurrencyExchange.Models.Dto.Orders
 {
     public class CUOrderDto
     {
-        public long Id { get; set; }
+        public Nullable<long> Id { get; set; }
         public string OrderSolarDate { get; set; }
         private DateTime _OrderDate;
         [JsonIgnore]
