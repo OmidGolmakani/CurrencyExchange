@@ -10,22 +10,15 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
 {
     public class ApplicationUserDto : BaseDto
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Family { get; set; }
-        public string UserFullName
-        {
-            get
-            {
-                return string.Format("{0} {1}", this.Name, this.Family);
-            }
-        }
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string Name { get; set; }
+        public string Family { get; set; }
         public string NationalCode { get; set; }
-        public string ShopName { get; set; }
-        public string Domain { get; set; }
+        public bool NationalCodeConfirmed { get; set; }
+        public string Tel { get; set; }
+        public bool TelConfirmed { get; set; }
         [JsonIgnore]
         public override bool Published { get => base.Published; set => base.Published = value; }
         [JsonIgnore]
