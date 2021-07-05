@@ -15,7 +15,7 @@ namespace CurrencyExchange.Validation
         {
             context = dbContext;
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.CreateDate).NotEmpty().NotNull().WithMessage("تاریخ سفارش اجباری می باشد");
+            RuleFor(x => x.TradeDate).NotEmpty().NotNull().WithMessage("تاریخ سفارش اجباری می باشد");
             RuleFor(x => x.UserId).NotNull().NotEmpty().WithMessage("لطفا کاربر را انتخاب نمایید");
             RuleFor(x => x.CurrencyId).NotEmpty().NotNull().WithMessage("نوع ارز اجباری می باشد");
             RuleFor(x => x.Quantity).NotNull().NotEmpty().WithMessage("تعداد اجباری می باشد");

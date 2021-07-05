@@ -3,6 +3,7 @@ using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Dto.BankAccounts;
 using CurrencyExchange.Models.Dto.Currencies;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
+using CurrencyExchange.Models.Dto.Images;
 using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Dto.Trades;
 using CurrencyExchange.Models.Entity;
@@ -38,6 +39,10 @@ namespace CurrencyExchange.Configs
             CreateMap<BankAccount, BankAccountDto>().ReverseMap();
             CreateMap<BankAccount, CUBankAccountDto>().ReverseMap();
             #endregion Bank Account
+            #region Image
+            CreateMap<Image, ImageDto>().ReverseMap();
+            CreateMap<Image, CUImageDto>().ReverseMap();
+            #endregion Image
         }
     }
 }

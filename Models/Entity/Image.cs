@@ -16,12 +16,11 @@ namespace CurrencyExchange.Models.Entity
         public long UserId { get; set; }
         [Required]
         public byte ImageTypeId { get; set; }
-        [MaxLength(70)]
-        [Required]
-        public string ImageName { get; set; }
         [MaxLength(200)]
         [Required]
         public string FileName { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
     }
