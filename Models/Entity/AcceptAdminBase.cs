@@ -17,6 +17,8 @@ namespace CurrencyExchange.Models.Entity
         public Nullable<long> AdminId { get; set; }
         public byte VerifyType { get; set; }
         public Nullable<DateTime> AdminConfirmDate { get; set; }
+        [StringLength(500)]
+        public string AdminDescription { get; set; }
         [ForeignKey("AdminId")]
         public virtual ApplicationUser AdminUser { get; set; }
     }
