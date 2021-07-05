@@ -62,7 +62,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var Result = mapper.Map<List<Trades>>(await _TradesSrv.GetAll());
+            var Result = mapper.Map<List<TradesDto>>(await _TradesSrv.GetAll());
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);

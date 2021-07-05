@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
+using CurrencyExchange.Models.Dto.BankAccounts;
 using CurrencyExchange.Models.Dto.Currencies;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
 using CurrencyExchange.Models.Dto.Orders;
@@ -33,6 +34,10 @@ namespace CurrencyExchange.Configs
             CreateMap<Trades, TradesDto>().ReverseMap();
             CreateMap<Trades, CUTradeDto>().ReverseMap();
             #endregion Trades
+            #region Bank Account
+            CreateMap<BankAccount, BankAccountDto>().ReverseMap();
+            CreateMap<BankAccount, CUBankAccountDto>().ReverseMap();
+            #endregion Bank Account
         }
     }
 }

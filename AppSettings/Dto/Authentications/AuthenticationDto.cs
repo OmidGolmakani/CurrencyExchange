@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.AppSettings.Dto.Authentications
 {
-    public class Authentication
+    public class AuthenticationDto
     {
         public string SecretKey { get; set; }
         public int ExpiryTime { get; set; }

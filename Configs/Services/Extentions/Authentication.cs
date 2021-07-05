@@ -15,7 +15,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
         public static IServiceCollection AddMyAuthorization(this IServiceCollection services,
                                                             IConfiguration configuration)
         {
-            AppSettings.Dto.Authentications.Authentication authorizationOption = new AppSettings.Dto.Authentications.Authentication();
+            AppSettings.Dto.Authentications.AuthenticationDto authorizationOption = new AppSettings.Dto.Authentications.AuthenticationDto();
             configuration.GetSection("Authentication").Bind(authorizationOption);
 
             services.AddAuthentication(configureOptions: option =>

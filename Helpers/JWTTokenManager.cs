@@ -18,11 +18,11 @@ namespace CurrencyExchange.Helper
     public class JWTTokenManager
     {
         internal static IConfiguration configuration = null;
-        private static Authentication AuthInfo
+        private static AuthenticationDto AuthInfo
         {
             get
             {
-                Authentication authorizationOption = new Authentication();
+                AuthenticationDto authorizationOption = new AuthenticationDto();
                 configuration.GetSection("Authentication").Bind(authorizationOption);
                 return authorizationOption;
             }
