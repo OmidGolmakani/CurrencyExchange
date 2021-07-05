@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.AppSettings.Dto.DirectoryConfigs
+namespace CurrencyExchange.OtherServices.Base
 {
-    public class ConfigsDto
+    public class BaseSevice
     {
         
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.AppSettings.Dto.EmailConfigs
+namespace Selle.WebApp.Services.External.Email.Dto
 {
     public class MailServer
     {

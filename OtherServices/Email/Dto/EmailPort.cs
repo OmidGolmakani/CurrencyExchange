@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.AppSettings.Dto.EmailConfigs
+namespace Selle.WebApp.Services.External.Email.Dto
 {
-    public class EmailPortDto
+    public class EmailPort
     {
-        public string Name { get; set; }
+        public Enum.EmailConfig.EmailPort Name { get; set; }
         public int Port { get; set; }
     }
 }
