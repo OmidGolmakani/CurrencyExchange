@@ -14,6 +14,10 @@ namespace CurrencyExchange.Models.Entity
     {
         public ApplicationUser()
         {
+            Orders = new HashSet<Order>();
+            Trades = new HashSet<Trades>();
+            BankAccounts = new HashSet<BankAccount>();
+            Images = new HashSet<Image>();
         }
         [MaxLength(100)]
         public override string SecurityStamp { get => base.SecurityStamp; set => base.SecurityStamp = value; }
@@ -42,5 +46,13 @@ namespace CurrencyExchange.Models.Entity
         [StringLength(13)]
         public string Tel { get; set; }
         [DefaultValue(false)]
+        public bool TelConfirmed { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Trades> Trades { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
+
+
+
     }
 }

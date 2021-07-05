@@ -8,6 +8,9 @@ namespace CurrencyExchange.Models.Entity
     public class ErrorLog
     {
         public long Id { get; set; }
+        [StringLength(15)]
+        public string Ip { get; set; }
+        public string Browser { get; set; }
         public DateTime ExceptionDate { get; set; }
         public string ExceptionMessage { get; set; }
         [MaxLength(200)]
