@@ -1,35 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Orders
 {
     public class CUOrderDto
     {
         public Nullable<long> Id { get; set; }
-        public string OrderSolarDate { get; set; }
-        private DateTime _OrderDate;
         [JsonIgnore]
         public DateTime OrderDate
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(OrderSolarDate, OrderTime) ?? DateTime.Now);
+                return (Helper.PersionDate.GetMiladi(_OrderSolarDate, _OrderTime) ?? DateTime.Now);
+            }
+        }
+        private DateTime _OrderDate;
+
+        private string _OrderSolarDate = Helper.PersionDate.GetShamsiToday();
+        public string OrderSolarDate
+        {
+            get
+            {
+                return _OrderSolarDate;
             }
             set
             {
-                _OrderDate = value;
+                if (string.IsNullOrEmpty(value) == false && Helper.PersionDate.IsShamsi(_OrderSolarDate))
+                {
+                    _OrderSolarDate = value;
+                }
             }
         }
-        public string OrderTime { get; set; }
-        [JsonIgnore]
+        private string _OrderTime = DateTime.Now.ToString("HH:mm:ss");
+        public string OrderTime
+        {
+            get
+            {
+                return _OrderTime;
+            }
+            set
+            {
+                DateTime t;
+                if (string.IsNullOrEmpty(value) == false && DateTime.TryParse(_OrderTime, out t))
+                {
+                    _OrderSolarDate = value;
+                }
+            }
+        }
+
+            [JsonIgnore]
         public long OrderNum { get; set; }
         public long UserId { get; set; }
+        public string UserFullName { get; set; }
         public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
         public int Quantity { get; set; }
         public decimal InstantPrice { get; set; }
         public decimal CurrencyPrice { get; set; }

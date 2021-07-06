@@ -14,19 +14,42 @@ namespace CurrencyExchange.Models.Dto.CurrencyChanges
         public decimal BuyPrice { get; set; }
         public decimal SalePrice { get; set; }
         [JsonIgnore]
-        public DateTime LastChangeDate { get; set; }
+        public DateTime LastChangeDate
+        {
+            get
+            {
+                return (Helper.PersionDate.GetMiladi(_LastChangeSolarDate, _LastChangeSolarDate) ?? DateTime.Now);
+            }
+        }
+        private string _LastChangeSolarDate = Helper.PersionDate.GetShamsiToday();
         public string LastChangeSolarDate
         {
             get
             {
-                return Helper.PersionDate.GetShamsi(LastChangeDate);
+                return _LastChangeSolarDate;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value) == false && Helper.PersionDate.IsShamsi(_LastChangeSolarDate))
+                {
+                    _LastChangeSolarDate = value;
+                }
             }
         }
+        private string _LastChangeTime = DateTime.Now.ToString("HH:mm:ss");
         public string LastChangeTime
         {
             get
             {
-                return Helper.PersionDate.GetTimeFromDate(LastChangeDate);
+                return _LastChangeTime;
+            }
+            set
+            {
+                DateTime t;
+                if (string.IsNullOrEmpty(value) == false && DateTime.TryParse(_LastChangeTime, out t))
+                {
+                    _LastChangeSolarDate = value;
+                }
             }
         }
     }

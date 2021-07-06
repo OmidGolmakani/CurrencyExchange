@@ -33,7 +33,14 @@ namespace CurrencyExchange.Configs
             #endregion Orders            
             #region Trades
             CreateMap<Trades, TradesDto>().ReverseMap();
-            CreateMap<Trades, CUTradeDto>().ReverseMap();
+            CreateMap<Trades, CUTradeDto>().ForMember(dest => dest.InstantPrice, opts =>
+            {
+                opts.MapFrom(src => src.Order.InstantPrice);
+            }).ForMember(dest => dest.CurrencyId, opts =>
+            {
+                opts.MapFrom(src => src.Order.CurrencyId);
+            });
+            CreateMap<CUTradeDto, Trades>();
             #endregion Trades
             #region Bank Account
             CreateMap<BankAccount, BankAccountDto>().ReverseMap();

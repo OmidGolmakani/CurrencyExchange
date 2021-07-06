@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class CurrencyChangeController : BaseController<CurrencyChangeController>, IController<CurrencyChangeDto, long>
+    public class CurrencyChangeController : BaseController<CurrencyChangeController>, IController<CUCurrencyChangeDto, long>
     {
         private readonly IRepository<CurrencyChange, long> _currencyChangeSrv;
         private readonly IMapper mapper;
@@ -27,10 +27,10 @@ namespace CurrencyExchange.Areas.Membership
             this.mapper = mapper;
             this.dbContext = DbContext;
         }
-        [HttpGet("Add")]
-        public async Task<IActionResult> Add(CurrencyChangeDto entity)
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add(CUCurrencyChangeDto entity)
         {
-            var _entity = mapper.Map<CurrencyChangeDto, CurrencyChange>(entity);
+            var _entity = mapper.Map<CUCurrencyChangeDto, CurrencyChange>(entity);
             CurrencyChangeValidator validator = new CurrencyChangeValidator(dbContext);
             validator.ValidateAndThrow(_entity);
             var Result = _currencyChangeSrv.Add(_entity);
@@ -47,11 +47,11 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(Id.ToLong());
         }
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit(CurrencyChangeDto entity)
+        public async Task<IActionResult> Edit(CUCurrencyChangeDto entity)
         {
             if (entity.Id == 0) return BadRequest(DefaultMessages.IdBadRequestWithAdd);
             CurrencyChange _entity = new CurrencyChange();
-            mapper.Map<CurrencyChangeDto, CurrencyChange>(entity, _entity);
+            mapper.Map<CUCurrencyChangeDto, CurrencyChange>(entity, _entity);
             CurrencyChangeValidator validator = new CurrencyChangeValidator(dbContext);
             validator.ValidateAndThrow(_entity);
             _currencyChangeSrv.Update(_entity);

@@ -19,10 +19,6 @@ namespace CurrencyExchange.Models.Entity
         [Required]
         public long TradeNum { get; set; }
         [Required]
-        public long UserId { get; set; }
-        [Required]
-        public int CurrencyId { get; set; }
-        [Required]
         public int Quantity { get; set; }
         [Required]
         [DataType("decimal(18 ,4)")]
@@ -34,9 +30,7 @@ namespace CurrencyExchange.Models.Entity
         public byte Status { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
-        [ForeignKey("UserId")]
-        public virtual ApplicationUser TradesUser { get; set; }
-        [ForeignKey("CurrencyId")]
-        public virtual Currency  Currency { get; set; }
+        [ForeignKey("OrderId")]
+        public virtual Order Order { get; set; }
     }
 }
