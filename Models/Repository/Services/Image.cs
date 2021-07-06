@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class Image : IImage<long>
+    public class Image : IImage
     {
         private readonly Repository<Entity.Image, long> ImageRepository;
 

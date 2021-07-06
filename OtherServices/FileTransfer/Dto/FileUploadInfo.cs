@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Selle.WebApp.Services.External.FileTransfer.Enum.Type;
+using static CurrencyExchange.OtherServices.FileTransfer.Enum.Type;
 
 namespace CurrencyExchange.OtherServices.FileTransfer.Dto
 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Areas.Membership.Interfaces
 {
-    public interface IController<T,T1> where T : class, new()
+    public interface IController<T,T1> where T : class
     {
         public Task<IActionResult> Add(T entity);
         public Task<IActionResult> Edit(T entity);

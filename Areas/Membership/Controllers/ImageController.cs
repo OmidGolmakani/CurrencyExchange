@@ -13,13 +13,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class ImageController : BaseController<ImageController>, IController<CUImageDto, long>
+    public class ImageController : BaseController<ImageController>, IImageController
     {
-        private readonly IRepository<Image, long> _ImageSrv;
+        private readonly IImage _ImageSrv;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext;
 
-        public ImageController(IRepository<Image, long> ImageSrv,
+        public ImageController(IImage ImageSrv,
                                IMapper mapper,
                                ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
@@ -78,6 +78,19 @@ namespace CurrencyExchange.Areas.Membership
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
+            }
+            else
+            {
+                return Ok(Result);
+            }
+        }
+        [HttpGet("GetByUserId{UserId}")]
+        public async Task<IActionResult> GetByUserId(long UserId)
+        {
+            var Result = mapper.Map<List<ImageDto>>(await _ImageSrv.GetImageByUserId(UserId));
+            if (Result.Count == 0)
+            {
+                return Ok(DefaultMessages.ListEmpty);
             }
             else
             {

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IImage<T> : IRepository<Image,T>
+    public interface IImage : IRepository<Image,long>
     {
-        Task<IEnumerable<Image>> GetImageByUserId(T UserId);
+        Task<IEnumerable<Image>> GetImageByUserId(long UserId);
     }
 }
