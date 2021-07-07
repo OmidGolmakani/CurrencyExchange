@@ -146,7 +146,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<SignInResultDto> SignIn(UserLoginDto login)
+        public Task<SignInResultDto> SignIn(CUserLoginDto login)
         {
             try
             {

@@ -75,7 +75,7 @@ namespace CurrencyExchange.Areas.Membership
         }
         [AllowAnonymous]
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignInUser(UserLoginDto user)
+        public async Task<IActionResult> SignInUser(CUserLoginDto user)
         {
 
             try

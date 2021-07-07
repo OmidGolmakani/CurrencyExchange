@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.ApplicationUsers
 {
-    public class UserLoginDto : BaseDto
+    public class CUserLoginDto : BaseDto
     {
         public string UserName { get; set; }
         public string Password { get; set; }
