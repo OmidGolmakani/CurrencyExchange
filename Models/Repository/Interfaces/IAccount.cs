@@ -12,7 +12,7 @@ namespace CurrencyExchange.Models.Repository.Interfaces
 {
     public interface IAccount<T> : IRepository<ApplicationUserDto, long>
     {
-        public Task<ApplicationUserDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo);
+        public Task<long> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo);
         public Task<SignInResultDto> SignIn(CUserLoginDto login);
         public Task SignOut();
         public Task<bool> SendEmailToken(long UserId);
