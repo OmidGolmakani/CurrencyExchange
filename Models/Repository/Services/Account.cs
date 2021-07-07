@@ -56,7 +56,8 @@ namespace CurrencyExchange.Models.Repository.Services
             {
                 var _user = _mapper.Map<ApplicationUser>(RegisterInfo);
                 _user.PasswordHash = _userManager.PasswordHasher.HashPassword(_user, RegisterInfo.Password);
-                _user.UserName = string.Format("User{0}", _dbContext.Users.Count() + 1);
+                _user.UserName = RegisterInfo.PhoneNumber;
+                //_user.UserName = string.Format("User{0}", _dbContext.Users.Count() + 1);
                 ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _userManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
@@ -159,7 +160,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 }
                 else
                 {
-                    var SigninResult = _signInManager.PasswordSignInAsync(_user.Result, login.Password, false, false);
+                    var SigninResult = _signInManager.PasswordSignInAsync(login.UserName, login.Password, false, false);
                     SigninResult.Wait();
                     if (SigninResult.Result.Succeeded)
                     {

@@ -27,7 +27,7 @@ namespace CurrencyExchange
         {
             this._configuration = configuration;
             this._env = env;
-            //Helper.JWTTokenManager.configuration = configuration;
+            Helper.JWTTokenManager.configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }

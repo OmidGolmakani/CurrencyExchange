@@ -73,7 +73,7 @@ namespace CurrencyExchange.Helper
             claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, _User.Id.ToString()));
             claims.AddClaim(new Claim(ClaimTypes.Name, _User.UserName));
             claims.AddClaim(new Claim(ClaimTypes.MobilePhone, _User.PhoneNumber));
-            claims.AddClaim(new Claim(ClaimTypes.Email, _User.Email));
+            claims.AddClaim(new Claim(ClaimTypes.Email, _User.Email ?? ""));
             claims.AddClaim(new Claim(ClaimTypes.Expired, DateTime.Now.AddMinutes(AuthInfo.ExpiryTime).ToString()));
             claims.AddClaim(new Claim(ClaimTypes.Role, string.Join(string.Empty, _Roles.Select(x => x.RoleName).ToArray())));
 
