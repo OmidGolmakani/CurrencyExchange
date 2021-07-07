@@ -1,4 +1,6 @@
-﻿using CurrencyExchange.Data;
+﻿using CurrencyExchange.CustomException.Dto;
+using CurrencyExchange.Data;
+using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,107 +32,107 @@ namespace CurrencyExchange.Filter
             {
                 return;
             }
-            //ErrorDto Err = null;
+            ErrorDto Err = null;
             bool hasAllowAnonymous = context.ActionDescriptor.EndpointMetadata
                                 .Any(em => em.GetType() == typeof(AllowAnonymousAttribute));
-            //if (!hasAllowAnonymous)
-            //{
-            //    var Result = new JsonResult(new ErrorDto());
-            //    Result.ContentType = "application/json";
-            //    if (context.HttpContext.Request.Headers["Authorization"].ToString().StartsWith("Bearer") == false)
-            //    {
-            //        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Err = new ErrorDto()
-            //        {
-            //            Message = "توکن ارسال نشده است",
-            //            StatusCode = context.HttpContext.Response.StatusCode
-            //        };
+            if (!hasAllowAnonymous)
+            {
+                var Result = new JsonResult(new ErrorDto());
+                Result.ContentType = "application/json";
+                if (context.HttpContext.Request.Headers["Authorization"].ToString().StartsWith("Bearer") == false)
+                {
+                    context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                    Err = new ErrorDto()
+                    {
+                        Message = "توکن ارسال نشده است",
+                        StatusCode = context.HttpContext.Response.StatusCode
+                    };
 
-            //        Result.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Result.Value = Err;
-            //        context.Result = Result;
-            //        return;
-            //    }
-            //    var token = context.HttpContext.Request.Headers["Authorization"].ToString();
-            //    if (token == "")
-            //    {
-            //        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Err = new ErrorDto()
-            //        {
-            //            Message = "توکن ارسال نشده است",
-            //            StatusCode = context.HttpContext.Response.StatusCode
-            //        };
+                    Result.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                    Result.Value = Err;
+                    context.Result = Result;
+                    return;
+                }
+                var token = context.HttpContext.Request.Headers["Authorization"].ToString();
+                if (token == "")
+                {
+                    context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                    Err = new ErrorDto()
+                    {
+                        Message = "توکن ارسال نشده است",
+                        StatusCode = context.HttpContext.Response.StatusCode
+                    };
 
-            //        Result.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Result.Value = Err;
-            //        context.Result = Result;
-            //        return;
-            //    }
-            //    token = token.Substring(6, token.Length - 6).Trim();
+                    Result.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                    Result.Value = Err;
+                    context.Result = Result;
+                    return;
+                }
+                token = token.Substring(6, token.Length - 6).Trim();
 
 
-            //    var dbContext = context.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
+                var dbContext = context.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
 
-            //    var User = WebApp.Helper.JWTTokenManager.ValidateToken(token, dbContext);
-            //    if (User == null)
-            //    {
-            //        var AccountService = context.HttpContext.RequestServices.GetRequiredService<Services.AccountsService>();
-            //        AccountService.SignOut();
-            //        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Err = new ErrorDto()
-            //        {
-            //            Message = "توکن ارسال شده نا معتبر است",
-            //            StatusCode = context.HttpContext.Response.StatusCode
-            //        };
-            //        Result.Value = Err;
-            //        Result.StatusCode = context.HttpContext.Response.StatusCode;
-            //        context.Result = Result;
-            //        return;
-            //    }
-            //    bool IsAdmin = false;
-            //    IsAdmin = true ? (from u in dbContext.Users
-            //                      join ur in dbContext.UserRoles
-            //                      on u.Id equals ur.UserId
-            //                      join r in dbContext.Roles
-            //                      on ur.RoleId equals r.Id
-            //                      where u.UserName == User && r.Name == "Administrator"
-            //                      select 1).Count() != 0 : false;
-            //    if (IsAdmin == false)
-            //    {
-            //        var Route = context.RouteData;
-            //        string CurrentController = Route.Values["Controller"].ToString();
-            //        string CurrentAction = Route.Values["Action"].ToString();
-            //        string Url = string.Format("/api/{0}/{1}", CurrentController, CurrentAction);
-            //        var p = dbContext.RolePermissions.FirstOrDefault(x => x.Url == Url);
-            //        if (p == null)
-            //        {
-            //            context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //            Err = new ErrorDto()
-            //            {
-            //                Message = "دسترسی شما به این آدرس وجود ندارد",
-            //                StatusCode = context.HttpContext.Response.StatusCode
-            //            };
-            //            Result.Value = Err;
-            //            Result.StatusCode = context.HttpContext.Response.StatusCode;
-            //            context.Result = Result;
-            //            return;
-            //        }
-            //        p.Id = 0;
-            //        if ((Helper.JWTTokenManager.ValidatePermissionToken(p.Token) == null) ||
-            //            (!Helper.JWTTokenManager.ValidatePermissionToken(p.Token).Equals(p.Url))
-            //            )
-            //        {
-            //            context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //            Err = new ErrorDto()
-            //            {
-            //                Message = "دسترسی شما به این آدرس وجود ندارد",
-            //                StatusCode = context.HttpContext.Response.StatusCode
-            //            };
-            //            context.Result = new JsonResult(Err);
-            //            return;
-            //        }
-            //    }
-            //}
+                var User = Helper.JWTTokenManager.ValidateToken(token, dbContext);
+                if (User == null)
+                {
+                    var AccountService = context.HttpContext.RequestServices.GetRequiredService<Account>();
+                    AccountService.SignOut();
+                    context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                    Err = new ErrorDto()
+                    {
+                        Message = "توکن ارسال شده نا معتبر است",
+                        StatusCode = context.HttpContext.Response.StatusCode
+                    };
+                    Result.Value = Err;
+                    Result.StatusCode = context.HttpContext.Response.StatusCode;
+                    context.Result = Result;
+                    return;
+                }
+                bool IsAdmin = false;
+                IsAdmin = true ? (from u in dbContext.Users
+                                  join ur in dbContext.UserRoles
+                                  on u.Id equals ur.UserId
+                                  join r in dbContext.Roles
+                                  on ur.RoleId equals r.Id
+                                  where u.UserName == User && r.Name == "Administrator"
+                                  select 1).Count() != 0 : false;
+                if (IsAdmin == false)
+                {
+                    var Route = context.RouteData;
+                    string CurrentController = Route.Values["Controller"].ToString();
+                    string CurrentAction = Route.Values["Action"].ToString();
+                    string Url = string.Format("/api/{0}/{1}", CurrentController, CurrentAction);
+                    var p = dbContext.RolePermissions.FirstOrDefault(x => x.Url == Url);
+                    if (p == null)
+                    {
+                        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                        Err = new ErrorDto()
+                        {
+                            Message = "دسترسی شما به این آدرس وجود ندارد",
+                            StatusCode = context.HttpContext.Response.StatusCode
+                        };
+                        Result.Value = Err;
+                        Result.StatusCode = context.HttpContext.Response.StatusCode;
+                        context.Result = Result;
+                        return;
+                    }
+                    p.Id = 0;
+                    if ((Helper.JWTTokenManager.ValidatePermissionToken(p.Token) == null) ||
+                        (!Helper.JWTTokenManager.ValidatePermissionToken(p.Token).Equals(p.Url))
+                        )
+                    {
+                        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
+                        Err = new ErrorDto()
+                        {
+                            Message = "دسترسی شما به این آدرس وجود ندارد",
+                            StatusCode = context.HttpContext.Response.StatusCode
+                        };
+                        context.Result = new JsonResult(Err);
+                        return;
+                    }
+                }
+            }
             base.OnActionExecuting(context);
         }
         public override void OnActionExecuted(ActionExecutedContext context)

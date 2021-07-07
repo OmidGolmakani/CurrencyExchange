@@ -57,7 +57,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 var _user = _mapper.Map<ApplicationUser>(RegisterInfo);
                 _user.PasswordHash = _userManager.PasswordHasher.HashPassword(_user, RegisterInfo.Password);
                 _user.UserName = RegisterInfo.PhoneNumber;
-                //_user.UserName = string.Format("User{0}", _dbContext.Users.Count() + 1);
+                _user.PhoneNumberConfirmed = true;
                 ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _userManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
