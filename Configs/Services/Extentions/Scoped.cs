@@ -34,7 +34,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             #region Order
             services.AddScoped(typeof(Repository<Models.Entity.Order, long>), typeof(Repository<Models.Entity.Order, long>));
-            services.AddScoped(typeof(IOrder<long>), typeof(Models.Repository.Services.Order));
+            services.AddScoped(typeof(IOrder), typeof(Models.Repository.Services.Order));
             services.AddScoped<Models.Repository.Services.Order, Models.Repository.Services.Order>();
             #endregion Order
             #region Trades

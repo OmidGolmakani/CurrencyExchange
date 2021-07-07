@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Data;
+using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class Order : IOrder<long>
+    public class Order : IOrder
     {
         private readonly Repository<Entity.Order, long> orderRepository;
 
@@ -45,10 +46,16 @@ namespace CurrencyExchange.Models.Repository.Services
             return orderRepository.GetById(Id);
         }
 
-        public Task<long> GetNeOrderNum()
+        public Task<long> GetNewOrderNum()
         {
             var Result = GetAll().Result;
             return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.OrderNum));
+        }
+
+        public Task<IEnumerable<Models.Entity.Order>> GetOrderByStatus(Enum.Order.Status status)
+        {
+            var Result = orderRepository.GetAll().Result.Where(x => x.Status == (byte)status);
+            return Task.FromResult(Result);
         }
 
         public void Remove(long Id)

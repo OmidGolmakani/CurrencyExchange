@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class OrderController : BaseController<OrderController>, IController<CUOrderDto, long>
+    public class OrderController : BaseController<OrderController>, IOrderController
     {
         private readonly Models.Repository.Services.Order _OrderSrv;
         private readonly IMapper mapper;
@@ -33,7 +33,7 @@ namespace CurrencyExchange.Areas.Membership
             var _entity = mapper.Map<CUOrderDto, Order>(entity);
             _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             OrderValidator validator = new OrderValidator(dbContext);
-            _entity.OrderNum = await _OrderSrv.GetNeOrderNum();
+            _entity.OrderNum = await _OrderSrv.GetNewOrderNum();
             validator.ValidateAndThrow(_entity);
             var Result = _OrderSrv.Add(_entity);
             _OrderSrv.SaveChanges();
@@ -80,6 +80,19 @@ namespace CurrencyExchange.Areas.Membership
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
+            }
+            else
+            {
+                return Ok(Result);
+            }
+        }
+        [HttpGet("GetOrdersByStatus{Status})")]
+        public async Task<IActionResult> GetOrdersByStatus(Models.Enum.Order.Status status)
+        {
+            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetOrderByStatus(status));
+            if (Result.Count == 0)
+            {
+                return Ok(DefaultMessages.ListEmpty);
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Entity;
+﻿using CurrencyExchange.Models.Dto.Orders;
+using CurrencyExchange.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IOrder<T> : IRepository<Order,T>
+    public interface IOrder : IRepository<Order,long>
     {
-        Task<long> GetNeOrderNum();
+        Task<long> GetNewOrderNum();
+        Task<IEnumerable<Order>> GetOrderByStatus(Enum.Order.Status status);
     }
 }
