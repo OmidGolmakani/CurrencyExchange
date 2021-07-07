@@ -50,7 +50,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationUserDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
+        public Task<long> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 {
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                 }
-                return Task.FromResult(_mapper.Map<ApplicationUserDto>(_user));
+                return Task.FromResult(_user.Id);
             }
             catch (MyException ex)
             {
