@@ -12,5 +12,10 @@ namespace CurrencyExchange.Models.Enum
             AwaitingConfirmation = 1,
             Confirmation = 2
         }
+        public enum OrderType
+        {
+            Buy = 1,
+            Sales = 2
+        }
     }
 }

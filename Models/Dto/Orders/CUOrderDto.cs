@@ -47,9 +47,25 @@ namespace CurrencyExchange.Models.Dto.Orders
                 }
             }
         }
-
-            [JsonIgnore]
+        [JsonIgnore]
         public long OrderNum { get; set; }
+        public byte OrderTypeId { get; set; }
+        public string OrderTypeName
+        {
+            get
+            {
+                Enum.Order.OrderType orderType = (Enum.Order.OrderType)OrderTypeId;
+                switch (orderType)
+                {
+                    case Enum.Order.OrderType.Buy:
+                        return "خرید";
+                    case Enum.Order.OrderType.Sales:
+                        return "فروش";
+                    default:
+                        return "";
+                }
+            }
+        }
         public long UserId { get; set; }
         public string UserFullName { get; set; }
         public int CurrencyId { get; set; }

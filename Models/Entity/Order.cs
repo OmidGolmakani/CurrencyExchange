@@ -19,6 +19,7 @@ namespace CurrencyExchange.Models.Entity
         public long OrderNum { get; set; }
         [Required]
         public long UserId { get; set; }
+        public byte OrderTypeId { get; set; }
         [Required]
         public int CurrencyId { get; set; }
         [Required]
