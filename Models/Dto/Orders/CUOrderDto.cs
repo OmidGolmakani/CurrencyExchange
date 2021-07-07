@@ -15,7 +15,6 @@ namespace CurrencyExchange.Models.Dto.Orders
                 return (Helper.PersionDate.GetMiladi(_OrderSolarDate, _OrderTime) ?? DateTime.Now);
             }
         }
-        private DateTime _OrderDate;
 
         private string _OrderSolarDate = Helper.PersionDate.GetShamsiToday();
         public string OrderSolarDate

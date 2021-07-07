@@ -32,8 +32,7 @@ namespace CurrencyExchange.Data
             builder.Entity<Currency>().HasMany(Orders => Orders.Orders)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
             //Buy
-            builder.Entity<Currency>().HasMany(Trades => Trades.Trades)
-                .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Currency>().HasMany(Trades => Trades.Trades);
             //Currency Change
             builder.Entity<Currency>().HasMany(CurrencyChanges => CurrencyChanges.CurrencyChanges)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.Cascade);
@@ -48,8 +47,7 @@ namespace CurrencyExchange.Data
             builder.Entity<ApplicationUser>().HasMany(Orders => Orders.Orders)
                 .WithOne(ApplicationUser => ApplicationUser.OrderUser).OnDelete(DeleteBehavior.NoAction);
             ///Trades
-            builder.Entity<ApplicationUser>().HasMany(Trades => Trades.Trades)
-                .WithOne(ApplicationUser => ApplicationUser.TradesUser).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<ApplicationUser>().HasMany(Trades => Trades.Trades);
             ///BankAccount
             builder.Entity<ApplicationUser>().HasMany(BankAccounts => BankAccounts.BankAccounts)
                 .WithOne(ApplicationUser => ApplicationUser.User).OnDelete(DeleteBehavior.NoAction);
