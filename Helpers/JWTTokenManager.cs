@@ -189,7 +189,7 @@ namespace CurrencyExchange.Helper
                                                            x.Id == id &&
                                                            x.UserName == UserName &&
                                                            x.PhoneNumber == Phone &&
-                                                           x.Email == Email);
+                                                           x.Email == (Email != "" ? Email : null));
                 if (User == null)
                 {
                     throw new Exception("توکن ارسال شده نامعتبر است");

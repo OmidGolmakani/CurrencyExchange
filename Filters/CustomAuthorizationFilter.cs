@@ -89,14 +89,14 @@ namespace CurrencyExchange.Filter
                     context.Result = Result;
                     return;
                 }
-                bool IsAdmin = false;
-                IsAdmin = true ? (from u in dbContext.Users
-                                  join ur in dbContext.UserRoles
-                                  on u.Id equals ur.UserId
-                                  join r in dbContext.Roles
-                                  on ur.RoleId equals r.Id
-                                  where u.UserName == User && r.Name == "Administrator"
-                                  select 1).Count() != 0 : false;
+                bool IsAdmin = true;
+                //IsAdmin = true ? (from u in dbContext.Users
+                //                  join ur in dbContext.UserRoles
+                //                  on u.Id equals ur.UserId
+                //                  join r in dbContext.Roles
+                //                  on ur.RoleId equals r.Id
+                //                  where u.UserName == User && r.Name == "Administrator"
+                //                  select 1).Count() != 0 : false;
                 if (IsAdmin == false)
                 {
                     var Route = context.RouteData;
