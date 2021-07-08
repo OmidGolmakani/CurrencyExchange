@@ -5,6 +5,7 @@
     <UserSecretsId>aspnet-CurrencyExchange-AB8EDEF5-7432-43AB-9792-2182430A178E</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <Version>1400.04.17.1824</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
