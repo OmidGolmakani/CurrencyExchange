@@ -22,9 +22,10 @@ namespace CurrencyExchange.Models.Validation
             RuleFor(x => x.Id).NotNull();
             RuleFor(x => x.UserName).NotNull().NotEmpty().WithMessage("نام کاربری اجباری می باشد")
                                     .NotEmpty().NotNull()
-                                    .Must(IsUserNameUnique).WithMessage("نام کاربری تکراری می باشد"); 
+                                    .Must(IsUserNameUnique).WithMessage("نام کاربری تکراری می باشد");
             //RuleFor(x => x.Email).Empty().EmailAddress().WithMessage("پست الکترونیک غیر مجاز می باشد");
-            //RuleFor(x => x.PhoneNumber).Empty().Must(PhoneNumberValidator).WithMessage("تلفن همراه غیر مجاز است");
+            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("تلفن همراه احباری می باشد");
+                //Must(PhoneNumberValidator).WithMessage("تلفن همراه غیر مجاز است");
         }
 
         internal bool IsEmailUnique(ApplicationUser editedApplicationUser, string newValue)

@@ -43,7 +43,9 @@ namespace CurrencyExchange.Areas.Membership
         {
             try
             {
-                return Ok(await _account.AddUserWithPhone(RegisterInfo));
+                var Register = await _account.AddUserWithPhone(RegisterInfo);
+                var Login = await _account.SignIn(Register);
+                return Ok(Login);
             }
             catch (MyException ex)
             {

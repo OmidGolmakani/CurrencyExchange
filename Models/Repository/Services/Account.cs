@@ -50,7 +50,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<long> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
+        public Task<CUserLoginDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 {
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                 }
-                return Task.FromResult(_user.Id);
+                return Task.FromResult(new CUserLoginDto() {UserName=_user.UserName,Password=RegisterInfo.Password });
             }
             catch (MyException ex)
             {
