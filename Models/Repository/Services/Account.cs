@@ -72,7 +72,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 {
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                 }
-                return Task.FromResult(new CUserLoginDto() {UserName=_user.UserName,Password=RegisterInfo.Password });
+                return Task.FromResult(new CUserLoginDto() { UserName = _user.UserName, Password = RegisterInfo.Password });
             }
             catch (MyException ex)
             {
@@ -152,7 +152,7 @@ namespace CurrencyExchange.Models.Repository.Services
             try
             {
                 var _user = _userManager.FindByNameAsync(login.UserName);
-                string _token = "";
+                Tuple<string, string> tokenInfo = null;
                 _user.Wait();
                 if (_user.Result == null || _user.Result.Id == 0)
                 {
@@ -164,13 +164,14 @@ namespace CurrencyExchange.Models.Repository.Services
                     SigninResult.Wait();
                     if (SigninResult.Result.Succeeded)
                     {
-                        _token = Helper.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
+                        tokenInfo = Helper.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
                     }
                     SignInResultDto Result = new SignInResultDto()
                     {
                         SignIn = SigninResult.Result,
                         UserId = _user.Result.Id,
-                        Token = _token
+                        Token = tokenInfo.Item1,
+                        ExprireDate = tokenInfo.Item2
                     };
                     return Task.FromResult(Result);
                 }

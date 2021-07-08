@@ -14,7 +14,7 @@ namespace CurrencyExchange.Helper
         /// </summary>
         /// <param name="MildadiDate"></param>
         /// <returns></returns>
-        public static string GetShamsi(DateTime MildadiDate)
+        public static string GetShamsi(DateTime MildadiDate, bool withTime = false)
         {
             try
             {
@@ -28,7 +28,14 @@ namespace CurrencyExchange.Helper
                 int year = pc.GetYear(MildadiDate);
                 int month = pc.GetMonth(MildadiDate);
                 int day = pc.GetDayOfMonth(MildadiDate);
-                return FormatShamsiDate(year, month.ToString(), day.ToString());
+                if (withTime)
+                {
+                    return string.Format("{0} {1}", FormatShamsiDate(year, month.ToString(), day.ToString()),MildadiDate.ToString("HH:mm:ss"));
+                }
+                else
+                {
+                    return FormatShamsiDate(year, month.ToString(), day.ToString());
+                }
             }
             catch (MyException ex)
             {
@@ -76,7 +83,7 @@ namespace CurrencyExchange.Helper
                 }
                 PersianCalendar pc = new PersianCalendar();
                 var split = ShamsiDate.Split(char.Parse("/"));
-                DateTime t ;
+                DateTime t;
                 DateTime Date;
                 if (DateTime.TryParse(Time, out t))
                 {

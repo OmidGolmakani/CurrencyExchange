@@ -9,8 +9,9 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
 {
     public class SignInResultDto
     {
-            public long UserId { get; set; }
-            public SignInResult SignIn { get; set; }
-            public string Token { get; set; }
+        public long UserId { get; set; }
+        public SignInResult SignIn { get; set; }
+        public string ExprireDate { get; set; }
+        public string Token { get; set; }
     }
 }

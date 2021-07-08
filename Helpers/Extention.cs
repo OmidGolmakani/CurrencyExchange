@@ -353,11 +353,11 @@ namespace CurrencyExchange.Helper
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static string ToShamsi(this DateTime x)
+        public static string ToShamsi(this DateTime x, bool withTime)
         {
             try
             {
-                return PersionDate.GetShamsi(x);
+                return PersionDate.GetShamsi(x, withTime);
             }
             catch (MyException ex)
             {

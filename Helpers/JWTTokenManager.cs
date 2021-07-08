@@ -48,7 +48,7 @@ namespace CurrencyExchange.Helper
             SecurityToken token = tokenHandler.CreateToken(TokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        internal static string GenerateToken(string username, ApplicationDbContext dbContext)
+        internal static Tuple<string, string> GenerateToken(string username, ApplicationDbContext dbContext)
         {
             var _User = dbContext.Users.FirstOrDefault(x => x.UserName == username);
             if (_User == null)
@@ -85,7 +85,8 @@ namespace CurrencyExchange.Helper
                 NotBefore = DateTime.Now
             };
             SecurityToken token = tokenHandler.CreateToken(TokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return new Tuple<string, string>(tokenHandler.WriteToken(token),
+                                             DateTime.Now.AddMinutes(AuthInfo.ExpiryTime).ToShamsi(true));
         }
         internal static ClaimsPrincipal GetPrincipal(string token)
         {
