@@ -26,8 +26,6 @@ namespace CurrencyExchange.Models.Entity
         [Required]
         [DataType("decimal(18 ,4)")]
         public decimal CurrencyPrice { get; set; }
-        [Required]
-        public byte Status { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
         [ForeignKey("OrderId")]

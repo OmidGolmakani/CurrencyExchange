@@ -30,7 +30,6 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> Add(CUTradeDto entity)
         {
             var _entity = mapper.Map<CUTradeDto, Trades>(entity);
-            _entity.Status = (byte)Models.Enum.Trades.Status.AwaitingConfirmation;
             TradesValidator validator = new TradesValidator(dbContext);
             _entity.TradeNum = await _TradesSrv.GetNeTradeNum();
             validator.ValidateAndThrow(_entity);
@@ -62,7 +61,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var Result = mapper.Map<List<TradesDto>>(await _TradesSrv.GetAll());
+            var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.GetAll());
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
@@ -75,7 +74,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(long Id)
         {
-            var Result = mapper.Map<TradesDto>(await _TradesSrv.GetById(Id));
+            var Result = mapper.Map<TradeDto>(await _TradesSrv.GetById(Id));
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
