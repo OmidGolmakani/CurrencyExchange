@@ -30,7 +30,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return TradesRepository.AddRange(entities);
         }
 
-        public Task<IEnumerable<Entity.Trades>> Find(Expression<Func<Entity.Trades, bool>> expression)
+        public Task<IEnumerable<Entity.Trades>> Find(Func<Entity.Trades, bool> expression)
         {
             return TradesRepository.Find(expression);
         }

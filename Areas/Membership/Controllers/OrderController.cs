@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.Controllers;
+using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
 using CurrencyExchange.Helper;
 using CurrencyExchange.Models.Dto.Orders;
@@ -9,7 +10,10 @@ using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
@@ -61,6 +65,27 @@ namespace CurrencyExchange.Areas.Membership
             _OrderSrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }
+        [HttpGet("Find")]
+        public async Task<IActionResult> Find(string dateFrom, string dateTo, Models.Enum.Order.OrderType type)
+        {
+            DateTime _dateFrom = dateFrom.ToMiladi();
+            DateTime _dateTo = dateTo.ToMiladi();
+
+            var order = _OrderSrv.Find(x => x.OrderTypeId == 1).Result.ToList();
+
+            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate >= _dateFrom
+                                                                           && x.OrderDate <= _dateTo
+                                                                           && x.OrderTypeId == (byte)type));
+            if (Result.Count == 0)
+            {
+                return Ok(DefaultMessages.ListEmpty);
+            }
+            else
+            {
+                return Ok(Result);
+            }
+        }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {

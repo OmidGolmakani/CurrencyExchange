@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CurrencyExchange.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,21 +12,22 @@ namespace CurrencyExchange.Models.Dto.Orders
     public class OrderDto
     {
         public long Id { get; set; }
-        public string OrderSolarDate { get; set; }
-        private DateTime _OrderDate;
-        [JsonIgnore]
-        public DateTime OrderDate
+        public string OrderSolarDate
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(OrderSolarDate, OrderTime) ?? DateTime.Now);
+                return OrderDate.ToShamsi();
             }
-            set
+        }
+        [JsonIgnore]
+        public DateTime OrderDate { get; set; }
+        public string OrderTime
+        {
+            get
             {
-                _OrderDate = value;
+                return OrderDate.ToString("HH:mm:ss");
             }
-        }   
-        public string OrderTime { get; set; }
+        }
         [JsonIgnore]
         public long OrderNum { get; set; }
         public long UserId { get; set; }
@@ -51,7 +53,7 @@ namespace CurrencyExchange.Models.Dto.Orders
                         return "";
                 }
             }
-        } 
+        }
         [JsonIgnore]
         [DefaultValue(Models.Enum.Order.Status.AwaitingConfirmation)]
         public byte Status { get; set; }

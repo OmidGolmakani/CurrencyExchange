@@ -31,7 +31,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return orderRepository.AddRange(entities);
         }
 
-        public Task<IEnumerable<Entity.Order>> Find(Expression<Func<Entity.Order, bool>> expression)
+        public Task<IEnumerable<Entity.Order>> Find(Func<Entity.Order, bool> expression)
         {
             return orderRepository.Find(expression);
         }

@@ -30,7 +30,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return ImageRepository.AddRange(entities);
         }
 
-        public Task<IEnumerable<Entity.Image>> Find(Expression<Func<Entity.Image, bool>> expression)
+        public Task<IEnumerable<Entity.Image>> Find(Func<Entity.Image, bool> expression)
         {
             return ImageRepository.Find(expression);
         }
