@@ -1,5 +1,7 @@
 ﻿using CurrencyExchange.CustomException;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CurrencyExchange.Helper
 {
@@ -489,6 +491,16 @@ namespace CurrencyExchange.Helper
                 throw new MyException("ConvertBooleanToString", ex);
             }
         }
-
+        public static string ListToString<T>(this List<T> x)
+        {
+            try
+            {
+                return string.Join("<br/>", x);
+            }
+            catch (MyException ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
