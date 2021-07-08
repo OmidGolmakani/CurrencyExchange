@@ -48,7 +48,7 @@ namespace CurrencyExchange.Models.Repository.Services
         public Task<long> GetNeTradeNum()
         {
             var Result = GetAll().Result;
-            return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.TradeNum));
+            return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.TradeNum) + 1);
         }
 
         public void Remove(long Id)

@@ -50,32 +50,15 @@ namespace CurrencyExchange.Models.Dto.Orders
         [JsonIgnore]
         public long OrderNum { get; set; }
         public byte OrderTypeId { get; set; }
-        public string OrderTypeName
-        {
-            get
-            {
-                Enum.Order.OrderType orderType = (Enum.Order.OrderType)OrderTypeId;
-                switch (orderType)
-                {
-                    case Enum.Order.OrderType.Buy:
-                        return "خرید";
-                    case Enum.Order.OrderType.Sales:
-                        return "فروش";
-                    default:
-                        return "";
-                }
-            }
-        }
         public long UserId { get; set; }
-        public string UserFullName { get; set; }
         public int CurrencyId { get; set; }
-        public string CurrencyName { get; set; }
         public int Quantity { get; set; }
-        public decimal InstantPrice { get; set; }
+        [JsonIgnore]
+        public Nullable<decimal> InstantPrice { get; set; }
         public decimal CurrencyPrice { get; set; }
         [JsonIgnore]
         [DefaultValue(Models.Enum.Order.Status.AwaitingConfirmation)]
         public byte Status { get; set; }
         public string Description { get; set; }
-    }
+    }   
 }

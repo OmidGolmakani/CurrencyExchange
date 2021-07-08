@@ -30,6 +30,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("Add")]
         public async Task<IActionResult> Add(CUOrderDto entity)
         {
+            entity.InstantPrice = 1000;
             var _entity = mapper.Map<CUOrderDto, Order>(entity);
             _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             OrderValidator validator = new OrderValidator(dbContext);

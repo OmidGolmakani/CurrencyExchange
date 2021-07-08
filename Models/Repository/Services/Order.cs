@@ -49,7 +49,7 @@ namespace CurrencyExchange.Models.Repository.Services
         public Task<long> GetNewOrderNum()
         {
             var Result = GetAll().Result;
-            return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.OrderNum));
+            return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.OrderNum) + 1);
         }
 
         public Task<IEnumerable<Models.Entity.Order>> GetOrderByStatus(Enum.Order.Status status)
