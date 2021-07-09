@@ -20,7 +20,6 @@ namespace CurrencyExchange.Validation
             RuleFor(x => x.Quantity).NotNull().NotEmpty().WithMessage("تعداد اجباری می باشد");
             RuleFor(x => x.Quantity).Must(x => x <= 0 ? false : true).WithMessage("تعداد نمیتواند کوچکتر مساوی صفر باشد");
             RuleFor(x => x.CurrencyPrice).NotNull().NotEmpty().WithMessage("قیمت ارز اجباری می باشد");
-            RuleFor(x => x.InstantPrice).NotNull().Empty().WithMessage("قیمت لحظه ای ارز اجباری می باشد");
         }
         private bool OrderIdValidation(long? OrderId)
         {

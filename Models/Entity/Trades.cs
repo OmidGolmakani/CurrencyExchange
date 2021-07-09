@@ -22,9 +22,6 @@ namespace CurrencyExchange.Models.Entity
         public int Quantity { get; set; }
         [Required]
         [DataType("decimal(18 ,4)")]
-        public decimal InstantPrice { get; set; }
-        [Required]
-        [DataType("decimal(18 ,4)")]
         public decimal CurrencyPrice { get; set; }
         [StringLength(500)]
         public string Description { get; set; }

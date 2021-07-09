@@ -65,7 +65,6 @@ namespace CurrencyExchange.Data
             #endregion Order
             #region Trades
             builder.Entity<Trades>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
-            builder.Entity<Trades>().Property(p => p.InstantPrice).HasColumnType("decimal(18,4)");
             #endregion Trades
             #endregion DbLogigs
         }
