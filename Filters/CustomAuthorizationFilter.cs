@@ -73,7 +73,7 @@ namespace CurrencyExchange.Filter
 
                 var dbContext = context.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
 
-                var User = Helper.JWTTokenManager.ValidateToken(token, dbContext);
+                var User = Helpers.JWTTokenManager.ValidateToken(token, dbContext);
                 if (User == null)
                 {
                     var AccountService = context.HttpContext.RequestServices.GetRequiredService<Account>();
@@ -118,8 +118,8 @@ namespace CurrencyExchange.Filter
                         return;
                     }
                     p.Id = 0;
-                    if ((Helper.JWTTokenManager.ValidatePermissionToken(p.Token) == null) ||
-                        (!Helper.JWTTokenManager.ValidatePermissionToken(p.Token).Equals(p.Url))
+                    if ((Helpers.JWTTokenManager.ValidatePermissionToken(p.Token) == null) ||
+                        (!Helpers.JWTTokenManager.ValidatePermissionToken(p.Token).Equals(p.Url))
                         )
                     {
                         context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;

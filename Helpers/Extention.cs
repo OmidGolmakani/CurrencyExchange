@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CurrencyExchange.Helper
+namespace CurrencyExchange.Helpers
 {
     public static class Extention
     {

@@ -21,7 +21,7 @@ namespace CurrencyExchange.Models.Dto.Trades
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(TradeSolarDate, TradeTime) ?? DateTime.Now);
+                return (Helpers.PersionDate.GetMiladi(TradeSolarDate, TradeTime) ?? DateTime.Now);
             }
             set
             {

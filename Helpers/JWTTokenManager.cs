@@ -1,7 +1,7 @@
 ﻿using CurrencyExchange.AppSettings.Dto.Authentications;
 using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
-using CurrencyExchange.Helper;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace CurrencyExchange.Helper
+namespace CurrencyExchange.Helpers
 {
     public class JWTTokenManager
     {

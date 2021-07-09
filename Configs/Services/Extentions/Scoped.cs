@@ -4,8 +4,8 @@ using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CurrencyExchange.Configs.Servises.Extentions
 {
@@ -18,6 +18,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
         /// <returns></returns>
         public static IServiceCollection AddScopeds(this IServiceCollection services)
         {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             #region Identity
             services.AddScoped<UserManager<ApplicationUser>>();
             services.AddScoped<RoleManager<ApplicationRole>>();

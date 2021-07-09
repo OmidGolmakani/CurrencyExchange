@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace CurrencyExchange
         {
             this._configuration = configuration;
             this._env = env;
-            Helper.JWTTokenManager.configuration = configuration;
+            Helpers.JWTTokenManager.configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -92,7 +93,7 @@ namespace CurrencyExchange
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
-
+            Helpers.AppContext.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
 
             //var hubConfiguration = new HubConfiguration { EnableDetailedErrors = true };
             //ConfigureAuth(app);

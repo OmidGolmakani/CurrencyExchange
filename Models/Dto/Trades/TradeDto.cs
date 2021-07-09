@@ -1,4 +1,4 @@
-﻿using CurrencyExchange.Helper;
+﻿using CurrencyExchange.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

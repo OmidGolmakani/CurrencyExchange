@@ -2,7 +2,7 @@
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
-using CurrencyExchange.Helper;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
@@ -164,7 +164,7 @@ namespace CurrencyExchange.Models.Repository.Services
                     SigninResult.Wait();
                     if (SigninResult.Result.Succeeded)
                     {
-                        tokenInfo = Helper.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
+                        tokenInfo = Helpers.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
                     }
                     SignInResultDto Result = new SignInResultDto()
                     {

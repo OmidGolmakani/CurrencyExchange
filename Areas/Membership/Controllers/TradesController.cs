@@ -2,7 +2,7 @@
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.Controllers;
 using CurrencyExchange.Data;
-using CurrencyExchange.Helper;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.Trades;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Validation;
@@ -79,6 +79,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
+            Helpers.Helper.GetAdminInfo();
             var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.GetAll());
             if (Result.Count == 0)
             {

@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using CurrencyExchange.CustomException;
 using CurrencyExchange.CustomException.Dto;
-using CurrencyExchange.Helper;
+using CurrencyExchange.Helpers;
 
 namespace CurrencyExchange.CustomException.Middlewere
 {

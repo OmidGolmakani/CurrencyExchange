@@ -15,12 +15,10 @@ namespace CurrencyExchange.Models.Repository.Services
     public class Order : IOrder
     {
         private readonly Repository<Entity.Order, long> orderRepository;
-        private readonly ApplicationDbContext db;
 
         public Order(Repository<Entity.Order, long> repository,ApplicationDbContext db )
         {
             this.orderRepository = repository;
-            this.db = db;
         }
 
         public Task<EntityEntry<Entity.Order>> Add(Entity.Order entity)
@@ -77,6 +75,11 @@ namespace CurrencyExchange.Models.Repository.Services
         public void Update(Entity.Order entity)
         {
             orderRepository.Update(entity);
+        }
+
+        public Task UpdateAdminOrder()
+        {
+            throw new NotImplementedException();
         }
 
         public void UpdateRange(IEnumerable<Entity.Order> entities)

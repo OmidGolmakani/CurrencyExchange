@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.Helper
+namespace CurrencyExchange.Helpers
 {
     public static class DefaultMessages
     {

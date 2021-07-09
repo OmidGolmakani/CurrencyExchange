@@ -18,7 +18,7 @@ namespace CurrencyExchange.Models.Dto.CurrencyChanges
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(LastChangeSolarDate, LastChangeTime) ?? DateTime.Now);
+                return (Helpers.PersionDate.GetMiladi(LastChangeSolarDate, LastChangeTime) ?? DateTime.Now);
             }
         }
         public string LastChangeSolarDate { get; set; }

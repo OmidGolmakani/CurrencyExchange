@@ -18,10 +18,10 @@ namespace CurrencyExchange.Models.Dto.CurrencyChanges
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(_LastChangeSolarDate, _LastChangeSolarDate) ?? DateTime.Now);
+                return (Helpers.PersionDate.GetMiladi(_LastChangeSolarDate, _LastChangeSolarDate) ?? DateTime.Now);
             }
         }
-        private string _LastChangeSolarDate = Helper.PersionDate.GetShamsiToday();
+        private string _LastChangeSolarDate = Helpers.PersionDate.GetShamsiToday();
         public string LastChangeSolarDate
         {
             get
@@ -30,7 +30,7 @@ namespace CurrencyExchange.Models.Dto.CurrencyChanges
             }
             set
             {
-                if (string.IsNullOrEmpty(value) == false && Helper.PersionDate.IsShamsi(_LastChangeSolarDate))
+                if (string.IsNullOrEmpty(value) == false && Helpers.PersionDate.IsShamsi(_LastChangeSolarDate))
                 {
                     _LastChangeSolarDate = value;
                 }

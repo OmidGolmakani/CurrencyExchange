@@ -2,7 +2,7 @@
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.Controllers;
 using CurrencyExchange.Data;
-using CurrencyExchange.Helper;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;

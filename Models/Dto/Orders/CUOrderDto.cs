@@ -12,11 +12,11 @@ namespace CurrencyExchange.Models.Dto.Orders
         {
             get
             {
-                return (Helper.PersionDate.GetMiladi(_OrderSolarDate, _OrderTime) ?? DateTime.Now);
+                return (Helpers.PersionDate.GetMiladi(_OrderSolarDate, _OrderTime) ?? DateTime.Now);
             }
         }
 
-        private string _OrderSolarDate = Helper.PersionDate.GetShamsiToday();
+        private string _OrderSolarDate = Helpers.PersionDate.GetShamsiToday();
         public string OrderSolarDate
         {
             get
@@ -25,7 +25,7 @@ namespace CurrencyExchange.Models.Dto.Orders
             }
             set
             {
-                if (string.IsNullOrEmpty(value) == false && Helper.PersionDate.IsShamsi(_OrderSolarDate))
+                if (string.IsNullOrEmpty(value) == false && Helpers.PersionDate.IsShamsi(_OrderSolarDate))
                 {
                     _OrderSolarDate = value;
                 }

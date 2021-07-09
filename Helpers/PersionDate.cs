@@ -5,7 +5,7 @@ using System.Web;
 using System.Globalization;
 using CurrencyExchange.CustomException;
 
-namespace CurrencyExchange.Helper
+namespace CurrencyExchange.Helpers
 {
     public static class PersionDate
     {
