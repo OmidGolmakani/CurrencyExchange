@@ -8,11 +8,12 @@ using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class TradesController : BaseController<TradesController>, IController<CUTradeDto, long>
+    public class TradesController : BaseController<TradesController>, ITradeController
     {
         private readonly Models.Repository.Services.Trades _TradesSrv;
         private readonly IMapper mapper;
@@ -45,6 +46,23 @@ namespace CurrencyExchange.Areas.Membership
             _TradesSrv.Remove(Id);
             _TradesSrv.SaveChanges();
             return Ok(Id.ToLong());
+        }
+        [HttpGet("Find")]
+        public async Task<IActionResult> Find(string dateFrom, string dateTo)
+        {
+            DateTime _dateFrom = dateFrom.ToMiladi();
+            DateTime _dateTo = dateTo.ToMiladi();
+
+            var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.Find(x => x.TradeDate.Date >= _dateFrom
+                                                                            && x.TradeDate.Date <= _dateTo));
+            if (Result.Count == 0)
+            {
+                return Ok(DefaultMessages.ListEmpty);
+            }
+            else
+            {
+                return Ok(Result);
+            }
         }
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit(CUTradeDto entity)

@@ -79,7 +79,7 @@ namespace CurrencyExchange.Helper
             {
                 if (IsShamsi(ShamsiDate) == false)
                 {
-                    return null;
+                    throw new MyException("تاریخ وارد شده غیر مجاز می باشد");
                 }
                 PersianCalendar pc = new PersianCalendar();
                 var split = ShamsiDate.Split(char.Parse("/"));
