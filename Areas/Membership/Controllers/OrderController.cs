@@ -71,10 +71,8 @@ namespace CurrencyExchange.Areas.Membership
             DateTime _dateFrom = dateFrom.ToMiladi();
             DateTime _dateTo = dateTo.ToMiladi();
 
-            var order = _OrderSrv.Find(x => x.OrderTypeId == 1).Result.ToList();
-
-            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate >= _dateFrom
-                                                                           && x.OrderDate <= _dateTo
+            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate.Date >= _dateFrom
+                                                                           && x.OrderDate.Date <= _dateTo
                                                                            && x.OrderTypeId == (byte)type));
             if (Result.Count == 0)
             {

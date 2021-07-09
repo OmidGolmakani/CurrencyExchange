@@ -15,10 +15,12 @@ namespace CurrencyExchange.Models.Repository.Services
     public class Order : IOrder
     {
         private readonly Repository<Entity.Order, long> orderRepository;
+        private readonly ApplicationDbContext db;
 
-        public Order(Repository<Entity.Order, long> repository)
+        public Order(Repository<Entity.Order, long> repository,ApplicationDbContext db )
         {
             this.orderRepository = repository;
+            this.db = db;
         }
 
         public Task<EntityEntry<Entity.Order>> Add(Entity.Order entity)
@@ -31,11 +33,10 @@ namespace CurrencyExchange.Models.Repository.Services
             return orderRepository.AddRange(entities);
         }
 
-        public Task<IEnumerable<Entity.Order>> Find(Func<Entity.Order, bool> expression)
+        public Task<IEnumerable<Entity.Order>> Find(Expression<Func<Entity.Order, bool>> expression)
         {
             return orderRepository.Find(expression);
         }
-
         public Task<IEnumerable<Entity.Order>> GetAll()
         {
             return orderRepository.GetAll();

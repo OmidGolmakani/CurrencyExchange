@@ -86,7 +86,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ApplicationUserDto>> Find(Func<ApplicationUserDto, bool> expression)
+        public Task<IEnumerable<ApplicationUserDto>> Find(Expression<Func<ApplicationUserDto, bool>> expression)
         {
             throw new NotImplementedException();
         }

@@ -34,10 +34,9 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(GetEntities().AsEnumerable());
         }
 
-        public Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> expression)
+        public Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> expression)
         {
-            //var v1 = GetEntities().Where(expression.Compile()).AsEnumerable();
-            return Task.FromResult(GetEntities().Where(expression).AsEnumerable());
+            return Task.FromResult(GetEntities().AsQueryable().Where(expression).AsEnumerable<TEntity>());
         }
 
         public Task<EntityEntry<TEntity>> Add(TEntity entity)
