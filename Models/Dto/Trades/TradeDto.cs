@@ -32,6 +32,7 @@ namespace CurrencyExchange.Models.Dto.Trades
         }
         [JsonIgnore]
         public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
         public int Quantity { get; set; }
         public decimal CurrencyPrice { get; set; }
         public string Description { get; set; }

@@ -28,16 +28,25 @@ namespace CurrencyExchange.Configs
             CreateMap<Currency, CUCurrencyDto>().ReverseMap();
             #endregion Currencies
             #region Orders
-            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().
+                ForMember(dest => dest.UserFullName, opts =>
+                {
+                    opts.MapFrom(src => string.Format("{0} {1}", src.OrderUser.Name, src.OrderUser.Family));
+                }).ForMember(dest => dest.CurrencyName, opts =>
+                {
+                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                });
+            CreateMap<OrderDto, Order>();
             CreateMap<Order, CUOrderDto>().ReverseMap();
             #endregion Orders            
             #region Trades
-            CreateMap<Trades, TradeDto>().ForMember(dest => dest.UserFullName, opts =>
+            CreateMap<Trades, TradeDto>().
+                ForMember(dest => dest.UserFullName, opts =>
             {
                 opts.MapFrom(src => string.Format("{0} {1}", src.Order.OrderUser.Name, src.Order.OrderUser.Family));
-            }).ForMember(dest => dest.CurrencyId, opts =>
+            }).ForMember(dest => dest.CurrencyName, opts =>
             {
-                opts.MapFrom(src => src.Order.CurrencyId);
+                opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Order.Currency.CurrencyTypeId));
             });
             CreateMap<TradeDto, Trades>();
             CreateMap<Trades, CUTradeDto>().ReverseMap();

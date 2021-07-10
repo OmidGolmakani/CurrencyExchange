@@ -15,16 +15,7 @@ namespace CurrencyExchange.Models.Dto.Currencies
         {
             get
             {
-                Enum.Currency.CurrencyTypeId currencyType = (Enum.Currency.CurrencyTypeId)CurrencyTypeId;
-                switch (currencyType)
-                {
-                    case Enum.Currency.CurrencyTypeId.Dollar:
-                        return "دلار";
-                    case Enum.Currency.CurrencyTypeId.Tether:
-                        return "تتر";
-                    default:
-                        return "";
-                }
+                return Helper.Currency.GetCurrncyName(CurrencyTypeId);
             }
         }
         public string CurrencyAbbreviationName { get; set; }

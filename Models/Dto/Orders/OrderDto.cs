@@ -31,6 +31,7 @@ namespace CurrencyExchange.Models.Dto.Orders
         [JsonIgnore]
         public long OrderNum { get; set; }
         public long UserId { get; set; }
+        public string UserFullName { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
         public int Quantity { get; set; }

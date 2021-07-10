@@ -11,9 +11,24 @@ namespace CurrencyExchange.Models.Dto.Trades
 {
     public class CUTradeDto : Base.BaseDto
     {
-        public long Id { get; set; }
-        public Nullable<long> OrderId { get; set; }
-        public string TradeSolarDate { get; set; }
+        public Nullable<long> Id { get; set; }
+        public long OrderId { get; set; }
+        private string _TradeSolarDate = Helpers.PersionDate.GetShamsiToday();
+
+        public string TradeSolarDate 
+            {
+            get
+            {
+                return _TradeSolarDate;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value) == false && Helpers.PersionDate.IsShamsi(_TradeSolarDate))
+                {
+                    _TradeSolarDate = value;
+                }
+            }
+        }
 
         private DateTime _TradeDate;
         [JsonIgnore]
@@ -28,14 +43,23 @@ namespace CurrencyExchange.Models.Dto.Trades
                 _TradeDate = value;
             }
         }
-        public string TradeTime { get; set; }
-        [JsonIgnore]
-        public long UserId { get; set; }
-        public string UserFullName { get; set; }
-        public int CurrencyId { get; set; }
-        public string CurrencyName { get; set; }
+        private string _OrderTime = DateTime.Now.ToString("HH:mm:ss");
+        public string TradeTime
+        {
+            get
+            {
+                return _OrderTime;
+            }
+            set
+            {
+                DateTime t;
+                if (string.IsNullOrEmpty(value) == false && DateTime.TryParse(_OrderTime, out t))
+                {
+                    _TradeSolarDate = value;
+                }
+            }
+        }
         public int Quantity { get; set; }
-        public decimal InstantPrice { get; set; }
         public decimal CurrencyPrice { get; set; }
         public string Description { get; set; }
     }
