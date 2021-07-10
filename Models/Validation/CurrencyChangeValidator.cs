@@ -15,8 +15,8 @@ namespace CurrencyExchange.Validation
         {
             context = dbContext;
             RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.BuyPrice).NotNull().NotEmpty().WithMessage("مبلغ خرید ارز اجباری می باشد");
-            RuleFor(x => x.SalePrice).NotNull().NotEmpty().WithMessage("مبلغ فروش ارز اجباری می باشد");
+            RuleFor(x => x.PurchasePrice).NotNull().NotEmpty().WithMessage("مبلغ خرید ارز اجباری می باشد");
+            RuleFor(x => x.SalesPrice).NotNull().NotEmpty().WithMessage("مبلغ فروش ارز اجباری می باشد");
             RuleFor(x => x.CurrencyId).NotEmpty().NotNull().WithMessage("نوع ارز را مشخص نمایید");
             RuleFor(x => x.LastChangeDate).NotEmpty().NotNull().WithMessage("تاریخ اجباری می باشد")
                                           .Must(IsLastChangeDateUnique).WithMessage("تاریخ و ساعت تکراری می باشد");

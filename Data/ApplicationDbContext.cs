@@ -28,6 +28,8 @@ namespace CurrencyExchange.Data
             base.OnModelCreating(builder);
             #region Db Logigs
             #region Currency
+            builder.Entity<Currency>().Property(p => p.PurchasePrice).HasColumnType("decimal(18,4)");
+            builder.Entity<Currency>().Property(p => p.SalesPrice).HasColumnType("decimal(18,4)");
             //Order
             builder.Entity<Currency>().HasMany(Orders => Orders.Orders)
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.NoAction);
@@ -38,8 +40,8 @@ namespace CurrencyExchange.Data
                 .WithOne(Currency => Currency.Currency).OnDelete(DeleteBehavior.Cascade);
             #endregion Currency
             #region Currency Change
-            builder.Entity<CurrencyChange>().Property(p => p.BuyPrice).HasColumnType("decimal(18,4)");
-            builder.Entity<CurrencyChange>().Property(p => p.SalePrice).HasColumnType("decimal(18,4)");
+            builder.Entity<CurrencyChange>().Property(p => p.PurchasePrice).HasColumnType("decimal(18,4)");
+            builder.Entity<CurrencyChange>().Property(p => p.SalesPrice).HasColumnType("decimal(18,4)");
             builder.Entity<CurrencyChange>().HasIndex(p => new { p.LastChangeDate }).IsUnique();
             #endregion Currency Change
             #region Application User
