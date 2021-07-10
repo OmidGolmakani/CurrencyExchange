@@ -15,10 +15,12 @@ namespace CurrencyExchange.Models.Repository.Services
     public class Order : IOrder
     {
         private readonly Repository<Entity.Order, long> orderRepository;
+        private readonly ApplicationDbContext dbContext;
 
-        public Order(Repository<Entity.Order, long> repository,ApplicationDbContext db )
+        public Order(Repository<Entity.Order, long> repository,ApplicationDbContext dbContext )
         {
             this.orderRepository = repository;
+            this.dbContext = dbContext;
         }
 
         public Task<EntityEntry<Entity.Order>> Add(Entity.Order entity)

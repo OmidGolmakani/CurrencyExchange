@@ -79,7 +79,6 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            Helpers.Helper.GetAdminInfo();
             var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.GetAll());
             if (Result.Count == 0)
             {

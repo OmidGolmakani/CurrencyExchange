@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.CustomException;
+using CurrencyExchange.Models.Dto.Admins;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,20 @@ namespace CurrencyExchange.Helpers
 {
     internal static class Helper
     {
-        internal static void GetAdminInfo()
+        internal static AdminConfirmDto GetAdminInfo()
         {
             try
             {
-                var h = Helpers.AppContext.Current.Request.Headers;
+                var Token = Helpers.AppContext.Current.Request.Headers.
+                    FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault().
+                    Replace("Bearer", "").Trim();
+                var UserId = Helpers.JWTTokenManager.GetUserIdByToken(Token);
+                return new AdminConfirmDto()
+                {
+                    AdminId = UserId,
+                    AdminConfirmDate = DateTime.Now,
+                    VerifyId = 1
+                };
             }
             catch (MyException ex)
             {

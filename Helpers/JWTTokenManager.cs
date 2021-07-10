@@ -181,12 +181,12 @@ namespace CurrencyExchange.Helpers
                 {
                     return null;
                 }
-                long id = identity.FindFirst(ClaimTypes.NameIdentifier).Value.ToLong();
+                long Id = identity.FindFirst(ClaimTypes.NameIdentifier).Value.ToLong();
                 string UserName = identity.FindFirst(ClaimTypes.Name).Value;
                 string Phone = identity.FindFirst(ClaimTypes.MobilePhone).Value;
                 string Email = identity.FindFirst(ClaimTypes.Email).Value;
                 var User = _dbContext.Users.FirstOrDefault(x =>
-                                                           x.Id == id &&
+                                                           x.Id == Id &&
                                                            x.UserName == UserName &&
                                                            x.PhoneNumber == Phone &&
                                                            x.Email == (Email != "" ? Email : null));
@@ -203,6 +203,31 @@ namespace CurrencyExchange.Helpers
             catch (MyException ex)
             {
                 throw new MyException("ValidateToken", ex);
+            }
+        }
+        internal static long GetUserIdByToken(string token)
+        {
+            try
+            {
+                string username = null;
+                ClaimsPrincipal principal = GetPrincipal(token);
+                if (principal == null)
+                    return 0;
+                ClaimsIdentity identity = null;
+                try
+                {
+                    identity = (ClaimsIdentity)principal.Identity;
+                }
+                catch (NullReferenceException)
+                {
+                    return 0;
+                }
+                return  identity.FindFirst(ClaimTypes.NameIdentifier).Value.ToLong();
+
+            }
+            catch (MyException ex)
+            {
+                throw ex;
             }
         }
     }
