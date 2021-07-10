@@ -19,5 +19,7 @@ namespace CurrencyExchange.Models.Dto.Currencies
             }
         }
         public string CurrencyAbbreviationName { get; set; }
+        public Nullable<decimal> PurchasePrice { get; set; }
+        public Nullable<decimal> SalesPrice { get; set; }
     }
 }

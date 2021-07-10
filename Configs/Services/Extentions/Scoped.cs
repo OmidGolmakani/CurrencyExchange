@@ -43,6 +43,11 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped(typeof(ITrades<long>), typeof(Models.Repository.Services.Trades));
             services.AddScoped<Models.Repository.Services.Trades, Models.Repository.Services.Trades>();
             #endregion Trades
+            #region Currency
+            services.AddScoped(typeof(Repository<Models.Entity.Currency, int>), typeof(Repository<Models.Entity.Currency, int>));
+            services.AddScoped(typeof(ICurrency), typeof(Models.Repository.Services.Currency));
+            services.AddScoped<Models.Repository.Services.Currency, Models.Repository.Services.Currency>();
+            #endregion Currency
             return services;
         }
     }

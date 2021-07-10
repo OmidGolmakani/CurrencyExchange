@@ -24,7 +24,7 @@ namespace CurrencyExchange.Validation
 
         internal bool IsLastChangeDateUnique(CurrencyChange edited, DateTime newValue)
         {
-            return context.CurrencyChanges.All(c =>
+            return context.CurrencyChanges. All(c =>
               c.Equals(edited) || c.LastChangeDate != newValue);
         }
     }

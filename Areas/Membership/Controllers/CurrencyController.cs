@@ -15,11 +15,11 @@ namespace CurrencyExchange.Areas.Membership
 {
     public class CurrencyController : BaseController<CurrencyController>, IController<CUCurrencyDto, int>
     {
-        private readonly IRepository<Currency,int> _CurrencySrv;
+        private readonly ICurrency _CurrencySrv;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext;
 
-        public CurrencyController(IRepository<Currency,int> CurrencySrv,
+        public CurrencyController(ICurrency CurrencySrv,
                                   IMapper mapper,
                                   ApplicationDbContext DbContext) : base(mapper, DbContext)
         {

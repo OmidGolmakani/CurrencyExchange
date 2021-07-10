@@ -16,14 +16,17 @@ namespace CurrencyExchange.Areas.Membership
     public class CurrencyChangeController : BaseController<CurrencyChangeController>, IController<CUCurrencyChangeDto, long>
     {
         private readonly IRepository<CurrencyChange, long> _currencyChangeSrv;
+        private readonly ICurrency _currencySrv;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext;
 
         public CurrencyChangeController(IRepository<CurrencyChange, long> currencyChangeSrv,
+                                        ICurrency currencySrv,
                                         IMapper mapper,
                                         ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
             this._currencyChangeSrv = currencyChangeSrv;
+            this._currencySrv = currencySrv;
             this.mapper = mapper;
             this.dbContext = DbContext;
         }
@@ -34,6 +37,9 @@ namespace CurrencyExchange.Areas.Membership
             CurrencyChangeValidator validator = new CurrencyChangeValidator(dbContext);
             validator.ValidateAndThrow(_entity);
             var Result = _currencyChangeSrv.Add(_entity);
+            _currencySrv.UpdateCurrencyPrices(_entity.CurrencyId,
+                                              _entity.PurchasePrice,
+                                              _entity.SalesPrice);
             _currencyChangeSrv.SaveChanges();
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }

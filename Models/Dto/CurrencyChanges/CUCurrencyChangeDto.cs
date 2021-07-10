@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.CurrencyChanges
 {
-    public class CUCurrencyChangeDto
+    public class CUCurrencyChangeDto : Base.BaseDto
     {
         public Nullable<int> Id { get; set; }
         public int CurrencyId { get; set; }
-        public decimal BuyPrice { get; set; }
-        public decimal SalePrice { get; set; }
+        public decimal PurchasePrice { get; set; }
+        public decimal SalesPrice { get; set; }
         [JsonIgnore]
         public DateTime LastChangeDate
         {
             get
             {
-                return (Helpers.PersionDate.GetMiladi(_LastChangeSolarDate, _LastChangeSolarDate) ?? DateTime.Now);
+                return (Helpers.PersionDate.GetMiladi(_LastChangeSolarDate, _LastChangeTime) ?? DateTime.Now);
             }
         }
         private string _LastChangeSolarDate = Helpers.PersionDate.GetShamsiToday();
