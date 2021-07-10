@@ -10,6 +10,6 @@ namespace CurrencyExchange.Models.Dto.Admins
     {
         public long AdminId { get; set; }
         public DateTime AdminConfirmDate { get; set; }
-        public byte VerifyId { get; set; }
+        public byte VerifyType { get; set; }
     }
 }

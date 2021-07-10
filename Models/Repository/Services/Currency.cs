@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Data;
+﻿using CurrencyExchange.CustomException;
+using CurrencyExchange.Data;
 using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -15,10 +16,9 @@ namespace CurrencyExchange.Models.Repository.Services
         private readonly Repository<Entity.Currency, int> currencyRepository;
         private readonly ApplicationDbContext dbContext;
 
-        public Currency(Repository<Entity.Currency, int> currencyRepository, ApplicationDbContext dbContext)
+        public Currency(Repository<Entity.Currency, int> currencyRepository)
         {
             this.currencyRepository = currencyRepository;
-            this.dbContext = dbContext;
         }
 
         public Task<EntityEntry<Entity.Currency>> Add(Entity.Currency entity)
@@ -70,10 +70,10 @@ namespace CurrencyExchange.Models.Repository.Services
                                          Nullable<decimal> PurchasePrice,
                                          Nullable<decimal> SalesPrice)
         {
-            var currency = dbContext.Currencies.Find(CurrencyId);
+            var currency = GetById(CurrencyId).Result;
             if (currency == null)
             {
-                throw new Exception("ارز مورد نظر یافت نشد");
+                throw new MyException("ارز مورد نظر یافت نشد");
             }
             currency.PurchasePrice = PurchasePrice;
             currency.SalesPrice = SalesPrice;

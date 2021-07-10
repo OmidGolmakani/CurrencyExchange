@@ -15,15 +15,18 @@ namespace CurrencyExchange.Areas.Membership
 {
     public class TradesController : BaseController<TradesController>, ITradeController
     {
-        private readonly Models.Repository.Services.Trades _TradesSrv;
+        private readonly Models.Repository.Services.Trades _tradesSrv;
+        private readonly Models.Repository.Services.Order _orderSrv;
         private readonly IMapper mapper;
         private readonly ApplicationDbContext dbContext;
 
-        public TradesController(Models.Repository.Services.Trades TradesSrv,
-                                  IMapper mapper,
-                                  ApplicationDbContext DbContext) : base(mapper, DbContext)
+        public TradesController(Models.Repository.Services.Trades tradesSrv,
+                                Models.Repository.Services.Order orderSrv,
+                                IMapper mapper,
+                                ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
-            this._TradesSrv = TradesSrv;
+            this._tradesSrv = tradesSrv;
+            _orderSrv = orderSrv;
             this.mapper = mapper;
             this.dbContext = DbContext;
         }
@@ -32,19 +35,20 @@ namespace CurrencyExchange.Areas.Membership
         {
             var _entity = mapper.Map<CUTradeDto, Trades>(entity);
             TradesValidator validator = new TradesValidator(dbContext);
-            _entity.TradeNum = await _TradesSrv.GetNeTradeNum();
+            _entity.TradeNum = await _tradesSrv.GetNeTradeNum();
             validator.ValidateAndThrow(_entity);
-            var Result = _TradesSrv.Add(_entity);
-            _TradesSrv.SaveChanges();
+            var Result = _tradesSrv.Add(_entity);
+            await _orderSrv.UpdateAdminOrder(entity.OrderId, entity.Description);
+            _tradesSrv.SaveChanges();
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }
         [HttpPost("Delete{Id}")]
         public async Task<IActionResult> Delete(long Id)
         {
-            var _entity = await _TradesSrv.GetById(Id);
+            var _entity = await _tradesSrv.GetById(Id);
             if (_entity == null) return NotFound(DefaultMessages.NotFound);
-            _TradesSrv.Remove(Id);
-            _TradesSrv.SaveChanges();
+            _tradesSrv.Remove(Id);
+            _tradesSrv.SaveChanges();
             return Ok(Id.ToLong());
         }
         [HttpGet("Find")]
@@ -53,7 +57,7 @@ namespace CurrencyExchange.Areas.Membership
             DateTime _dateFrom = dateFrom.ToMiladi();
             DateTime _dateTo = dateTo.ToMiladi();
 
-            var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.Find(x => x.TradeDate.Date >= _dateFrom
+            var Result = mapper.Map<List<TradeDto>>(await _tradesSrv.Find(x => x.TradeDate.Date >= _dateFrom
                                                                             && x.TradeDate.Date <= _dateTo));
             if (Result.Count == 0)
             {
@@ -72,14 +76,15 @@ namespace CurrencyExchange.Areas.Membership
             mapper.Map<CUTradeDto, Trades>(entity, _entity);
             TradesValidator validator = new TradesValidator(dbContext);
             validator.ValidateAndThrow(_entity);
-            _TradesSrv.Update(_entity);
-            _TradesSrv.SaveChanges();
+            _tradesSrv.Update(_entity);
+            await _orderSrv.UpdateAdminOrder(entity.OrderId, entity.Description);
+            _tradesSrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var Result = mapper.Map<List<TradeDto>>(await _TradesSrv.GetAll());
+            var Result = mapper.Map<List<TradeDto>>(await _tradesSrv.GetAll());
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
@@ -92,7 +97,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(long Id)
         {
-            var Result = mapper.Map<TradeDto>(await _TradesSrv.GetById(Id));
+            var Result = mapper.Map<TradeDto>(await _tradesSrv.GetById(Id));
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);

@@ -15,6 +15,11 @@ namespace CurrencyExchange.Helpers
         {
             try
             {
+                if (Helpers.AppContext.Current.Request.Headers.
+                    FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault() == null)
+                {
+                    throw new MyException("توکن ارسال نشده است");
+                }
                 var Token = Helpers.AppContext.Current.Request.Headers.
                     FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault().
                     Replace("Bearer", "").Trim();
@@ -23,7 +28,7 @@ namespace CurrencyExchange.Helpers
                 {
                     AdminId = UserId,
                     AdminConfirmDate = DateTime.Now,
-                    VerifyId = 1
+                    VerifyType = 1
                 };
             }
             catch (MyException ex)

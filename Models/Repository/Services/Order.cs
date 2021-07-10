@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Data;
+﻿using CurrencyExchange.CustomException;
+using CurrencyExchange.Data;
 using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
@@ -17,7 +18,8 @@ namespace CurrencyExchange.Models.Repository.Services
         private readonly Repository<Entity.Order, long> orderRepository;
         private readonly ApplicationDbContext dbContext;
 
-        public Order(Repository<Entity.Order, long> repository,ApplicationDbContext dbContext )
+        public Order(Repository<Entity.Order, long> repository,
+                     ApplicationDbContext dbContext)
         {
             this.orderRepository = repository;
             this.dbContext = dbContext;
@@ -79,9 +81,19 @@ namespace CurrencyExchange.Models.Repository.Services
             orderRepository.Update(entity);
         }
 
-        public Task UpdateAdminOrder()
+        public Task UpdateAdminOrder(long OrderId, string AdminDesctiption)
         {
-            throw new NotImplementedException();
+            var Order = GetById(OrderId).Result;
+            if (Order == null)
+            {
+                throw new MyException("درخواست مورد نظر یافت نشد");
+            }
+            var AdminInfo = Helpers.Helper.GetAdminInfo();
+            Order.AdminConfirmDate = AdminInfo.AdminConfirmDate;
+            Order.AdminDescription = AdminDesctiption;
+            Order.AdminId = AdminInfo.AdminId;
+            Order.VerifyType = AdminInfo.VerifyType;
+            return Task.Run(() => true);
         }
 
         public void UpdateRange(IEnumerable<Entity.Order> entities)
