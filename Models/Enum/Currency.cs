@@ -10,8 +10,7 @@ namespace CurrencyExchange.Models.Enum
     {
         internal enum CurrencyTypeId
         {
-            Dollar = 1,
-            Tether = 2
+            Tether = 1
         }
     }
 }
