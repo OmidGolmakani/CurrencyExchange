@@ -39,6 +39,7 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(await _account.GetAll());
         }
         [HttpPost("Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
