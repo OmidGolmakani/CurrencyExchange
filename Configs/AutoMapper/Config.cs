@@ -22,6 +22,7 @@ namespace CurrencyExchange.Configs
             #region Currency Changes
             CreateMap<CurrencyChange, CurrencyChangeDto>().ReverseMap();
             CreateMap<CurrencyChange, CUCurrencyChangeDto>().ReverseMap();
+            CreateMap<CurrencyChange, Models.Dto.CurrencyExchangeHub.CurrencyChangeDto>().ReverseMap();
             #endregion Currency Changes
             #region Currencies
             CreateMap<Currency, CurrencyDto>().ReverseMap();

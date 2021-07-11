@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Services
 {
-    public class ChatHub : Hub
+    public class CurrencyExchangeHub : Hub
     {
-        private readonly IHubContext<ChatHub> _hub;
+        private readonly IHubContext<CurrencyExchangeHub> _hub;
 
-        public ChatHub(IHubContext<ChatHub> hub)
+        public CurrencyExchangeHub(IHubContext<CurrencyExchangeHub> hub)
         {
             this._hub = hub;
         }

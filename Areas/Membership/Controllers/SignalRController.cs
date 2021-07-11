@@ -10,9 +10,9 @@ namespace CurrencyExchange.Areas.Membership
 {
     public class SignalRController : BaseController<SignalRController>
     {
-        private readonly ChatHub _chatHub;
+        private readonly CurrencyExchangeHub _chatHub;
 
-        public SignalRController(ChatHub chatHub)
+        public SignalRController(CurrencyExchangeHub chatHub)
         {
             this._chatHub = chatHub;
         }
