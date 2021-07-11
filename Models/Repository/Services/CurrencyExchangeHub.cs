@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using CurrencyExchange.Models.Dto.CurrencyExchangeHub;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 namespace CurrencyExchange.Models.Repository.Services
 {
     public class CurrencyExchangeHub : Hub
@@ -16,9 +17,9 @@ namespace CurrencyExchange.Models.Repository.Services
             this._hub = hub;
         }
 
-        public async Task CurrencyChange(string user, string message)
+        public async Task CurrencyChange(CurrencyChangeDto currencyChange)
         {
-            await _hub.Clients.All.SendAsync("ReceiveMessage", user, message);
+            await _hub.Clients.All.SendAsync("CurrencyChange", JsonConvert.SerializeObject(currencyChange));
         }
     }
 }

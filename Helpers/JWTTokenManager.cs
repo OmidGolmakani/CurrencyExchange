@@ -209,7 +209,6 @@ namespace CurrencyExchange.Helpers
         {
             try
             {
-                string username = null;
                 ClaimsPrincipal principal = GetPrincipal(token);
                 if (principal == null)
                     return 0;

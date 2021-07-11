@@ -108,7 +108,7 @@ namespace CurrencyExchange
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapHub<CurrencyExchangeHub>("/chatHub");
+                endpoints.MapHub<CurrencyExchangeHub>("/CurrencyExchangeHub");
                 endpoints.MapControllers();
                 endpoints.MapAreaControllerRoute(
                     "Membership",

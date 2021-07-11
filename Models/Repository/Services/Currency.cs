@@ -14,7 +14,6 @@ namespace CurrencyExchange.Models.Repository.Services
     public class Currency : ICurrency
     {
         private readonly Repository<Entity.Currency, int> currencyRepository;
-        private readonly ApplicationDbContext dbContext;
 
         public Currency(Repository<Entity.Currency, int> currencyRepository)
         {

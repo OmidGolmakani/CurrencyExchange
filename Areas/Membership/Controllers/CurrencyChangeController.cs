@@ -6,6 +6,7 @@ using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
+using CurrencyExchange.Models.Repository.Services;
 using CurrencyExchange.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -18,16 +19,19 @@ namespace CurrencyExchange.Areas.Membership
         private readonly IRepository<CurrencyChange, long> _currencyChangeSrv;
         private readonly ICurrency _currencySrv;
         private readonly IMapper mapper;
+        private readonly CurrencyExchangeHub _currencyExchangeHubSvr;
         private readonly ApplicationDbContext dbContext;
 
         public CurrencyChangeController(IRepository<CurrencyChange, long> currencyChangeSrv,
                                         ICurrency currencySrv,
                                         IMapper mapper,
+                                        CurrencyExchangeHub currencyExchangeHubSvr,
                                         ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
             this._currencyChangeSrv = currencyChangeSrv;
             this._currencySrv = currencySrv;
             this.mapper = mapper;
+            this._currencyExchangeHubSvr = currencyExchangeHubSvr;
             this.dbContext = DbContext;
         }
         [HttpPost("Add")]
@@ -41,6 +45,8 @@ namespace CurrencyExchange.Areas.Membership
                                               _entity.PurchasePrice,
                                               _entity.SalesPrice);
             _currencyChangeSrv.SaveChanges();
+            
+            await _currencyExchangeHubSvr.CurrencyChange(mapper.Map<Models.Dto.CurrencyExchangeHub.CurrencyChangeDto>(_entity));
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }
         [HttpPost("Delete{Id}")]

@@ -11,7 +11,7 @@ namespace CurrencyExchange.Models.Dto.CurrencyChanges
     {
         public int Id { get; set; }
         public int CurrencyId { get; set; }
-        public string CurrencyNaame { get; set; }
+        public string CurrencyName { get; set; }
         public decimal PurchasePrice { get; set; }
         public decimal SalesPrice { get; set; }
         public DateTime LastChangeDate

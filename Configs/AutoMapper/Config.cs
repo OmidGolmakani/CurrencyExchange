@@ -20,9 +20,19 @@ namespace CurrencyExchange.Configs
             CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             #endregion Identity Tables
             #region Currency Changes
-            CreateMap<CurrencyChange, CurrencyChangeDto>().ReverseMap();
             CreateMap<CurrencyChange, CUCurrencyChangeDto>().ReverseMap();
-            CreateMap<CurrencyChange, Models.Dto.CurrencyExchangeHub.CurrencyChangeDto>().ReverseMap();
+            CreateMap<CurrencyChangeDto, CurrencyChange>();
+            CreateMap<CurrencyChange, CurrencyChangeDto>()
+                .ForMember(dest => dest.CurrencyName, opts =>
+                {
+                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                });
+            CreateMap<CurrencyChange, Models.Dto.CurrencyExchangeHub.CurrencyChangeDto>()
+                .ForMember(dest => dest.CurrencyName, opts =>
+                {
+                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                });
+            CreateMap<Models.Dto.CurrencyExchangeHub.CurrencyChangeDto, CurrencyChange>();
             #endregion Currency Changes
             #region Currencies
             CreateMap<Currency, CurrencyDto>().ReverseMap();
