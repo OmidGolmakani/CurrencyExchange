@@ -78,6 +78,9 @@ namespace CurrencyExchange.Data
         public virtual DbSet<CurrencyChange> CurrencyChanges { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
+        public virtual DbSet<AuthItem> AuthItems { get; set; }
+        public virtual DbSet<AuthUserItem> AuthUserItems { get; set; }
+
 
         #endregion Add DbSets
     }

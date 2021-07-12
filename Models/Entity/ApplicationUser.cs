@@ -51,6 +51,8 @@ namespace CurrencyExchange.Models.Entity
         public virtual ICollection<Trades> Trades { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        public virtual ICollection<AuthUserItem> AuthUserItems { get; set; }
+
 
 
 
