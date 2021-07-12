@@ -48,8 +48,8 @@ namespace CurrencyExchange
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder
-                .WithOrigins("http://localhost:60658/")
+                options.AddPolicy("MyCorsPolicy", builder => builder
+                .WithOrigins("http://localhost:60658/", "http://localhost:60658/","*")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
@@ -88,7 +88,7 @@ namespace CurrencyExchange
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors("CorsPolicy");
+            app.UseCors("MyCorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
