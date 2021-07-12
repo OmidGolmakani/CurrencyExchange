@@ -15,7 +15,7 @@ namespace CurrencyExchange.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    //[CustomExceptionFilter]
+    [CustomExceptionFilter]
     [CustomAuthorizationFilter]
     [AnyExceptExceptionFilter]
     [EnableCors("MyCorsPolicy")]
