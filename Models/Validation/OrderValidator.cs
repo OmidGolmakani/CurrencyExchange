@@ -24,7 +24,10 @@ namespace CurrencyExchange.Validation
             RuleFor(x => x.Quantity).Must(x => x <= 0 ? false : true).WithMessage("تعداد نمیتواند کوچکتر مساوی صفر باشد");
             RuleFor(x => x.CurrencyPrice).NotNull().NotEmpty().WithMessage("قیمت ارز اجباری می باشد");
             RuleFor(x => x.InstantPrice).NotNull().NotEmpty().WithMessage("قیمت لحظه ای ارز اجباری می باشد");
-            RuleFor(x => x.Status).NotEmpty().NotNull().WithMessage("وضعیت درخواست اجباری می باشد");
+            RuleFor(x => x.OrderTypeId).Must(x => Models.EnumHelper.Helper.EnumValidator<Models.Enum.Order.OrderType>(x)).WithMessage("نوع درخواست را مشخص نمایید");
+            RuleFor(x => x.Status).NotEmpty().NotNull()
+                .Must(x => Models.EnumHelper.Helper.EnumValidator<Models.Enum.Order.Status>(x)).WithMessage("وضعیت درخواست اجباری می باشد");
+
         }
         internal bool IsOrderNumUnique(Order editedOrder, long newValue)
         {
