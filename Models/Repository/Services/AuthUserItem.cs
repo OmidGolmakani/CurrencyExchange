@@ -48,6 +48,12 @@ namespace CurrencyExchange.Models.Repository.Services
             return this._authUserItemRepository.GetById(Id);
         }
 
+        public Task<bool> IsCompleteAuthUsers(long UserId)
+        {
+            if (this.GetAuthItemsByUser(UserId).Result.Count() == 0) return Task.FromResult(false);
+            return Task.FromResult(true);
+        }
+
         public void Remove(long Id)
         {
             this._authUserItemRepository.Remove(Id);

@@ -229,5 +229,17 @@ namespace CurrencyExchange.Helpers
                 throw ex;
             }
         }
+        internal static string GetTokenFromRequest()
+        {
+            if (Helpers.AppContext.Current.Request.Headers.
+                   FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault() == null)
+            {
+                throw new MyException("توکن ارسال نشده است");
+            }
+            var Token = Helpers.AppContext.Current.Request.Headers.
+                FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault().
+                Replace("Bearer", "").Trim();
+            return Token;
+        }
     }
 }

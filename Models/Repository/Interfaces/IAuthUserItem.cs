@@ -10,5 +10,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
     public interface IAuthUserItem : IRepository<AuthUserItem, long>
     {
         public Task<IEnumerable<AuthUserItem>> GetAuthItemsByUser(long UserId);
+        public Task<bool> IsCompleteAuthUsers(long UserId);
     }
 }

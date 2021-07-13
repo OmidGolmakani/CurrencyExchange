@@ -15,15 +15,7 @@ namespace CurrencyExchange.Helpers
         {
             try
             {
-                if (Helpers.AppContext.Current.Request.Headers.
-                    FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault() == null)
-                {
-                    throw new MyException("توکن ارسال نشده است");
-                }
-                var Token = Helpers.AppContext.Current.Request.Headers.
-                    FirstOrDefault(x => x.Key == "Authorization").Value.FirstOrDefault().
-                    Replace("Bearer", "").Trim();
-                var UserId = Helpers.JWTTokenManager.GetUserIdByToken(Token);
+                var UserId = Helpers.JWTTokenManager.GetUserIdByToken(Helpers.JWTTokenManager.GetTokenFromRequest());
                 return new AdminConfirmDto()
                 {
                     AdminId = UserId,
