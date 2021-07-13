@@ -10,12 +10,12 @@ namespace CurrencyExchange.Models.Enum
     {
         public enum AuthTypeId
         {
-            PhoneNumber = 1,
-            Tel = 2,
-            BirthCertificate = 3,
-            NationalCard = 4,
-            BankCard = 5,
-            UserPicture = 6
+            BirthCertificate = 1,
+            NationalCard = 2,
+            BankCard = 3,
+            UserPicture = 4,
+            PhoneNumber = 5,
+            Tel = 6
         }
     }
 }

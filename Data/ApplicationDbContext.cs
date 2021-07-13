@@ -68,6 +68,12 @@ namespace CurrencyExchange.Data
             #region Trades
             builder.Entity<Trades>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
             #endregion Trades
+            #region AuthItem
+            builder.Entity<AuthItem>().HasIndex(x => x.Order);
+            #endregion AuthItem
+            #region AuthUserItem
+            builder.Entity<AuthUserItem>().HasIndex(x => new { x.UserId, x.AuthItemId, x.Deleted });
+            #endregion AuthUserItem
             #endregion DbLogigs
         }
         #region Add DbSets
