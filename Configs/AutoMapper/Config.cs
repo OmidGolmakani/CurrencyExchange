@@ -18,9 +18,9 @@ namespace CurrencyExchange.Configs
         public AutoMapperProfile()
         {
             #region Identity Tables
-            CreateMap<ApplicationUser, CUApplicationUser>().ReverseMap();
-            CreateMap<ApplicationUser, ApplicationUserDto>().ReverseMap();
-            CreateMap<ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
+            CreateMap<Models.Entity.ApplicationUser, CUApplicationUser>().ReverseMap();
+            CreateMap<Models.Entity.ApplicationUser, ApplicationUserDto>().ReverseMap();
+            CreateMap<Models.Entity.ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             #endregion Identity Tables
             #region Currency Changes
             CreateMap<CurrencyChange, CUCurrencyChangeDto>().ReverseMap();
@@ -38,8 +38,8 @@ namespace CurrencyExchange.Configs
             CreateMap<Models.Dto.CurrencyExchangeHub.CurrencyChangeDto, CurrencyChange>();
             #endregion Currency Changes
             #region Currencies
-            CreateMap<Currency, CurrencyDto>().ReverseMap();
-            CreateMap<Currency, CUCurrencyDto>().ReverseMap();
+            CreateMap<Models.Entity.Currency, CurrencyDto>().ReverseMap();
+            CreateMap<Models.Entity.Currency, CUCurrencyDto>().ReverseMap();
             #endregion Currencies
             #region Orders
             CreateMap<Order, OrderDto>().
@@ -78,8 +78,8 @@ namespace CurrencyExchange.Configs
             {
                 opts.MapFrom(src => src.AuthUser.GetUserFullName());
                 CreateMap<Image, CUImageDto>().ReverseMap();
-                #endregion AuthUserItem
             });
+            #endregion AuthUserItem
         }
     }
 }
