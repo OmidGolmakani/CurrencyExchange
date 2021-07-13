@@ -48,6 +48,11 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped(typeof(ICurrency), typeof(Models.Repository.Services.Currency));
             services.AddScoped<Models.Repository.Services.Currency, Models.Repository.Services.Currency>();
             #endregion Currency
+            #region AuthUserItem
+            services.AddScoped(typeof(Repository<Models.Entity.AuthUserItem, long>), typeof(Repository<Models.Entity.AuthUserItem, long>));
+            services.AddScoped(typeof(IAuthUserItem), typeof(Models.Repository.Services.AuthUserItem));
+            services.AddScoped<Models.Repository.Services.AuthUserItem, Models.Repository.Services.AuthUserItem>();
+            #endregion AuthUserItem
             return services;
         }
     }

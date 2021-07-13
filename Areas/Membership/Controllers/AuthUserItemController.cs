@@ -13,14 +13,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
-    public class AuthUserItemController : BaseController<AuthUserItemController>, IController<CUAuthUserItemDto,long>
+    public class AuthUserItemController : BaseController<AuthUserItemController>, IAuthUserItemController
     {
         private readonly IMapper mapper;
-        private readonly IRepository<AuthUserItem, long> _authUserItemSrv;
+        private readonly IAuthUserItem _authUserItemSrv;
         private readonly ApplicationDbContext dbContext;
 
         public AuthUserItemController(IMapper mapper,
-                                      IRepository<AuthUserItem,long> authUserItemSrv,
+                                      IAuthUserItem authUserItemSrv,
                                       ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
             this.mapper = mapper;
@@ -71,6 +71,20 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
+        [HttpGet("GetAuthItemsByUser{UserId}")]
+        public async Task<IActionResult> GetAuthItemsByUser(long UserId)
+        {
+            var Result = mapper.Map<List<AuthUserItem>>(await _authUserItemSrv.GetAuthItemsByUser(UserId));
+            if (Result.Count == 0)
+            {
+                return Ok(DefaultMessages.ListEmpty);
+            }
+            else
+            {
+                return Ok(Result);
+            }
+        }
+
         [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(long Id)
         {
