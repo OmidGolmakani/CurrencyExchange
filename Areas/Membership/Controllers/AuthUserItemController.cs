@@ -20,8 +20,8 @@ namespace CurrencyExchange.Areas.Membership
         private readonly ApplicationDbContext dbContext;
 
         public AuthUserItemController(IMapper mapper,
-                                     IRepository<AuthUserItem,long> authUserItemSrv,
-                                     ApplicationDbContext DbContext) : base(mapper, DbContext)
+                                      IRepository<AuthUserItem,long> authUserItemSrv,
+                                      ApplicationDbContext DbContext) : base(mapper, DbContext)
         {
             this.mapper = mapper;
             this._authUserItemSrv = authUserItemSrv;

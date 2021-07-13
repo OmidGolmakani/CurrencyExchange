@@ -69,10 +69,10 @@ namespace CurrencyExchange.Data
             builder.Entity<Trades>().Property(p => p.CurrencyPrice).HasColumnType("decimal(18,4)");
             #endregion Trades
             #region AuthItem
-            builder.Entity<AuthItem>().HasIndex(x => x.Order);
+            builder.Entity<AuthItem>().HasIndex(x => x.Order).IsUnique();
             #endregion AuthItem
             #region AuthUserItem
-            builder.Entity<AuthUserItem>().HasIndex(x => new { x.UserId, x.AuthItemId, x.Deleted });
+            builder.Entity<AuthUserItem>().HasIndex(x => new { x.UserId, x.AuthItemId, x.Deleted }).IsUnique();
             #endregion AuthUserItem
             #endregion DbLogigs
         }
