@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Repository.Interfaces;
+﻿using CurrencyExchange.Models.Entity;
+using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace CurrencyExchange.Models.Repository.Services
     public class AuthUserItem : IAuthUserItem
     {
         private readonly Repository<Entity.AuthUserItem, long> _authUserItemRepository;
+        private readonly Repository<AuthItem, int> _authItemRepository;
 
-        public AuthUserItem(Repository<Entity.AuthUserItem, long> authUserItemRepository)
+        public AuthUserItem(Repository<Entity.AuthUserItem, long> authUserItemRepository,
+                            Repository<Entity.AuthItem, int> authItemRepository)
         {
             this._authUserItemRepository = authUserItemRepository;
+            this._authItemRepository = authItemRepository;
         }
 
         public Task<EntityEntry<Entity.AuthUserItem>> Add(Entity.AuthUserItem entity)
@@ -50,7 +54,12 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<bool> IsCompleteAuthUsers(long UserId)
         {
-            if (this.GetAuthItemsByUser(UserId).Result.Count() == 0) return Task.FromResult(false);
+            var authCount = this.GetAuthItemsByUser(UserId).Result.Count();
+            if (authCount == 0) return Task.FromResult(false);
+            if (this._authItemRepository.GetAll().Result.Count() != authCount)
+            {
+                return Task.FromResult(false);
+            }
             return Task.FromResult(true);
         }
 
