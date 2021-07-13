@@ -56,7 +56,7 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             var authCount = this.GetAuthItemsByUser(UserId).Result.Count();
             if (authCount == 0) return Task.FromResult(false);
-            if (this._authItemRepository.GetAll().Result.Count() != authCount)
+            if (this._authItemRepository.GetAll().Result.Count(x => x.Required) != authCount)
             {
                 return Task.FromResult(false);
             }
