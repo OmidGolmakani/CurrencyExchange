@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 
 namespace CurrencyExchange.Validation
 {
-    public class AuthUserItemValidation : AbstractValidator<AuthUserItem>
+    public class AuthUserItemValidator : AbstractValidator<AuthUserItem>
     {
         private readonly ApplicationDbContext context;
-        public AuthUserItemValidation(ApplicationDbContext dbContext)
+        public AuthUserItemValidator(ApplicationDbContext dbContext)
         {
             context = dbContext;
             RuleFor(x => x.Id).NotNull();

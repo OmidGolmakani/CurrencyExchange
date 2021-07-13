@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
+using CurrencyExchange.Models.Dto.AuthItems;
+using CurrencyExchange.Models.Dto.AuthUserItems;
 using CurrencyExchange.Models.Dto.BankAccounts;
 using CurrencyExchange.Models.Dto.Currencies;
 using CurrencyExchange.Models.Dto.CurrencyChanges;
@@ -7,6 +9,7 @@ using CurrencyExchange.Models.Dto.Images;
 using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Dto.Trades;
 using CurrencyExchange.Models.Entity;
+using CurrencyExchange.Models.Helper;
 
 namespace CurrencyExchange.Configs
 {
@@ -42,7 +45,7 @@ namespace CurrencyExchange.Configs
             CreateMap<Order, OrderDto>().
                 ForMember(dest => dest.UserFullName, opts =>
                 {
-                    opts.MapFrom(src => string.Format("{0} {1}", src.OrderUser.Name, src.OrderUser.Family));
+                    opts.MapFrom(src => Models.Helper.ApplicationUser.GetUserFullName(src.OrderUser.Name, src.OrderUser.Family));
                 }).ForMember(dest => dest.CurrencyName, opts =>
                 {
                     opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
@@ -54,7 +57,7 @@ namespace CurrencyExchange.Configs
             CreateMap<Trades, TradeDto>().
                 ForMember(dest => dest.UserFullName, opts =>
             {
-                opts.MapFrom(src => string.Format("{0} {1}", src.Order.OrderUser.Name, src.Order.OrderUser.Family));
+                opts.MapFrom(src => src.Order.OrderUser.GetUserFullName());
             }).ForMember(dest => dest.CurrencyName, opts =>
             {
                 opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Order.Currency.CurrencyTypeId));
@@ -70,6 +73,13 @@ namespace CurrencyExchange.Configs
             CreateMap<Image, ImageDto>().ReverseMap();
             CreateMap<Image, CUImageDto>().ReverseMap();
             #endregion Image
+            #region AuthUserItem
+            CreateMap<AuthUserItem, AuthUserItemDto>().ForMember(dest => dest.UserFullName, opts =>
+            {
+                opts.MapFrom(src => src.AuthUser.GetUserFullName());
+                CreateMap<Image, CUImageDto>().ReverseMap();
+                #endregion AuthUserItem
+            });
         }
     }
 }

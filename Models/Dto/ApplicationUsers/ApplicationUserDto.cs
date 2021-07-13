@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Models.Dto.Base;
+using CurrencyExchange.Models.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         {
             get
             {
-                return string.Format("{0} {1}", Name, Family);
+                return this.GetUserFullName();
             }
         }
         public string NationalCode { get; set; }

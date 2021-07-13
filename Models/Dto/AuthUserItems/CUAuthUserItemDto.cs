@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.AuthUserItems
 {
-    public class AuthUserItemDto : Base.BaseDto
+    public class CUAuthUserItemDto : Base.BaseDto
     {
-        public long Id { get; set; }
+        public Nullable<long> Id { get; set; }
         public int AuthItemId { get; set; }
-        public string AuthName { get; set; }
         public long UserId { get; set; }
-        public string UserFullName { get; set; }
     }
 }

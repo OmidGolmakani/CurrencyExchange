@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.AuthItems
 {
-    public class AuthItemsDto : Base.BaseDto
+    public class AuthItemDto : Base.BaseDto
     {
         public int Id { get; set; }
         public byte AuthTypeId { get; set; }
