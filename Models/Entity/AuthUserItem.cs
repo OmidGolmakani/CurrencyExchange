@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Entity
 {
-    public class AuthUserItem : Base
+    public class AuthUserItem : AdminBase
     {
         [Key]
         public long Id { get; set; }
