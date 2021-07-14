@@ -2,6 +2,7 @@
 using CurrencyExchange.Helpers;
 using CurrencyExchange.OtherServices.Base;
 using CurrencyExchange.OtherServices.FileTransfer.Dto;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System;
@@ -18,14 +19,16 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Services
     public class UploadService : BaseSevice
     {
         private readonly IOptions<UploadConfig> _UploadConfig;
+        private readonly IWebHostEnvironment _env;
 
-        public UploadService(IOptions<UploadConfig> UploadConfig)
+        public UploadService(IOptions<UploadConfig> UploadConfig, IWebHostEnvironment env)
         {
             this._UploadConfig = UploadConfig;
+            this._env = env;
         }
         internal Task<Response> Upload(IFormFile file, bool Override)
         {
-
+            string fullpath = "";
             try
             {
                 if (file == null || string.IsNullOrEmpty(file.FileName))
@@ -41,19 +44,42 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Services
                 {
                     return Task.FromResult(FileInfo.Result.Response);
                 }
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(_env.WebRootPath, _UploadConfig.Value.RootUrl));
+                string FileName = $"Img{dir.GetFiles().Count() + 1}{Path.GetExtension(file.FileName)}";
 
+                fullpath = Path.Combine(_env.WebRootPath, _UploadConfig.Value.RootUrl, FileName);
                 long size = file.Length;
 
                 if (file.Length > 0)
                 {
-                    var filePath = Path.GetTempFileName();
+                    //var filePath = Path.GetTempFileName();
 
-                    using (var stream = System.IO.File.Create(filePath))
+                    using (var stream = System.IO.File.Create(fullpath))
                     {
                         file.CopyToAsync(stream);
                     }
+                    FileInfo.Result.Response.Url = Path.Combine(_UploadConfig.Value.RootUrl, FileName);
+
                 }
                 return Task.FromResult(FileInfo.Result.Response);
+            }
+            catch (MyException ex)
+            {
+                DeleteFileFromServer(fullpath);
+                throw ex;
+            }
+        }
+        internal Task DeleteAsync(FileInfo fi)
+        {
+            return Task.Factory.StartNew(() => fi.Delete());
+        }
+        internal Task DeleteFileFromServer(string FileName)
+        {
+            try
+            {
+                var file = Path.Combine(_env.WebRootPath, FileName);
+                FileInfo fileInfo = new FileInfo(file);
+                return DeleteAsync(fileInfo);
             }
             catch (MyException ex)
             {

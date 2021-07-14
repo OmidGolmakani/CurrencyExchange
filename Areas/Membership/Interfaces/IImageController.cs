@@ -13,6 +13,6 @@ namespace CurrencyExchange.Areas.Membership.Interfaces
     public interface IImageController : IController<CUImageDto, long>
     {
         public Task<IActionResult> GetByUserId(long UserId);
-        public Task<IActionResult> AddImageWithUpload(IFormFile file);
+        public Task<IActionResult> AddImageWithUpload(IFormFile file,[FromForm] CUImageDto entity);
     }
 }

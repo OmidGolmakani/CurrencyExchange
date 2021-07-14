@@ -44,22 +44,13 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }
         [HttpPost("AddImageWithUpload")]
-        public async Task<IActionResult> AddImageWithUpload(IFormFile file)
+        public async Task<IActionResult> AddImageWithUpload(IFormFile file, [FromForm] CUImageDto entity)
         {
-
-            if (file != null && file.Length > 0)
-            {
-                var fileName = Path.GetFileName(file.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-            }
-            CUImageDto entity = new CUImageDto();
-
+            var UploadInfo = await _uploadSrv.Upload(file, true);
             var _entity = mapper.Map<CUImageDto, Image>(entity);
             ImageValidator validator = new ImageValidator(dbContext);
+            //_entity.FileName = UploadInfo.Url;
+            if (validator.Validate(_entity).IsValid == false) await _uploadSrv.DeleteFileFromServer(file.FileName);
             validator.ValidateAndThrow(_entity);
             //var UploadResult = await _uploadSrv.Upload(entity.FileName, true);
             //_entity.FileName = UploadResult.Url;
@@ -79,14 +70,15 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit(CUImageDto entity)
         {
-            if (entity.Id == 0) return BadRequest(DefaultMessages.IdBadRequestWithAdd);
-            Image _entity = new Image();
-            mapper.Map<CUImageDto, Image>(entity, _entity);
-            ImageValidator validator = new ImageValidator(dbContext);
-            validator.ValidateAndThrow(_entity);
-            _ImageSrv.Update(_entity);
-            _ImageSrv.SaveChanges();
-            return Ok(await Task.FromResult(_entity.Id));
+            //if (entity.Id == 0) return BadRequest(DefaultMessages.IdBadRequestWithAdd);
+            //Image _entity = new Image();
+            //mapper.Map<CUImageDto, Image>(entity, _entity);
+            //ImageValidator validator = new ImageValidator(dbContext);
+            //validator.ValidateAndThrow(_entity);
+            //_ImageSrv.Update(_entity);
+            //_ImageSrv.SaveChanges();
+            //return Ok(await Task.FromResult(_entity.Id));
+            return Ok(await Task.FromResult(""));
         }
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
