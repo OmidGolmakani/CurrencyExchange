@@ -2,6 +2,7 @@
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Repository.Services;
+using CurrencyExchange.OtherServices.FileTransfer.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<ApplicationUserLogin>();
             services.AddScoped<ApplicationUserToken>();
             #endregion Identity
+            services.AddScoped<UploadService, UploadService>();
             services.AddScoped<Account, Account>();
             services.AddScoped<CurrencyExchangeHub, CurrencyExchangeHub>();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
@@ -56,6 +58,11 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped(typeof(IAuthUserItem), typeof(Models.Repository.Services.AuthUserItem));
             services.AddScoped<Models.Repository.Services.AuthUserItem, Models.Repository.Services.AuthUserItem>();
             #endregion AuthUserItem
+            #region Image
+            services.AddScoped(typeof(Repository<Models.Entity.Image, long>), typeof(Repository<Models.Entity.Image, long>));
+            services.AddScoped(typeof(IImage), typeof(Models.Repository.Services.Image));
+            services.AddScoped<Models.Repository.Services.Image, Models.Repository.Services.Image>();
+            #endregion Image
             return services;
         }
     }

@@ -8,6 +8,7 @@ using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Validation;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
+        [AllowAnonymous]
         [HttpGet("GetDetail{Id}")]
         public async Task<IActionResult> GetById(int Id)
         {

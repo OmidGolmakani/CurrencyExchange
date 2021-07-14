@@ -152,7 +152,7 @@ namespace CurrencyExchange.Models.Repository.Services
             try
             {
                 var _user = _userManager.FindByNameAsync(login.UserName);
-                Tuple<string, string> tokenInfo = null;
+                Tuple<string, double> tokenInfo = null;
                 _user.Wait();
                 if (_user.Result == null || _user.Result.Id == 0)
                 {

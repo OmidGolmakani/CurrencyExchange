@@ -7,9 +7,7 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Dto
 {
     public class UploadConfig
     {
-        public string Url { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public List<MaxSize> MaxSize { get; set; }
+        public string RootUrl { get; set; }
+        public OtherServices.FileTransfer.Enum.Type Type { get; set; }
     }
 }
