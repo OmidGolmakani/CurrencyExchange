@@ -76,6 +76,21 @@ namespace CurrencyExchange.Data
             builder.Entity<AuthUserItem>().HasOne(Admin => Admin.AdminUser).WithMany(AuthUserItems => AuthUserItems.AuthUserItems);
             #endregion AuthUserItem
             #endregion DbLogigs
+            #region Seed
+            #region Application User Role
+            builder.Entity<ApplicationRole>().HasData(new ApplicationRole()
+            {
+                Name = "Administrator",
+                NormalizedName = "ADMINISTRATOR",
+                ConcurrencyStamp = "420d99de-7b2d-4a31-acd9-da52b0927bd0"
+            }, new ApplicationRole()
+            {
+                Name = "User",
+                NormalizedName = "USER",
+                ConcurrencyStamp = "47a274bd-9ea4-4475-a931-00ea4a3e86f7"
+            });
+            #endregion Application User Role
+            #endregion Seed
         }
         #region Add DbSets
         public virtual DbSet<RolePermission> RolePermissions { get; set; }

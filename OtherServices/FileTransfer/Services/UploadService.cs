@@ -77,6 +77,7 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Services
         {
             try
             {
+                if (FileName == "") return Task.Run(() => false);
                 var file = Path.Combine(_env.WebRootPath, FileName);
                 FileInfo fileInfo = new FileInfo(file);
                 return DeleteAsync(fileInfo);
