@@ -39,6 +39,7 @@ namespace CurrencyExchange.Areas.Membership
             validator.ValidateAndThrow(_entity);
             var Result = _tradesSrv.Add(_entity);
             await _orderSrv.UpdateAdminOrder(entity.OrderId, entity.Description);
+            _orderSrv.UpdateOrderStatus(entity.OrderId, Models.Enum.Order.Status.Confirmation);
             _tradesSrv.SaveChanges();
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
         }

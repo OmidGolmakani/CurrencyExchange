@@ -14,5 +14,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         Task<IEnumerable<Order>> GetOrderByStatus(Enum.Order.Status status);
         Task UpdateAdminOrder(long OrderId, string AdminDesctiption);
         Task<IEnumerable<Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type);
+        void UpdateOrderStatus(long OrderId,Enum.Order.Status status);
     }
 }

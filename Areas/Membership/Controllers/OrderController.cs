@@ -137,5 +137,11 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
+        [HttpPost("UpdateOrderStatus{OrderId},{Status}")]
+        public async Task<IActionResult> UpdateOrderStatus(long OrderId, Models.Enum.Order.Status status)
+        {
+            _OrderSrv.UpdateOrderStatus(OrderId, status);
+            return Ok(await Task.FromResult(""));
+        }
     }
 }

@@ -119,6 +119,16 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.Run(() => true);
         }
 
+        public void UpdateOrderStatus(long OrderId, Enum.Order.Status status)
+        {
+            var Result = orderRepository.GetById(OrderId).Result;
+            if (Result != null)
+            {
+                Result.Status = (byte)status;
+                orderRepository.Update(Result);
+            }
+        }
+
         public void UpdateRange(IEnumerable<Entity.Order> entities)
         {
             orderRepository.UpdateRange(entities);

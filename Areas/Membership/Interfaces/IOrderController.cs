@@ -13,5 +13,6 @@ namespace CurrencyExchange.Areas.Membership.Interfaces
         public Task<IActionResult> GetOrdersByStatus(Models.Enum.Order.Status status);
         public Task<IActionResult> Find(string dateFrom,string dateTo,Models.Enum.Order.OrderType type);
         public Task<IActionResult> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type);
+        public Task<IActionResult> UpdateOrderStatus(long OrderId, Models.Enum.Order.Status status);
     }
 }
