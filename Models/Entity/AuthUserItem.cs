@@ -21,5 +21,7 @@ namespace CurrencyExchange.Models.Entity
         [ForeignKey("UserId")]
         public virtual ApplicationUser AuthUser { get; set; }
         public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
+
     }
 }

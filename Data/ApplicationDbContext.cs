@@ -80,14 +80,16 @@ namespace CurrencyExchange.Data
             #region Application User Role
             builder.Entity<ApplicationRole>().HasData(new ApplicationRole()
             {
+                Id = 1,
                 Name = "Administrator",
                 NormalizedName = "ADMINISTRATOR",
-                ConcurrencyStamp = "420d99de-7b2d-4a31-acd9-da52b0927bd0"
+                ConcurrencyStamp = "420d99de-7b2d-4a31-acd9-da52b0927bd0",
             }, new ApplicationRole()
             {
+                Id = 2,
                 Name = "User",
                 NormalizedName = "USER",
-                ConcurrencyStamp = "47a274bd-9ea4-4475-a931-00ea4a3e86f7"
+                ConcurrencyStamp = "47a274bd-9ea4-4475-a931-00ea4a3e86f7",
             });
             #endregion Application User Role
             #endregion Seed
