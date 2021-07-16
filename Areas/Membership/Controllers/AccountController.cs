@@ -26,7 +26,7 @@ namespace CurrencyExchange.Areas.Membership
                                  ILogger<AccountController> logger,
                                  ApplicationDbContext DbContext,
                                  Account account)
-            : base(mapper, logger,DbContext)
+            : base(mapper, logger, DbContext)
         {
             this._mapper = mapper;
             this._logger = logger;
@@ -38,6 +38,7 @@ namespace CurrencyExchange.Areas.Membership
         {
             return Ok(await _account.GetAll());
         }
+        [HttpGet("GetByAuthStatus{StatusId}")]
         public async Task<IActionResult> GetByAuthStatus(Models.Enum.AuthUserItem.Status status)
         {
             return Ok(await _account.GetAccountByAuthStatus(status));

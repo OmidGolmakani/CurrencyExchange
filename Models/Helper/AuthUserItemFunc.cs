@@ -11,7 +11,7 @@ namespace CurrencyExchange.Models.Helper
         internal static string GetStatus(byte status)
         {
             Enum.AuthUserItem.Status authStatus = (Enum.AuthUserItem.Status)status;
-            return GetStatus(status);
+            return GetStatus(authStatus);
         }
 
         internal static string GetStatus(this Models.Entity.AuthUserItem status)
@@ -32,6 +32,10 @@ namespace CurrencyExchange.Models.Helper
                 default:
                     return "";
             }
+        }
+        internal static string GetStatus(this Models.Dto.AuthUserItems.AuthUserStatusDto statusDto)
+        {
+            return GetStatus(statusDto);
         }
     }
 }

@@ -124,10 +124,11 @@ namespace CurrencyExchange.Areas.Membership
             }
         }
 
-        [HttpGet("GetOrdersByStatus{Status})")]
-        public async Task<IActionResult> GetOrdersByStatus(Models.Enum.Order.Status status)
+        [HttpGet("GetOrdersByStatus")]
+        public async Task<IActionResult> GetOrdersByStatus(byte status)
         {
-            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetOrderByStatus(status));
+            Models.Enum.Order.Status status1 = (Models.Enum.Order.Status)status;
+            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetOrderByStatus(status1));
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
@@ -137,10 +138,11 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-        [HttpPost("UpdateOrderStatus{OrderId},{Status}")]
-        public async Task<IActionResult> UpdateOrderStatus(long OrderId, Models.Enum.Order.Status status)
+        [HttpGet("UpdateOrderStatus")]
+        public async Task<IActionResult> UpdateOrderStatus(long OrderId, byte status)
         {
-            _OrderSrv.UpdateOrderStatus(OrderId, status);
+            Models.Enum.Order.Status status1 = (Models.Enum.Order.Status)status;
+            _OrderSrv.UpdateOrderStatus(OrderId, status1);
             return Ok(await Task.FromResult(""));
         }
     }

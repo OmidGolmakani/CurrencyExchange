@@ -28,6 +28,7 @@ namespace CurrencyExchange.Models.Repository.Services
         private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
+                       IAuthUserItem authUserItemSrv,
                        IMapper mapper,
                        ApplicationDbContext dbContext)
         {
@@ -35,11 +36,13 @@ namespace CurrencyExchange.Models.Repository.Services
             this._mapper = mapper;
             this._dbContext = dbContext;
             this._signInManager = signInManager;
+            this._authUserItemSrv = authUserItemSrv;
         }
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IAuthUserItem _authUserItemSrv;
 
         public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
         {
@@ -167,13 +170,15 @@ namespace CurrencyExchange.Models.Repository.Services
                     {
                         tokenInfo = Helpers.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
                     }
+                    var authStatus = _authUserItemSrv.GetAuthUserStatus(_user.Result.Id).Result;
                     SignInResultDto Result = new SignInResultDto()
                     {
                         SignIn = SigninResult.Result,
                         UserId = _user.Result.Id,
                         Token = tokenInfo.Item1,
                         ExprireDate = tokenInfo.Item2,
-                        IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true
+                        IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true,
+                        AuthUserStatusId = authStatus.StatusId
                     };
                     return Task.FromResult(Result);
                 }

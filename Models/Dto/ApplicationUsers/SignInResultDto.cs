@@ -14,5 +14,7 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public double ExprireDate { get; set; }
         public string Token { get; set; }
         public bool IsAdmin { get; set; }
+        public byte AuthUserStatusId { get; set; }
+        public string AuthUserStatus { get { return Helper.AuthUserItemFunc.GetStatus(this.AuthUserStatusId); } }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Entity;
+﻿using CurrencyExchange.Models.Dto.AuthUserItems;
+using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -55,6 +56,40 @@ namespace CurrencyExchange.Models.Repository.Services
         public Task<IEnumerable<Entity.AuthUserItem>> GetAuthItemsByUser(long UserId)
         {
             return Task.FromResult(this._authUserItemRepository.GetAll().Result.Where(x => x.UserId == UserId).AsEnumerable());
+        }
+
+        public Task<AuthUserStatusDto> GetAuthUserStatus(long UserId)
+        {
+            var authAcceptCount = GetAuthItemsByUser(UserId).Result.Count(x => x.Status == (byte)Enum.AuthUserItem.Status.Accepted);
+            var authCount = _authItemRepository.GetAll().Result.Count();
+            AuthUserStatusDto status = null;
+            if (authAcceptCount == authCount)
+            {
+                status = new AuthUserStatusDto()
+                {
+                    UserId = UserId,
+                    StatusId = (byte)Enum.AuthUserItem.Status.Accepted
+                };
+                return Task.FromResult(status);
+            }
+            else if (GetAuthItemsByUser(UserId).Result.Count(x => x.Status == (byte)Enum.AuthUserItem.Status.Rejected) != 0)
+            {
+                status = new AuthUserStatusDto()
+                {
+                    UserId = UserId,
+                    StatusId = (byte)Enum.AuthUserItem.Status.Rejected
+                };
+                return Task.FromResult(status);
+            }
+            else 
+            {
+                status = new AuthUserStatusDto()
+                {
+                    UserId = UserId,
+                    StatusId = (byte)Enum.AuthUserItem.Status.Waiting
+                };
+                return Task.FromResult(status);
+            }
         }
 
         public Task<Entity.AuthUserItem> GetById(long Id)

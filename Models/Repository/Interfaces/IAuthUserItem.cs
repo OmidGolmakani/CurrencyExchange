@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Entity;
+﻿using CurrencyExchange.Models.Dto.AuthUserItems;
+using CurrencyExchange.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
     {
         public Task<IEnumerable<AuthUserItem>> GetAuthItemsByUser(long UserId);
         public Task<bool> IsCompleteAuthUsers(long UserId);
+        public Task<AuthUserStatusDto> GetAuthUserStatus(long UserId);
     }
 }
