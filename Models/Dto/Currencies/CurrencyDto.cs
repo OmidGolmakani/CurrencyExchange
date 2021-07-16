@@ -15,7 +15,7 @@ namespace CurrencyExchange.Models.Dto.Currencies
         {
             get
             {
-                return Helper.Currency.GetCurrncyName(CurrencyTypeId);
+                return Helper.CurrencyFunc.GetCurrncyName(CurrencyTypeId);
             }
         }
         public string CurrencyAbbreviationName { get; set; }

@@ -5,6 +5,7 @@ using CurrencyExchange.Data;
 using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Entity;
+using CurrencyExchange.Models.Helper;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Validation;
 using FluentValidation;
@@ -359,6 +360,33 @@ namespace CurrencyExchange.Models.Repository.Services
         public Task<ApplicationUserDto> FirstOrDefault(IEnumerable<ApplicationUserDto> source, Func<ApplicationUserDto, bool> predicate)
         {
             return Task.FromResult(source.FirstOrDefault(predicate));
+        }
+
+        public Task<IEnumerable<ApplicationUserDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
+        {
+            var Result = (from u in GetAccounts()
+                          join a in this._dbContext.AuthUserItems
+                          on u.Id equals a.UserId
+                          where a.Status == (byte)sttaus
+                          select new ApplicationUserDto()
+                          {
+                              AuthStatusId = a.Status,
+                              AuthStatus = a.GetStatus(),
+                              Email = u.Email,
+                              ConcurrencyStamp = u.ConcurrencyStamp,
+                              Family = u.Family,
+                              Id = u.Id,
+                              Name = u.Name,
+                              NationalCode = u.NationalCode,
+                              NationalCodeConfirmed = u.NationalCodeConfirmed,
+                              PhoneNumber = u.PhoneNumber,
+                              SecurityStamp = u.SecurityStamp,
+                              Tel = u.Tel,
+                              TelConfirmed = u.TelConfirmed,
+                              UserName = u.UserName
+
+                          });
+            return Task.FromResult(Result);
         }
 
         private enum ErrorMessageType { UserNotFound = 1 }

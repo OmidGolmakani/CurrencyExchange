@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Helper
 {
-    internal static class ApplicationUser
+    internal static class ApplicationUserFunc
     {
         internal static string GetUserFullName(string Name, string Family)
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Helper
 {
-    internal static class Currency
+    internal static class CurrencyFunc
     {
         internal static string GetCurrncyName(Enum.Currency.CurrencyTypeId currency)
         {

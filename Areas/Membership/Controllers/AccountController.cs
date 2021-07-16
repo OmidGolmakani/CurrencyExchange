@@ -38,6 +38,10 @@ namespace CurrencyExchange.Areas.Membership
         {
             return Ok(await _account.GetAll());
         }
+        public async Task<IActionResult> GetByAuthStatus(Models.Enum.AuthUserItem.Status status)
+        {
+            return Ok(await _account.GetAccountByAuthStatus(status));
+        }
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)

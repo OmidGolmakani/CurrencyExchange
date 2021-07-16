@@ -16,6 +16,7 @@ namespace CurrencyExchange.Models.Entity
         public int AuthItemId { get; set; }
         [Required]
         public long UserId { get; set; }
+        public Nullable<byte> Status { get; set; }
         [ForeignKey("AuthItemId")]
         public virtual AuthItem AuthItem { get; set; }
         [ForeignKey("UserId")]

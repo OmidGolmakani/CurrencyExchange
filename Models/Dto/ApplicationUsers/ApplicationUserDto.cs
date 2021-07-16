@@ -30,6 +30,8 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public bool NationalCodeConfirmed { get; set; }
         public string Tel { get; set; }
         public bool TelConfirmed { get; set; }
+        public Nullable<byte> AuthStatusId { get; set; }
+        public string AuthStatus { get; set; }
         [JsonIgnore]
         public override bool Published { get => base.Published; set => base.Published = value; }
         [JsonIgnore]

@@ -28,12 +28,12 @@ namespace CurrencyExchange.Configs
             CreateMap<CurrencyChange, CurrencyChangeDto>()
                 .ForMember(dest => dest.CurrencyName, opts =>
                 {
-                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                    opts.MapFrom(src => Models.Helper.CurrencyFunc.GetCurrncyName(src.Currency.CurrencyTypeId));
                 });
             CreateMap<CurrencyChange, Models.Dto.CurrencyExchangeHub.CurrencyChangeDto>()
                 .ForMember(dest => dest.CurrencyName, opts =>
                 {
-                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                    opts.MapFrom(src => Models.Helper.CurrencyFunc.GetCurrncyName(src.Currency.CurrencyTypeId));
                 });
             CreateMap<Models.Dto.CurrencyExchangeHub.CurrencyChangeDto, CurrencyChange>();
             #endregion Currency Changes
@@ -45,10 +45,10 @@ namespace CurrencyExchange.Configs
             CreateMap<Order, OrderDto>().
                 ForMember(dest => dest.UserFullName, opts =>
                 {
-                    opts.MapFrom(src => Models.Helper.ApplicationUser.GetUserFullName(src.OrderUser.Name, src.OrderUser.Family));
+                    opts.MapFrom(src => Models.Helper.ApplicationUserFunc.GetUserFullName(src.OrderUser.Name, src.OrderUser.Family));
                 }).ForMember(dest => dest.CurrencyName, opts =>
                 {
-                    opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Currency.CurrencyTypeId));
+                    opts.MapFrom(src => Models.Helper.CurrencyFunc.GetCurrncyName(src.Currency.CurrencyTypeId));
                 });
             CreateMap<OrderDto, Order>();
             CreateMap<Order, CUOrderDto>().ReverseMap();
@@ -60,7 +60,7 @@ namespace CurrencyExchange.Configs
                 opts.MapFrom(src => src.Order.OrderUser.GetUserFullName());
             }).ForMember(dest => dest.CurrencyName, opts =>
             {
-                opts.MapFrom(src => Models.Helper.Currency.GetCurrncyName(src.Order.Currency.CurrencyTypeId));
+                opts.MapFrom(src => Models.Helper.CurrencyFunc.GetCurrncyName(src.Order.Currency.CurrencyTypeId));
             });
             CreateMap<TradeDto, Trades>();
             CreateMap<Trades, CUTradeDto>().ReverseMap();
