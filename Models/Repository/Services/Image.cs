@@ -35,6 +35,16 @@ namespace CurrencyExchange.Models.Repository.Services
             return ImageRepository.Find(expression);
         }
 
+        public Task<Entity.Image> FirstOrDefault(IEnumerable<Entity.Image> source)
+        {
+            return ImageRepository.FirstOrDefault(source);
+        }
+
+        public Task<Entity.Image> FirstOrDefault(IEnumerable<Entity.Image> source, Func<Entity.Image, bool> predicate)
+        {
+            return ImageRepository.FirstOrDefault(source, predicate);
+        }
+
         public Task<IEnumerable<Entity.Image>> GetAll()
         {
             return ImageRepository.GetAll();

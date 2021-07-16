@@ -350,6 +350,16 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
+        public Task<ApplicationUserDto> FirstOrDefault(IEnumerable<ApplicationUserDto> source)
+        {
+            return Task.FromResult(source.FirstOrDefault());
+        }
+
+        public Task<ApplicationUserDto> FirstOrDefault(IEnumerable<ApplicationUserDto> source, Func<ApplicationUserDto, bool> predicate)
+        {
+            return Task.FromResult(source.FirstOrDefault(predicate));
+        }
+
         private enum ErrorMessageType { UserNotFound = 1 }
     }
 }

@@ -12,6 +12,8 @@ namespace CurrencyExchange.Models.Repository.Interfaces
     {
         Task<TEntiy> GetById(T Id);
         Task<IEnumerable<TEntiy>> GetAll();
+        Task<TEntiy> FirstOrDefault(IEnumerable<TEntiy> source);
+        Task<TEntiy> FirstOrDefault(IEnumerable<TEntiy> source, Func<TEntiy, bool> predicate);
         Task<IEnumerable<TEntiy>> Find(Expression<Func<TEntiy, bool>> expression);
         Task<EntityEntry<TEntiy>> Add(TEntiy entity);
         Task AddRange(IEnumerable<TEntiy> entities);

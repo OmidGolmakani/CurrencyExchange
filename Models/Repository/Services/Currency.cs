@@ -35,6 +35,16 @@ namespace CurrencyExchange.Models.Repository.Services
             return currencyRepository.Find(expression);
         }
 
+        public Task<Entity.Currency> FirstOrDefault(IEnumerable<Entity.Currency> source)
+        {
+            return currencyRepository.FirstOrDefault(source);
+        }
+
+        public Task<Entity.Currency> FirstOrDefault(IEnumerable<Entity.Currency> source, Func<Entity.Currency, bool> predicate)
+        {
+            return currencyRepository.FirstOrDefault(source, predicate);
+        }
+
         public Task<IEnumerable<Entity.Currency>> GetAll()
         {
             return currencyRepository.GetAll();

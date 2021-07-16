@@ -23,7 +23,15 @@ namespace CurrencyExchange.Models.Repository.Services
             this.Mapper = Mapper;
             _context = context;
         }
+        public Task<TEntity> FirstOrDefault(IEnumerable<TEntity> source)
+        {
+            return Task.FromResult(source.FirstOrDefault());
+        }
 
+        public Task<TEntity> FirstOrDefault(IEnumerable<TEntity> source, Func<TEntity, bool> predicate)
+        {
+            return Task.FromResult(source.FirstOrDefault(predicate));
+        }
         public Task<TEntity> GetById(T Id)
         {
             return _context.Set<TEntity>().FindAsync(Id).AsTask();
