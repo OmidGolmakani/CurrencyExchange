@@ -55,10 +55,15 @@ namespace CurrencyExchange.Models.Repository.Services
             return TradesRepository.GetById(Id);
         }
 
-        public Task<long> GetNeTradeNum()
+        public Task<long> GetNewTradeNum()
         {
             var Result = GetAll().Result;
             return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.TradeNum) + 1);
+        }
+
+        public Task<IEnumerable<Entity.Trades>> GetTradesByUserId(long UserId)
+        {
+            return TradesRepository.Find(x => x.Order.UserId == UserId);
         }
 
         public void Remove(long Id)

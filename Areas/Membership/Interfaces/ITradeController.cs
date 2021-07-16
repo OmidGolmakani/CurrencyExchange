@@ -11,5 +11,6 @@ namespace CurrencyExchange.Areas.Membership.Interfaces
     public interface ITradeController : IController<CUTradeDto, long>
     {
         public Task<IActionResult> Find(string dateFrom, string dateTo);
+        public Task<IActionResult> GetTradeByUserId(long UserId);
     }
 }
