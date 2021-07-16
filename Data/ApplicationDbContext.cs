@@ -142,6 +142,56 @@ namespace CurrencyExchange.Data
                     UserId = 2
                 });
             #endregion Application User Role
+            #region Auth Items
+            builder.Entity<AuthItem>().HasData(new AuthItem()
+            {
+                Id = 1,
+                AuthName = "تصویر کاربر",
+                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.UserPicture,
+                CreateDate = DateTime.Now,
+                Deleted = false,
+                Order = 1,
+                Required = true,
+                Description = "با استفاده از این احراز تصویر کاربر احراز می گردد"
+
+            },
+            new AuthItem()
+            {
+                Id = 2,
+                AuthName = "کارت بانکی",
+                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.BankCard,
+                CreateDate = DateTime.Now,
+                Deleted = false,
+                Order = 2,
+                Required = true,
+                Description = "احراز کارت بانکی"
+
+            },
+            new AuthItem()
+            {
+                Id = 3,
+                AuthName = "کد ملی",
+                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.UserPicture,
+                CreateDate = DateTime.Now,
+                Deleted = false,
+                Order = 3,
+                Required = true,
+                Description = "از طریق این احراز اطلاعات هویتی کاربر از طریق کارت ملی احراز می گردد"
+
+            },
+            new AuthItem()
+            {
+                Id = 4,
+                AuthName = "تلفن ثابت",
+                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.Tel,
+                CreateDate = DateTime.Now,
+                Deleted = false,
+                Order = 4,
+                Required = true,
+                Description = "احراز تلفن ثابت"
+
+            });
+            #endregion Auth Items
             #endregion Seed
         }
         #region Add DbSets
