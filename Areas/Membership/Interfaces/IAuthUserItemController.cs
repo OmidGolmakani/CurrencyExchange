@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Models.Dto.AuthUserItems;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,9 @@ namespace CurrencyExchange.Areas.Membership.Interfaces
     public interface IAuthUserItemController : IController<CUAuthUserItemDto, long>
     {
         public Task<IActionResult> GetAuthItemsByUser(long UserId);
+        public Task<IActionResult> AddAll(IFormFile UserImgFile,
+                                            IFormFile NationalCodeImgFile,
+                                            IFormFile BankCardImgFile,
+                                            [FromForm] CAuthUserItemsDto entity);
     }
 }

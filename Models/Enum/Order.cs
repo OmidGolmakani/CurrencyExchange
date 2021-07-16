@@ -10,7 +10,8 @@ namespace CurrencyExchange.Models.Enum
         public enum Status
         {
             AwaitingConfirmation = 1,
-            Confirmation = 2
+            Confirmation = 2,
+            Reject = 3
         }
         public enum OrderType
         {

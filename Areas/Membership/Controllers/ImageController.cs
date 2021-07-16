@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.Controllers;
+using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
 using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.Images;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
+using CurrencyExchange.OtherServices.FileTransfer.Dto;
 using CurrencyExchange.OtherServices.FileTransfer.Services;
 using CurrencyExchange.Validation;
 using FluentValidation;
@@ -46,17 +48,28 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("AddImageWithUpload")]
         public async Task<IActionResult> AddImageWithUpload(IFormFile file, [FromForm] CUImageDto entity)
         {
-            var UploadInfo = await _uploadSrv.Upload(file, true);
-            var _entity = mapper.Map<CUImageDto, Image>(entity);
-            ImageValidator validator = new ImageValidator(dbContext);
-            //_entity.FileName = UploadInfo.Url;
-            if (validator.Validate(_entity).IsValid == false) await _uploadSrv.DeleteFileFromServer(file.FileName);
-            validator.ValidateAndThrow(_entity);
-            //var UploadResult = await _uploadSrv.Upload(entity.FileName, true);
-            //_entity.FileName = UploadResult.Url;
-            var Result = _ImageSrv.Add(_entity);
-            _ImageSrv.SaveChanges();
-            return Ok(await Task.FromResult(Result.Result.Entity.Id));
+            Response UploadInfo = null;
+            try
+            {
+                UploadInfo = await _uploadSrv.Upload(file, true);
+                var _entity = mapper.Map<CUImageDto, Image>(entity);
+                ImageValidator validator = new ImageValidator(dbContext);
+                _entity.FileName = UploadInfo.Url;
+                validator.ValidateAndThrow(_entity);
+                //var UploadResult = await _uploadSrv.Upload(entity.FileName, true);
+                //_entity.FileName = UploadResult.Url;
+                var Result = _ImageSrv.Add(_entity);
+                _ImageSrv.SaveChanges();
+                return Ok(await Task.FromResult(Result.Result.Entity.Id));
+            }
+            catch (MyException ex)
+            {
+                if (UploadInfo!=null && UploadInfo.Url!=null)
+                {
+                    await _uploadSrv.DeleteFileFromServer(UploadInfo.Url);
+                }
+                throw ex;
+            }
         }
         [HttpPost("Delete{Id}")]
         public async Task<IActionResult> Delete(long Id)
