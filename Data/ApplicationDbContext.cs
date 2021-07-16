@@ -77,6 +77,43 @@ namespace CurrencyExchange.Data
             #endregion AuthUserItem
             #endregion DbLogigs
             #region Seed
+            #region Application User
+            builder.Entity<ApplicationUser>().HasData(new ApplicationUser()
+            {
+                Id = 1,
+                UserName = "Admin",
+                NormalizedUserName = "ADMIN",
+                PasswordHash = "AQAAAAEAACcQAAAAENSkzWsQZKhTh+7aBZLEAWRHo8O3XC0qp1d1RFJEdvxKt3rGy+8Agyt38iYrVR5Zyw==",
+                SecurityStamp = "JF5Z6SA4QDPB246AF2WKXR5B5QAMMN7O",
+                ConcurrencyStamp = "b4c38214-364e-4c16-9028-a2d7448435b1",
+                PhoneNumber = "09150000000",
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                Name = "Admin",
+                Family = "Admin",
+                NationalCodeConfirmed = false,
+                TelConfirmed = false
+            }, new ApplicationUser()
+            {
+                Id = 2,
+                UserName = "User1",
+                NormalizedUserName = "USER1",
+                PasswordHash = "AQAAAAEAACcQAAAAEEntwM294Ph6cmevAy6Q4LHVkhEEQC9Tqurw0jnG+J55aF0s2Ppsz4MRbR7ker9A8w==",
+                SecurityStamp = "UC7D6KUHK3PXCOTP2CGX6L7IMP4TFWKM",
+                ConcurrencyStamp = "8826450d-66b7-4a10-880a-cbad5790e841",
+                PhoneNumber = "09150000000",
+                PhoneNumberConfirmed = true,
+                TwoFactorEnabled = false,
+                LockoutEnabled = false,
+                AccessFailedCount = 0,
+                Name = "Admin",
+                Family = "Admin",
+                NationalCodeConfirmed = false,
+                TelConfirmed = false
+            });
+            #endregion Application User
             #region Application User Role
             builder.Entity<ApplicationRole>().HasData(new ApplicationRole()
             {
