@@ -114,7 +114,7 @@ namespace CurrencyExchange.Data
                 TelConfirmed = false
             });
             #endregion Application User
-            #region Application User Role
+            #region Application Role
             builder.Entity<ApplicationRole>().HasData(new ApplicationRole()
             {
                 Id = 1,
@@ -128,6 +128,19 @@ namespace CurrencyExchange.Data
                 NormalizedName = "USER",
                 ConcurrencyStamp = "47a274bd-9ea4-4475-a931-00ea4a3e86f7",
             });
+            #endregion Application User Role
+            #region Application User Role
+            builder.Entity<ApplicationUserRole>().HasData(
+                new ApplicationUserRole()
+                {
+                    RoleId = 1,
+                    UserId = 1
+                },
+                new ApplicationUserRole()
+                {
+                    RoleId = 2,
+                    UserId = 2
+                });
             #endregion Application User Role
             #endregion Seed
         }
