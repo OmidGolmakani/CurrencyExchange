@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Enum
 {
-    public class Image
+    public class Image : Base
     {
         public enum Type
         {

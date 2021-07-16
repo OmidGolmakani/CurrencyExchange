@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Enum
 {
-    public class AuthItems
+    public class AuthItems:Base
     {
         public enum AuthTypeId
         {

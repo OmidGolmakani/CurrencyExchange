@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Enum
 {
-    public class BankAccount:Base
+    public class AuthUserItem : Base
     {
-        internal enum IdType
+        public enum Status
         {
-            Account = 1,
-            Card = 2,
-            Shaba = 3
+            Waiting = 1,
+            Accepted = 2,
+            Rejected = 3,
         }
     }
 }

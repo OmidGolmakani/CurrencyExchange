@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Enum
 {
-    public class Currency
+    public class Currency:Base
     {
         internal enum CurrencyTypeId
         {
