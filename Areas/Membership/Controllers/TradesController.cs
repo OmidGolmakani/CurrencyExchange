@@ -107,7 +107,7 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-
+        [HttpGet("GetTradeByUser{UserId}")]
         public async Task<IActionResult> GetTradeByUserId(long UserId)
         {
             var Result = mapper.Map<TradeDto>(await _tradesSrv.GetTradesByUserId(UserId));
