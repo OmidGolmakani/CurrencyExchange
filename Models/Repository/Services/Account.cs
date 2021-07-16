@@ -171,7 +171,8 @@ namespace CurrencyExchange.Models.Repository.Services
                         SignIn = SigninResult.Result,
                         UserId = _user.Result.Id,
                         Token = tokenInfo.Item1,
-                        ExprireDate = tokenInfo.Item2
+                        ExprireDate = tokenInfo.Item2,
+                        IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true
                     };
                     return Task.FromResult(Result);
                 }
@@ -198,7 +199,7 @@ namespace CurrencyExchange.Models.Repository.Services
         public void Update(ApplicationUserDto entity)
         {
             ApplicationUser _entity = _dbContext.Users.Find(entity.Id);
-            _mapper.Map<ApplicationUserDto,ApplicationUser>(entity,_entity);
+            _mapper.Map<ApplicationUserDto, ApplicationUser>(entity, _entity);
             var Result = _dbContext.Users.Update(_entity);
             //if (Result.Result.Succeeded == false)
             //{

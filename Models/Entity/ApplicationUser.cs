@@ -18,6 +18,8 @@ namespace CurrencyExchange.Models.Entity
             Trades = new HashSet<Trades>();
             BankAccounts = new HashSet<BankAccount>();
             Images = new HashSet<Image>();
+            AuthUserItems = new HashSet<AuthUserItem>();
+            ApplicationUserRoles = new HashSet<ApplicationUserRole>();
         }
         [MaxLength(100)]
         public override string SecurityStamp { get => base.SecurityStamp; set => base.SecurityStamp = value; }
@@ -52,6 +54,8 @@ namespace CurrencyExchange.Models.Entity
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
         public virtual ICollection<AuthUserItem> AuthUserItems { get; set; }
+        public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
+
 
 
 

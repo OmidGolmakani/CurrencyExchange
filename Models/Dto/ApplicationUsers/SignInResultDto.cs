@@ -13,5 +13,6 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public SignInResult SignIn { get; set; }
         public double ExprireDate { get; set; }
         public string Token { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

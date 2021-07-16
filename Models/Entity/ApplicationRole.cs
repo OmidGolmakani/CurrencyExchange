@@ -10,6 +10,7 @@ namespace CurrencyExchange.Models.Entity
             Permissions = new HashSet<RolePermission>();
         }
 
+        public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
         public virtual ICollection<RolePermission> Permissions { get; set; }
     }
 }
