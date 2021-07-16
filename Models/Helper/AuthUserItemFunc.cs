@@ -8,6 +8,12 @@ namespace CurrencyExchange.Models.Helper
 {
     public static class AuthUserItemFunc
     {
+        internal static string GetStatus(byte status)
+        {
+            Enum.AuthUserItem.Status authStatus = (Enum.AuthUserItem.Status)status;
+            return GetStatus(status);
+        }
+
         internal static string GetStatus(this Models.Entity.AuthUserItem status)
         {
             Enum.AuthUserItem.Status authStatus = (Enum.AuthUserItem.Status)status.Status;

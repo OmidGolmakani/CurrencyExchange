@@ -21,5 +21,9 @@ namespace CurrencyExchange.Models.Helper
         {
             return GetUserFullName(x.Name, x.Family);
         }
+        internal static string GetAuthStatus(this ApplicationUserDto x)
+        {
+            return Helper.AuthUserItemFunc.GetStatus((x.AuthStatusId ?? 0));
+        }
     }
 }

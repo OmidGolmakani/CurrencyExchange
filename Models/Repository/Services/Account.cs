@@ -389,6 +389,7 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(Result);
         }
 
+
         private enum ErrorMessageType { UserNotFound = 1 }
     }
 }

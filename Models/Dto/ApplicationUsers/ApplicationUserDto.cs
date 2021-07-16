@@ -32,6 +32,13 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public bool TelConfirmed { get; set; }
         public Nullable<byte> AuthStatusId { get; set; }
         public string AuthStatus { get; set; }
+        public string AuthStatusName
+        {
+            get
+            {
+                return this.GetUserFullName();
+            }
+        }
         [JsonIgnore]
         public override bool Published { get => base.Published; set => base.Published = value; }
         [JsonIgnore]
