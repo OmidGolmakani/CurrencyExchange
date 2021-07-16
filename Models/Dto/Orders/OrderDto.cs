@@ -59,5 +59,7 @@ namespace CurrencyExchange.Models.Dto.Orders
         [DefaultValue(Models.Enum.Order.Status.AwaitingConfirmation)]
         public byte Status { get; set; }
         public string Description { get; set; }
+        public string WaletCode { get; set; }
+
     }
 }
