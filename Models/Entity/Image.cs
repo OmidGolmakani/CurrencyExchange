@@ -14,6 +14,7 @@ namespace CurrencyExchange.Models.Entity
         public long Id { get; set; }
         [Required]
         public long UserId { get; set; }
+        public Nullable<long> AuthUserItemId { get; set; }
         [Required]
         public byte ImageTypeId { get; set; }
         [MaxLength(200)]
@@ -23,5 +24,7 @@ namespace CurrencyExchange.Models.Entity
         public string Description { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+        [ForeignKey("AuthUserItemId")]
+        public virtual AuthUserItem AuthUserItem  { get; set; }
     }
 }
