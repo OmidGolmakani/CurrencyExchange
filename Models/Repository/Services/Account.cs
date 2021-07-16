@@ -197,13 +197,13 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public void Update(ApplicationUserDto entity)
         {
-            ApplicationUser _entity = null;
-            _mapper.Map<ApplicationUserDto, ApplicationUser>(entity, _entity);
-            var Result = _userManager.UpdateAsync(_entity);
-            if (Result.Result.Succeeded == false)
-            {
-                throw new Exception(Result.Result.Errors.FirstOrDefault().Description);
-            }
+            ApplicationUser _entity = _dbContext.Users.Find(entity.Id);
+            _mapper.Map<ApplicationUserDto,ApplicationUser>(entity,_entity);
+            var Result = _dbContext.Users.Update(_entity);
+            //if (Result.Result.Succeeded == false)
+            //{
+            //    throw new Exception(Result.Result.Errors.FirstOrDefault().Description);
+            //}
         }
 
         public void UpdateRange(IEnumerable<ApplicationUserDto> entities)
@@ -347,7 +347,7 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChanges();
         }
 
         public Task<ApplicationUserDto> FirstOrDefault(IEnumerable<ApplicationUserDto> source)

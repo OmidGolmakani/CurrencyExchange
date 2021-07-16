@@ -87,10 +87,38 @@ namespace CurrencyExchange.Areas.Membership
             userValidator.ValidateAndThrow(mapper.Map<ApplicationUser>(userInfo));
             _accountSrv.Update(userInfo);
             #endregion User Info
+            #region Add Auth User Items
+            var BackAccountAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
+            {
+                AdminId = Admin.Id,
+                AdminConfirmDate = System.DateTime.Today,
+                UserId = userInfo.Id,
+                VerifyType = 1,
+                AuthItemId = 1,
+            });
+            var UserAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
+            {
+                AdminId = Admin.Id,
+                AdminConfirmDate = System.DateTime.Today,
+                UserId = userInfo.Id,
+                VerifyType = 1,
+                AuthItemId = 1,
+            });
+            var NationalCodeAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
+            {
+                AdminId = Admin.Id,
+                AdminConfirmDate = System.DateTime.Today,
+                UserId = userInfo.Id,
+                VerifyType = 1,
+                AuthItemId = 1,
+            });
+            #endregion Add Auth User Items
+
             #region Bank Account
             bankAccount.IdType = (byte)Models.Enum.BankAccount.IdType.Card;
             bankAccount.Value = entity.Step3.BankCardNo;
             bankAccount.UserId = userInfo.Id;
+            bankAccount.AuthUserItem = BackAccountAuth.Entity;
             bankAccountValidator.ValidateAndThrow(bankAccount);
             await _bankAccountSrv.Add(bankAccount);
             #endregion Bank Account
@@ -100,7 +128,8 @@ namespace CurrencyExchange.Areas.Membership
             {
                 UserId = userInfo.Id,
                 ImageTypeId = (byte)Models.Enum.Image.Type.UserPicture,
-                FileName = UploadFileInfo.Url
+                FileName = UploadFileInfo.Url,
+                AuthUserItem = UserAuth.Entity
             };
             imgValidator.ValidateAndThrow(UserImg);
             await _imageSrv.Add(UserImg);
@@ -111,7 +140,8 @@ namespace CurrencyExchange.Areas.Membership
             {
                 UserId = userInfo.Id,
                 ImageTypeId = (byte)Models.Enum.Image.Type.NationalCard,
-                FileName = UploadFileInfo.Url
+                FileName = UploadFileInfo.Url,
+                AuthUserItem = NationalCodeAuth.Entity
             };
             imgValidator.ValidateAndThrow(NationalCodeImg);
             await _imageSrv.Add(UserImg);
@@ -122,27 +152,12 @@ namespace CurrencyExchange.Areas.Membership
             {
                 UserId = userInfo.Id,
                 ImageTypeId = (byte)Models.Enum.Image.Type.BankCard,
-                FileName = UploadFileInfo.Url
+                FileName = UploadFileInfo.Url,
+                AuthUserItem = BackAccountAuth.Entity
             };
             imgValidator.ValidateAndThrow(cardNoImg);
             await _imageSrv.Add(cardNoImg);
             #endregion Upload And Save CardNo Image
-            await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
-            {
-                AdminId = Admin.Id,
-                AdminConfirmDate = System.DateTime.Today,
-                UserId = userInfo.Id,
-                VerifyType = 1,
-                AuthItemId = 1
-            });
-            //await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
-            //{
-            //    AdminId = Admin.Id,
-            //    AdminConfirmDate = System.DateTime.Today,
-            //    UserId = userInfo.Id,
-            //    VerifyType = 1,
-            //    AuthItemId = 1
-            //});
             _accountSrv.SaveChanges();
             return Ok(await Task.FromResult(0));
         }
