@@ -15,8 +15,9 @@ namespace CurrencyExchange.Models.Enum
         }
         public enum OrderType
         {
+            None = 0,
             Buy = 1,
-            Sales = 2
+            Sales = 2,
         }
     }
 }

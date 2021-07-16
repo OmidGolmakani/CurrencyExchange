@@ -72,6 +72,18 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(Result);
         }
 
+        public Task<IEnumerable<Entity.Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type)
+        {
+            if (type == Enum.Order.OrderType.None)
+            {
+                return orderRepository.Find(x => x.UserId == UserId);
+            }
+            else
+            {
+                return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type);
+            }
+        }
+
         public void Remove(long Id)
         {
             orderRepository.Remove(Id);

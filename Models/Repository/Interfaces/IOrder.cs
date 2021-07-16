@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Repository.Interfaces
 {
-    public interface IOrder : IRepository<Order,long>
+    public interface IOrder : IRepository<Order, long>
     {
         Task<long> GetNewOrderNum();
         Task<IEnumerable<Order>> GetOrderByStatus(Enum.Order.Status status);
-        Task UpdateAdminOrder(long OrderId,string AdminDesctiption);
+        Task UpdateAdminOrder(long OrderId, string AdminDesctiption);
+        Task<IEnumerable<Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type);
     }
 }

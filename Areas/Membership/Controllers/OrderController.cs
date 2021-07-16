@@ -110,6 +110,20 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
+        [HttpGet("GetOrderByUser{UserId}")]
+        public async Task<IActionResult> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type)
+        {
+            var Result = mapper.Map<OrderDto>(await _OrderSrv.GetOrderByUserId(UserId, type));
+            if (Result == null)
+            {
+                return NotFound(DefaultMessages.NotFound);
+            }
+            else
+            {
+                return Ok(Result);
+            }
+        }
+
         [HttpGet("GetOrdersByStatus{Status})")]
         public async Task<IActionResult> GetOrdersByStatus(Models.Enum.Order.Status status)
         {
