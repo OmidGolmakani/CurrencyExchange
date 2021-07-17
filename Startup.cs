@@ -49,7 +49,7 @@ namespace CurrencyExchange
             services.AddCors(options =>
             {
                 options.AddPolicy("MyCorsPolicy", builder => builder
-                .WithOrigins("http://localhost:60658/", "http://localhost:60658/","*")
+                .WithOrigins("http://localhost:60658/", "http://localhost:60658/","*", "http://localhost:3000/")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
