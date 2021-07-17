@@ -119,7 +119,7 @@ namespace CurrencyExchange.Areas.Membership
                 var Result = await _account.ChangeEmailVerify(UserId, newEmail, Token);
                 return Ok(Result.Succeeded);
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
                 throw ex;
             }

@@ -216,10 +216,6 @@ namespace CurrencyExchange.Models.Repository.Services
             ApplicationUser _entity = _dbContext.Users.Find(entity.Id);
             _mapper.Map<ApplicationUserDto, ApplicationUser>(entity, _entity);
             var Result = _dbContext.Users.Update(_entity);
-            //if (Result.Result.Succeeded == false)
-            //{
-            //    throw new Exception(Result.Result.Errors.FirstOrDefault().Description);
-            //}
         }
 
         public void UpdateRange(IEnumerable<ApplicationUserDto> entities)
@@ -376,13 +372,13 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(source.FirstOrDefault(predicate));
         }
 
-        public Task<IEnumerable<ApplicationUserDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
+        public Task<IEnumerable<ApplicationUserAuthDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
         {
             var Result = (from u in GetAccounts()
                           join a in this._dbContext.AuthUserItems
                           on u.Id equals a.UserId
                           where a.Status == (byte)sttaus
-                          select new ApplicationUserDto()
+                          select new ApplicationUserAuthDto()
                           {
                               AuthStatusId = a.Status,
                               AuthStatus = a.GetStatus(),
@@ -399,7 +395,7 @@ namespace CurrencyExchange.Models.Repository.Services
                               TelConfirmed = u.TelConfirmed,
                               UserName = u.UserName,
                               CreateDate = a.AdminConfirmDate,
-
+                              Images = a.Images.Select(x => x.FileName).ToList()
                           });
             return Task.FromResult(Result);
         }
