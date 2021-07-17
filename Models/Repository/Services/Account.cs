@@ -157,6 +157,7 @@ namespace CurrencyExchange.Models.Repository.Services
             {
                 var _user = _userManager.FindByNameAsync(login.UserName);
                 Tuple<string, double> tokenInfo = null;
+                SignInResultDto Result = null;
                 _user.Wait();
                 if (_user.Result == null || _user.Result.Id == 0)
                 {
@@ -169,19 +170,27 @@ namespace CurrencyExchange.Models.Repository.Services
                     if (SigninResult.Result.Succeeded)
                     {
                         tokenInfo = Helpers.JWTTokenManager.GenerateToken(login.UserName, _dbContext);
+                        var authStatus = _authUserItemSrv.GetAuthUserStatus(_user.Result.Id).Result;
+                        Result = new SignInResultDto()
+                        {
+                            SignIn = SigninResult.Result,
+                            UserId = _user.Result.Id,
+                            Token = tokenInfo.Item1,
+                            ExprireDate = tokenInfo.Item2,
+                            IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true,
+                            AuthUserStatusId = authStatus.StatusId
+                        };
                     }
-                    var authStatus = _authUserItemSrv.GetAuthUserStatus(_user.Result.Id).Result;
-                    SignInResultDto Result = new SignInResultDto()
+                    else
                     {
-                        SignIn = SigninResult.Result,
-                        UserId = _user.Result.Id,
-                        Token = tokenInfo.Item1,
-                        ExprireDate = tokenInfo.Item2,
-                        IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true,
-                        AuthUserStatusId = authStatus.StatusId
-                    };
-                    return Task.FromResult(Result);
+                        Result = new SignInResultDto()
+                        {
+                            UserId = _user.Result.Id,
+                            SignIn = SigninResult.Result
+                        };
+                    }
                 }
+                return Task.FromResult(Result);
             }
             catch (MyException ex)
             {

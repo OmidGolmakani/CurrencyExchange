@@ -88,8 +88,15 @@ namespace CurrencyExchange.Areas.Membership
 
             try
             {
-                var SignIn = await _account.SignIn(user);
-                return Ok(SignIn);
+                var Result = await _account.SignIn(user);
+                if (Result.SignIn.Succeeded)
+                {
+                    return Ok(Result);
+                }
+                else
+                {
+                    return Unauthorized(Result);
+                }
             }
             catch (MyException ex) { throw ex; }
         }
