@@ -171,7 +171,7 @@ namespace CurrencyExchange.Data
             {
                 Id = 3,
                 AuthName = "کد ملی",
-                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.UserPicture,
+                AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.NationalCard,
                 CreateDate = DateTime.Now,
                 Deleted = false,
                 Order = 3,

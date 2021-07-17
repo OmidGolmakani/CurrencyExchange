@@ -28,6 +28,7 @@ namespace CurrencyExchange.Areas.Membership
         private readonly IAuthUserItem _authUserItemSrv;
         private readonly Account _accountSrv;
         private readonly IImage _imageSrv;
+        private readonly Models.Repository.Services.Repository<AuthItem, int> _authItemsSrv;
         private readonly UploadService uploadSrv;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRepository<BankAccount, long> _bankAccountSrv;
@@ -38,6 +39,7 @@ namespace CurrencyExchange.Areas.Membership
                                       IAuthUserItem authUserItemSrv,
                                       Account accountSrv,
                                       IImage imageSrv,
+                                      Repository<AuthItem, int> authItemsSrv,
                                       UploadService _uploadSrv,
                                       UserManager<ApplicationUser> userManager,
                                       IRepository<BankAccount, long> bankAccountSrv) : base(mapper, DbContext)
@@ -46,6 +48,7 @@ namespace CurrencyExchange.Areas.Membership
             this._authUserItemSrv = authUserItemSrv;
             this._accountSrv = accountSrv;
             this._imageSrv = imageSrv;
+            this._authItemsSrv = authItemsSrv;
             this.uploadSrv = _uploadSrv;
             this._userManager = userManager;
             this._bankAccountSrv = bankAccountSrv;
@@ -70,6 +73,7 @@ namespace CurrencyExchange.Areas.Membership
                                                 [FromForm] CAuthUserItemsDto entity)
         {
             var Admin = _accountSrv.GetAll().Result.FirstOrDefault();
+            var Auth = _authItemsSrv.GetAll().Result.ToList();
             var userInfo = _accountSrv.GetById(entity.UserId).Result;
             Models.Entity.BankAccount bankAccount = new BankAccount();
             Response UploadFileInfo = null;
@@ -94,7 +98,7 @@ namespace CurrencyExchange.Areas.Membership
                 AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
-                AuthItemId = 1,
+                AuthItemId = 2,
             });
             var UserAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
             {
@@ -110,7 +114,15 @@ namespace CurrencyExchange.Areas.Membership
                 AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
-                AuthItemId = 1,
+                AuthItemId = 3,
+            });
+            var TelAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
+            {
+                AdminId = Admin.Id,
+                AdminConfirmDate = System.DateTime.Today,
+                UserId = userInfo.Id,
+                VerifyType = 1,
+                AuthItemId = 4,
             });
             #endregion Add Auth User Items
 

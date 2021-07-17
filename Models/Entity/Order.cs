@@ -40,5 +40,6 @@ namespace CurrencyExchange.Models.Entity
         public virtual ApplicationUser OrderUser { get; set; }
         [ForeignKey("CurrencyId")]
         public virtual Currency Currency { get; set; }
+        public virtual ICollection<Trades> Trades { get; set; }
     }
 }

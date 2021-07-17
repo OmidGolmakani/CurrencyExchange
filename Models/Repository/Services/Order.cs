@@ -53,7 +53,7 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<Entity.Order>> GetAll()
         {
-            return orderRepository.GetAll();
+            return Task.FromResult(orderRepository.GetAll().Result.Where(x => x.Trades.Count == 0));
         }
 
         public Task<Entity.Order> GetById(long Id)
