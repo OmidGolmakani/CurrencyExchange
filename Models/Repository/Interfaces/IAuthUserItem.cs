@@ -13,5 +13,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         public Task<IEnumerable<AuthUserItem>> GetAuthItemsByUser(long UserId);
         public Task<bool> IsCompleteAuthUsers(long UserId);
         public Task<AuthUserStatusDto> GetAuthUserStatus(long UserId);
+        public Task UpdateAuthUser(long UserId, byte status,long AdminId);
     }
 }

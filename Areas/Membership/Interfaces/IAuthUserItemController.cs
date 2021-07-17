@@ -16,5 +16,6 @@ namespace CurrencyExchange.Areas.Membership.Interfaces
                                             IFormFile NationalCodeImgFile,
                                             IFormFile BankCardImgFile,
                                             [FromForm] CAuthUserItemsDto entity);
+        public Task<ActionResult> UpdateAuthUserStatus(long UserId, long AdminId, byte Status);
     }
 }

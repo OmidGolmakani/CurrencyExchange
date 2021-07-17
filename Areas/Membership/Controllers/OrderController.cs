@@ -40,6 +40,7 @@ namespace CurrencyExchange.Areas.Membership
             OrderValidator validator = new OrderValidator(dbContext);
             _entity.OrderNum = await _OrderSrv.GetNewOrderNum();
             validator.ValidateAndThrow(_entity);
+            _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             var Result = _OrderSrv.Add(_entity);
             _OrderSrv.SaveChanges();
             return Ok(await Task.FromResult(Result.Result.Entity.Id));
@@ -62,6 +63,7 @@ namespace CurrencyExchange.Areas.Membership
             OrderValidator validator = new OrderValidator(dbContext);
             validator.ValidateAndThrow(_entity);
             _OrderSrv.Update(_entity);
+            _entity.Status = (byte)Models.Enum.Order.Status.AwaitingConfirmation;
             _OrderSrv.SaveChanges();
             return Ok(await Task.FromResult(_entity.Id));
         }

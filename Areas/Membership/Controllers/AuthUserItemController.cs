@@ -88,6 +88,7 @@ namespace CurrencyExchange.Areas.Membership
             userInfo.Name = entity.Step1.Name;
             userInfo.Family = entity.Step1.Family;
             userInfo.NationalCode = entity.Step2.NationalCode;
+            userInfo.Tel = entity.Step1.Tel;
             userValidator.ValidateAndThrow(mapper.Map<ApplicationUser>(userInfo));
             _accountSrv.Update(userInfo);
             #endregion User Info
@@ -234,6 +235,14 @@ namespace CurrencyExchange.Areas.Membership
             {
                 return Ok(Result);
             }
+        }
+
+        [HttpPost("UpdateAuthUserStatus")]
+        public async Task<ActionResult> UpdateAuthUserStatus(long UserId, long AdminId, byte Status)
+        {
+            await _authUserItemSrv.UpdateAuthUser(UserId, Status, AdminId);
+            _authUserItemSrv.SaveChanges();
+            return Ok("");
         }
     }
 }

@@ -81,7 +81,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 };
                 return Task.FromResult(status);
             }
-            else 
+            else
             {
                 status = new AuthUserStatusDto()
                 {
@@ -126,6 +126,19 @@ namespace CurrencyExchange.Models.Repository.Services
         public void Update(Entity.AuthUserItem entity)
         {
             this._authUserItemRepository.Update(entity);
+        }
+
+        public Task UpdateAuthUser(long UserId, byte status, long AdminId)
+        {
+            var AuthUserItems = this._authUserItemRepository.GetAll().Result.Where(x => x.UserId == UserId);
+            AuthUserItems.ToList().ForEach(x =>
+             {
+                 x.Status = status;
+                 x.AdminId = AdminId;
+                 x.VerifyType = 1;
+                 x.AdminConfirmDate = DateTime.Now;
+             });
+            return Task.Run(() => UpdateRange(AuthUserItems));
         }
 
         public void UpdateRange(IEnumerable<Entity.AuthUserItem> entities)
