@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Data;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -61,9 +62,11 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(Result.Count() == 0 ? 1 : Result.Max(x => x.TradeNum) + 1);
         }
 
-        public Task<IEnumerable<Entity.Trades>> GetTradesByUserId(long UserId)
+        public Task<IEnumerable<Entity.Trades>> GetTradesByUserId(long UserId, string dateFrom, string dateTo)
         {
-            return TradesRepository.Find(x => x.Order.UserId == UserId);
+            DateTime _dateFrom = dateFrom.ToMiladi();
+            DateTime _dateTo = dateTo.ToMiladi();
+            return TradesRepository.Find(x => x.Order.UserId == UserId && x.TradeDate.Date >= _dateFrom && x.TradeDate.Date <= _dateTo);
         }
 
         public void Remove(long Id)

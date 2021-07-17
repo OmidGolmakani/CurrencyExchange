@@ -10,6 +10,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
     public interface ITrades<T> : IRepository<Trades,T>
     {
         public Task<long> GetNewTradeNum();
-        public Task<IEnumerable<Trades>> GetTradesByUserId(long UserId);
+        public Task<IEnumerable<Trades>> GetTradesByUserId(long UserId,string dateFrom,string dateTo);
     }
 }

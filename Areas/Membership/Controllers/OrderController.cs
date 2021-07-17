@@ -111,16 +111,16 @@ namespace CurrencyExchange.Areas.Membership
             }
         }
         [HttpGet("GetOrderByUser{UserId}")]
-        public async Task<IActionResult> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type)
+        public async Task<IActionResult> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type, string dateFrom, string dateTo)
         {
-            var Result = mapper.Map<OrderDto>(await _OrderSrv.GetOrderByUserId(UserId, type));
+            var Result = await _OrderSrv.GetOrderByUserId(UserId, type, dateFrom, dateTo);
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
             }
             else
             {
-                return Ok(Result);
+                return Ok(mapper.Map<List<OrderDto>>(Result.ToList()));
             }
         }
 

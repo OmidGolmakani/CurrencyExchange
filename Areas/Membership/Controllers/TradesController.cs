@@ -10,6 +10,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 namespace CurrencyExchange.Areas.Membership
 {
@@ -108,17 +109,17 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-        [HttpGet("GetTradeByUser{UserId}")]
-        public async Task<IActionResult> GetTradeByUserId(long UserId)
+        [HttpGet("GetTradeByUser")]
+        public async Task<IActionResult> GetTradeByUserId(long UserId, string dateFrom, string dateTo)
         {
-            var Result = mapper.Map<TradeDto>(await _tradesSrv.GetTradesByUserId(UserId));
+            var Result =await _tradesSrv.GetTradesByUserId(UserId, dateFrom, dateTo);
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
             }
             else
             {
-                return Ok(Result);
+                return Ok(mapper.Map<List<TradeDto>>(Result.ToList()));
             }
         }
     }

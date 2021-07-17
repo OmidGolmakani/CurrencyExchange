@@ -13,7 +13,7 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         Task<long> GetNewOrderNum();
         Task<IEnumerable<Order>> GetOrderByStatus(Enum.Order.Status status);
         Task UpdateAdminOrder(long OrderId, string AdminDesctiption);
-        Task<IEnumerable<Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type);
-        void UpdateOrderStatus(long OrderId,Enum.Order.Status status);
+        Task<IEnumerable<Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type, string dateFrom, string dateTo);
+        void UpdateOrderStatus(long OrderId, Enum.Order.Status status);
     }
 }

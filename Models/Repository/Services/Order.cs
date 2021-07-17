@@ -1,5 +1,6 @@
 ﻿using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
@@ -72,15 +73,17 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(Result);
         }
 
-        public Task<IEnumerable<Entity.Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type)
+        public Task<IEnumerable<Entity.Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type, string dateFrom, string dateTo)
         {
+            DateTime _dateFrom = dateFrom.ToMiladi();
+            DateTime _dateTo = dateTo.ToMiladi();
             if (type == Enum.Order.OrderType.None)
             {
-                return orderRepository.Find(x => x.UserId == UserId);
+                return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
             }
             else
             {
-                return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type);
+                return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
             }
         }
 
