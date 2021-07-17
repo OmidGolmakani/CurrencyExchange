@@ -376,12 +376,12 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             var Result = (from u in GetAccounts()
                           join a in this._dbContext.AuthUserItems
-                          on u.Id equals a.UserId
-                          where a.Status == (byte)sttaus
+                          on u.Id equals a.UserId into ua
+                          from _ua in ua.DefaultIfEmpty()
                           select new ApplicationUserAuthDto()
                           {
-                              AuthStatusId = a.Status,
-                              AuthStatus = a.GetStatus(),
+                              AuthStatusId = _ua != null ? _ua.Status : (byte)Enum.AuthUserItem.Status.Waiting,
+                              AuthStatus = _ua != null ? _ua.GetStatus() : Helper.AuthUserItemFunc.GetStatus((byte)Enum.AuthUserItem.Status.Waiting),
                               Email = u.Email,
                               ConcurrencyStamp = u.ConcurrencyStamp,
                               Family = u.Family,
@@ -394,9 +394,9 @@ namespace CurrencyExchange.Models.Repository.Services
                               Tel = u.Tel,
                               TelConfirmed = u.TelConfirmed,
                               UserName = u.UserName,
-                              CreateDate = a.AdminConfirmDate,
-                              Images = a.Images.Select(x => x.FileName).ToList()
-                          });
+                              CreateDate = _ua != null ? _ua.AdminConfirmDate : null,
+                              Images = _ua != null ? _ua.Images.Select(x => x.FileName).ToList() : new List<string>()
+                          }).Where(x => x.AuthStatusId == (byte)sttaus);
             return Task.FromResult(Result);
         }
 
