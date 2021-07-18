@@ -10,6 +10,12 @@ namespace CurrencyExchange.Models.Entity
 {
     public class AuthUserItem : AdminBase
     {
+        public AuthUserItem()
+        {
+            Images = new HashSet<Image>();
+            BankAccounts = new HashSet<BankAccount>();
+        }
+
         [Key]
         public long Id { get; set; }
         [Required]
