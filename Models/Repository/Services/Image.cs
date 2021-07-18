@@ -57,8 +57,15 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<Entity.Image>> GetImageByUserId(long UserId)
         {
-            var Result = ImageRepository.GetAll().Result.Where(x => x.UserId == UserId).AsEnumerable();
-            return Task.FromResult(Result);
+            var Result = ImageRepository.GetAll().Result.Where(x => x.UserId == UserId).ToList();
+            Result.ForEach(x =>
+            {
+                x.FileName = x.FileName.Replace(@"\", @"/");
+                var Host = Helpers.AppContext.Current.Request.IsHttps ? "https://" : "http://";
+                Host += Helpers.AppContext.Current.Request.Host;
+                x.FileName = string.Format("{0}/{1}", Host, x.FileName);
+            });
+            return Task.FromResult(Result.AsEnumerable<Entity.Image>());
         }
 
         public void Remove(long Id)
