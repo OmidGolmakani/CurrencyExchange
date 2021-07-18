@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Helpers;
+using CurrencyExchange.Models.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,23 +42,12 @@ namespace CurrencyExchange.Models.Dto.Orders
 
         public string OrderTypeName
         {
-            get
-            {
-                Enum.Order.OrderType orderType = (Enum.Order.OrderType)OrderTypeId;
-                switch (orderType)
-                {
-                    case Enum.Order.OrderType.Buy:
-                        return "خرید";
-                    case Enum.Order.OrderType.Sales:
-                        return "فروش";
-                    default:
-                        return "";
-                }
-            }
+            get { return this.GetOrderType(); }
         }
         [JsonIgnore]
         [DefaultValue(Models.Enum.Order.Status.AwaitingConfirmation)]
         public byte Status { get; set; }
+        public string StatusName { get { return this.GetOrderStatus(); } }
         public string Description { get; set; }
         public string WaletCode { get; set; }
 
