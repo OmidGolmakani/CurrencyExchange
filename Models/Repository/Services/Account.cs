@@ -25,7 +25,7 @@ namespace CurrencyExchange.Models.Repository.Services
 {
     public class Account : IAccount<long>
     {
-        private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
+        private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users.Include(u => u.ApplicationUserRoles).ThenInclude(ur => ur.Role);
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
@@ -376,11 +376,11 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             var Result = (from u in GetAccounts()
                           join a in this._dbContext.AuthUserItems
-                          on u.Id equals a.UserId
-                          where a.Status == (byte)sttaus
+                          on u.Id equals a.UserId into au
+                          from _au in au.DefaultIfEmpty()
                           select new ApplicationUserDto()
                           {
-                              AuthStatusId = a.Status,
+                              AuthStatusId = _au == null ? (byte)Enum.AuthUserItem.Status.Waiting : _au.Status,
                               Email = u.Email,
                               ConcurrencyStamp = u.ConcurrencyStamp,
                               Family = u.Family,
@@ -393,8 +393,8 @@ namespace CurrencyExchange.Models.Repository.Services
                               Tel = u.Tel,
                               TelConfirmed = u.TelConfirmed,
                               UserName = u.UserName,
-                              CreateDate = a.AdminConfirmDate
-                          });
+                              CreateDate = _au == null ? null : _au.AdminConfirmDate
+                          }).Where(x => x.AuthStatusId == (byte)sttaus);
             return Task.FromResult(Result);
         }
 

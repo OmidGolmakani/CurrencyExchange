@@ -72,7 +72,7 @@ namespace CurrencyExchange.Data
             builder.Entity<AuthItem>().HasIndex(x => x.Order).IsUnique();
             #endregion AuthItem
             #region AuthUserItem
-            builder.Entity<AuthUserItem>().HasIndex(x => new { x.UserId, x.AuthItemId, x.Deleted }).IsUnique();
+            //builder.Entity<AuthUserItem>().HasIndex(x => new { x.UserId, x.AuthItemId, x.Deleted }).IsUnique();
             builder.Entity<AuthUserItem>().HasOne(Admin => Admin.AdminUser).WithMany(AuthUserItems => AuthUserItems.AuthUserItems);
             #endregion AuthUserItem
             #endregion DbLogigs

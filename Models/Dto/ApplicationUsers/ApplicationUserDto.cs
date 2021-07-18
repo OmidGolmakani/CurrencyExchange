@@ -2,6 +2,7 @@
 using CurrencyExchange.Models.Helper;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,22 +24,27 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         {
             get
             {
-                return ""; this.GetUserFullName();
+                return this.GetUserFullName();
             }
         }
         public string NationalCode { get; set; }
         public bool NationalCodeConfirmed { get; set; }
         public string Tel { get; set; }
         public bool TelConfirmed { get; set; }
-        public Nullable<byte> AuthStatusId { get; set; }
-        public string AuthStatus { get { return this.GetAuthStatus(); } }
-        public string AuthStatusName
+        private Nullable<byte> _AuthStatusId = (int)Enum.AuthUserItem.Status.Waiting;
+        public Nullable<byte> AuthStatusId
         {
             get
             {
-                return this.GetUserFullName();
+                return _AuthStatusId;
+            }
+            set
+            {
+                _AuthStatusId = value;
             }
         }
+        public bool IsAdmin { get; set; }
+        public string AuthStatus { get { return this.GetAuthStatus(); } }
         [JsonIgnore]
         public override bool Published { get => base.Published; set => base.Published = value; }
         [JsonIgnore]

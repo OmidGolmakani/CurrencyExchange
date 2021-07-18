@@ -10,6 +10,7 @@ using CurrencyExchange.Models.Dto.Orders;
 using CurrencyExchange.Models.Dto.Trades;
 using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Helper;
+using System.Linq;
 
 namespace CurrencyExchange.Configs
 {
@@ -19,7 +20,12 @@ namespace CurrencyExchange.Configs
         {
             #region Identity Tables
             CreateMap<Models.Entity.ApplicationUser, CUApplicationUser>().ReverseMap();
-            CreateMap<Models.Entity.ApplicationUser, ApplicationUserDto>().ReverseMap();
+            CreateMap<Models.Entity.ApplicationUser, ApplicationUserDto>().
+                 ForMember(dest => dest.IsAdmin, opts =>
+                 {
+                     opts.MapFrom(src => src.ApplicationUserRoles.Count(x => x.Role.Name == "Administrator") == 0 ? false : true);
+                 });
+            CreateMap<ApplicationUserDto, Models.Entity.ApplicationUser>();
             CreateMap<Models.Entity.ApplicationUser, RegisterWithPhoneDto>().ReverseMap();
             #endregion Identity Tables
             #region Currency Changes

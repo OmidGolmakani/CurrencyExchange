@@ -81,7 +81,9 @@ namespace CurrencyExchange.Models.Repository.Services
                 };
                 return Task.FromResult(status);
             }
-            else if (authCount == GetAuthItemsByUser(UserId).Result.Count(x => x.Status == (byte)Enum.AuthUserItem.Status.Waiting))
+            else if (authCount == 0 ||
+                     authCount == GetAuthItemsByUser(UserId).Result.Count(x => x.Status == (byte)Enum.AuthUserItem.Status.Waiting) ||
+                     GetAuthItemsByUser(UserId).Result.Count() == 0)
             {
                 status = new AuthUserStatusDto()
                 {
@@ -110,9 +112,14 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             var authCount = this.GetAuthItemsByUser(UserId).Result.Count();
             if (authCount == 0) return Task.FromResult(false);
-            if (this._authItemRepository.GetAll().Result.Count(x => x.Required) != authCount)
+            var AuthUser = this.GetAuthItemsByUser(UserId).Result.ToList();
+            var Auth = this._authItemRepository.GetAll().Result.ToList();
+            foreach (var a in Auth)
             {
-                return Task.FromResult(false);
+                if (AuthUser.Count(x => x.AuthItemId == a.Id && x.Status == (byte)Enum.AuthUserItem.Status.Accepted) == 0)
+                {
+                    return Task.FromResult(false);
+                }
             }
             return Task.FromResult(true);
         }

@@ -85,7 +85,7 @@ namespace CurrencyExchange.Helpers
                 NotBefore = DateTime.Now
             };
             SecurityToken token = tokenHandler.CreateToken(TokenDescriptor);
-            double TotalMilliseconds = (DateTime.Now.AddMinutes(AuthInfo.ExpiryTime) - DateTime.Now).TotalMilliseconds;
+            double TotalMilliseconds = Math.Round((DateTime.Now.AddMinutes(AuthInfo.ExpiryTime) - DateTime.Now).TotalMilliseconds, 0);
             return new Tuple<string, double>(tokenHandler.WriteToken(token), TotalMilliseconds);
         }
         internal static ClaimsPrincipal GetPrincipal(string token)
