@@ -81,12 +81,21 @@ namespace CurrencyExchange.Models.Repository.Services
                 };
                 return Task.FromResult(status);
             }
-            else
+            else if (authCount == GetAuthItemsByUser(UserId).Result.Count(x => x.Status == (byte)Enum.AuthUserItem.Status.Waiting))
             {
                 status = new AuthUserStatusDto()
                 {
                     UserId = UserId,
                     StatusId = (byte)Enum.AuthUserItem.Status.Waiting
+                };
+                return Task.FromResult(status);
+            }
+            else
+            {
+                status = new AuthUserStatusDto()
+                {
+                    UserId = UserId,
+                    StatusId = (byte)Enum.AuthUserItem.Status.Rejected
                 };
                 return Task.FromResult(status);
             }

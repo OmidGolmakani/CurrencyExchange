@@ -10,9 +10,9 @@ namespace CurrencyExchange.Models.Enum
     {
         public enum Status
         {
-            Waiting = 1,
-            Accepted = 2,
-            Rejected = 3,
+            Waiting = 2,
+            Accepted = 3,
+            Rejected = 1,
         }
     }
 }

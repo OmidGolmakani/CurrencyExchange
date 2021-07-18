@@ -70,11 +70,11 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("Find")]
         public async Task<IActionResult> Find(string dateFrom, string dateTo, Models.Enum.Order.OrderType type)
         {
-            DateTime _dateFrom = dateFrom.ToMiladi();
-            DateTime _dateTo = dateTo.ToMiladi();
+            DateTime _dateFrom = dateFrom.ToMiladi().Date;
+            DateTime _dateTo = dateTo.ToMiladi().Date;
 
-            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate.Date >= _dateFrom
-                                                                           && x.OrderDate.Date <= _dateTo
+            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != Models.Enum.Order.Status.Confirmation && x.OrderDate >= _dateFrom.Date
+                                                                           && x.OrderDate.Date <= _dateTo.Date
                                                                            && x.OrderTypeId == (byte)type));
             if (Result.Count == 0)
             {

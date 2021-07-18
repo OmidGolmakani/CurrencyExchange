@@ -41,7 +41,8 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetByAuthStatus")]
         public async Task<IActionResult> GetByAuthStatus(Models.Enum.AuthUserItem.Status status)
         {
-            return Ok(await _account.GetAccountByAuthStatus(status));
+            var Result = await _account.GetAccountByAuthStatus(status);
+            return Ok(Result.ToList());
         }
         [HttpPost("Register")]
         [AllowAnonymous]

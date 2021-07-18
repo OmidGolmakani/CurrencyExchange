@@ -372,16 +372,15 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(source.FirstOrDefault(predicate));
         }
 
-        public Task<IEnumerable<ApplicationUserAuthDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
+        public Task<IEnumerable<ApplicationUserDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
         {
             var Result = (from u in GetAccounts()
                           join a in this._dbContext.AuthUserItems
                           on u.Id equals a.UserId
                           where a.Status == (byte)sttaus
-                          select new ApplicationUserAuthDto()
+                          select new ApplicationUserDto()
                           {
                               AuthStatusId = a.Status,
-                              AuthStatus = a.GetStatus(),
                               Email = u.Email,
                               ConcurrencyStamp = u.ConcurrencyStamp,
                               Family = u.Family,
@@ -394,8 +393,7 @@ namespace CurrencyExchange.Models.Repository.Services
                               Tel = u.Tel,
                               TelConfirmed = u.TelConfirmed,
                               UserName = u.UserName,
-                              CreateDate = a.AdminConfirmDate,
-                              Images = a.Images.Select(x => x.FileName).ToList()
+                              CreateDate = a.AdminConfirmDate
                           });
             return Task.FromResult(Result);
         }

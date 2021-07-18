@@ -61,12 +61,6 @@ namespace CurrencyExchange
 
             services.FluentValidationConfig();
             services.AppSettings(_configuration);
-            services.AddCors(o => o.AddPolicy("MyCorsPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
 
             services.AddSignalR();
             services.AddMyAuthorization(_configuration);
@@ -89,7 +83,7 @@ namespace CurrencyExchange
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors("MyCorsPolicy");
+            app.UseCors(config => config.WithOrigins("http://localhost:3000"));
 
             app.UseAuthentication();
             app.UseAuthorization();

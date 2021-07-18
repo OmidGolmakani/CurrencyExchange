@@ -23,7 +23,7 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         {
             get
             {
-                return this.GetUserFullName();
+                return ""; this.GetUserFullName();
             }
         }
         public string NationalCode { get; set; }
@@ -31,7 +31,7 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public string Tel { get; set; }
         public bool TelConfirmed { get; set; }
         public Nullable<byte> AuthStatusId { get; set; }
-        public string AuthStatus { get; set; }
+        public string AuthStatus { get { return this.GetAuthStatus(); } }
         public string AuthStatusName
         {
             get
