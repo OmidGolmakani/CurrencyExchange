@@ -145,6 +145,7 @@ namespace CurrencyExchange.Areas.Membership
         {
             Models.Enum.Order.Status status1 = (Models.Enum.Order.Status)status;
             _OrderSrv.UpdateOrderStatus(OrderId, status1);
+            _OrderSrv.SaveChanges();
             return Ok(await Task.FromResult(""));
         }
     }

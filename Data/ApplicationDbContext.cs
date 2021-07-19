@@ -192,6 +192,18 @@ namespace CurrencyExchange.Data
 
             });
             #endregion Auth Items
+            #region Currency
+            builder.Entity<Currency>().HasData(new Currency()
+            {
+                CreateDate = DateTime.Now,
+                CurrencyAbbreviationName = "USDT",
+                CurrencyTypeId = 1,
+                Deleted = false,
+                Id = 1,
+                PurchasePrice = 0,
+                SalesPrice = 0
+            });
+            #endregion Currency
             #endregion Seed
         }
         #region Add DbSets
