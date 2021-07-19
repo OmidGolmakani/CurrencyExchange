@@ -59,7 +59,8 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Services
                         file.CopyToAsync(stream);
                     }
                     FileInfo.Result.Response.Url = Path.Combine(_UploadConfig.Value.RootUrl, FileName);
-
+                    FileInfo.Result.Response.Code = FtpStatusCode.CommandOK;
+                    FileInfo.Result.Response.Description = "فایل با موفقیت آپلود شد";
                 }
                 return Task.FromResult(FileInfo.Result.Response);
             }

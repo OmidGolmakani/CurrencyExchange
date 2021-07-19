@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.Controllers;
+using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
 using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.AuthUserItems;
@@ -137,6 +138,10 @@ namespace CurrencyExchange.Areas.Membership
             #endregion Bank Account
             #region Upload And Save User Image
             UploadFileInfo = await uploadSrv.Upload(UserImgFile, true);
+            if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
+            {
+                throw new MyException(UploadFileInfo.Description);
+            }
             var UserImg = new Models.Entity.Image()
             {
                 UserId = userInfo.Id,
@@ -149,6 +154,10 @@ namespace CurrencyExchange.Areas.Membership
             #endregion Upload And Save User Image
             #region Upload And Save NationalCode Image
             UploadFileInfo = await uploadSrv.Upload(NationalCodeImgFile, true);
+            if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
+            {
+                throw new MyException(UploadFileInfo.Description);
+            }
             var NationalCodeImg = new Models.Entity.Image()
             {
                 UserId = userInfo.Id,
@@ -161,6 +170,10 @@ namespace CurrencyExchange.Areas.Membership
             #endregion Upload And Save NationalCode Image
             #region Upload And Save CardNo Image
             UploadFileInfo = await uploadSrv.Upload(BankCardImgFile, true);
+            if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
+            {
+                throw new MyException(UploadFileInfo.Description);
+            }
             var cardNoImg = new Models.Entity.Image()
             {
                 UserId = userInfo.Id,
