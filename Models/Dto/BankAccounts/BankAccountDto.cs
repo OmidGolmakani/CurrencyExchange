@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.BankAccounts
 {
-    public class BankAccountDto
+    public class BankAccountDto:Base.BaseDto
     {
         public long Id { get; set; }
         [JsonIgnore]

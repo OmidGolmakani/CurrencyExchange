@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.ApplicationUsers
 {
-    public class CUApplicationUser
+    public class CUApplicationUser : Base.BaseDto
     {
         public CUApplicationUser()
         {

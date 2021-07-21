@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Images
 {
-    public class CUImageDto
+    public class CUImageDto:Base.BaseDto
     {
         public long UserId { get; set; }
         public byte ImageTypeId { get; set; }

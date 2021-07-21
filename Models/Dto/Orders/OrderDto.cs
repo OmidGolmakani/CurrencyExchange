@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Orders
 {
-    public class OrderDto
+    public class OrderDto:Base.BaseDto
     {
         public long Id { get; set; }
         public string OrderSolarDate

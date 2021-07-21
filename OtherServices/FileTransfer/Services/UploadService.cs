@@ -56,7 +56,8 @@ namespace CurrencyExchange.OtherServices.FileTransfer.Services
 
                     using (var stream = System.IO.File.Create(fullpath))
                     {
-                        file.CopyToAsync(stream);
+                        var f = file.CopyToAsync(stream);
+                        f.Wait();
                     }
                     FileInfo.Result.Response.Url = Path.Combine(_UploadConfig.Value.RootUrl, FileName);
                     FileInfo.Result.Response.Code = FtpStatusCode.CommandOK;

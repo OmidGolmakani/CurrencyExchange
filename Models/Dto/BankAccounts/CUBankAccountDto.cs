@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.BankAccounts
 {
-    public class CUBankAccountDto
+    public class CUBankAccountDto:Base.BaseDto
     {
         public Nullable<long> Id { get; set; }
         public long UserId { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Currencies
 {
-    public class CUCurrencyDto
+    public class CUCurrencyDto:Base.BaseDto
     {
         public Nullable<int> Id { get; set; }
         public byte CurrencyTypeId { get; set; }

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace CurrencyExchange.Models.Dto.Orders
 {
-    public class CUOrderDto
+    public class CUOrderDto:Base.BaseDto
     {
         public Nullable<long> Id { get; set; }
         [JsonIgnore]

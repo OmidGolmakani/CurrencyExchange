@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyExchange.Models.Dto.Images
 {
-    public class ImageDto
+    public class ImageDto:Base.BaseDto
     {
         public long Id { get; set; }
         public long UserId { get; set; }

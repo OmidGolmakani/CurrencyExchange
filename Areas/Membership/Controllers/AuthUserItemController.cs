@@ -96,35 +96,31 @@ namespace CurrencyExchange.Areas.Membership
             #region Add Auth User Items
             var BackAccountAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
             {
-                AdminId = Admin.Id,
-                AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
                 AuthItemId = 2,
+                Status = (int)Models.Enum.AuthUserItem.Status.Waiting
             });
             var UserAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
             {
-                AdminId = Admin.Id,
-                AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
                 AuthItemId = 1,
+                Status = (int)Models.Enum.AuthUserItem.Status.Waiting
             });
             var NationalCodeAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
             {
-                AdminId = Admin.Id,
-                AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
                 AuthItemId = 3,
+                Status = (int)Models.Enum.AuthUserItem.Status.Waiting
             });
             var TelAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
             {
-                AdminId = Admin.Id,
-                AdminConfirmDate = System.DateTime.Today,
                 UserId = userInfo.Id,
                 VerifyType = 1,
                 AuthItemId = 4,
+                Status = (int)Models.Enum.AuthUserItem.Status.Waiting
             });
             #endregion Add Auth User Items
 
@@ -166,7 +162,7 @@ namespace CurrencyExchange.Areas.Membership
                 AuthUserItem = NationalCodeAuth.Entity
             };
             imgValidator.ValidateAndThrow(NationalCodeImg);
-            await _imageSrv.Add(UserImg);
+            await _imageSrv.Add(NationalCodeImg);
             #endregion Upload And Save NationalCode Image
             #region Upload And Save CardNo Image
             UploadFileInfo = await uploadSrv.Upload(BankCardImgFile, true);
