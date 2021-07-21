@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Helpers;
+using CurrencyExchange.Models.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,12 @@ namespace CurrencyExchange.Models.Dto.Trades
         public string CurrencyName { get; set; }
         public int Quantity { get; set; }
         public decimal CurrencyPrice { get; set; }
+        public byte OrderTypeId { get; set; }
+
+        public string OrderTypeName
+        {
+            get { return this.GetOrderType(); }
+        }
         public string Description { get; set; }
     }
 }

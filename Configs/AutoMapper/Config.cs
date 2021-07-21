@@ -67,7 +67,10 @@ namespace CurrencyExchange.Configs
             }).ForMember(dest => dest.CurrencyName, opts =>
             {
                 opts.MapFrom(src => Models.Helper.CurrencyFunc.GetCurrncyName(src.Order.Currency.CurrencyTypeId));
-            });
+            }).ForMember(dest => dest.OrderTypeId, opts =>
+              {
+                  opts.MapFrom(src => src.Order.OrderTypeId);
+              });
             CreateMap<TradeDto, Trades>();
             CreateMap<Trades, CUTradeDto>().ReverseMap();
             #endregion Trades

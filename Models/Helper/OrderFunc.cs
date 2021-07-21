@@ -1,4 +1,5 @@
 ﻿using CurrencyExchange.Models.Dto.Orders;
+using CurrencyExchange.Models.Dto.Trades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,10 @@ namespace CurrencyExchange.Models.Helper
         internal static string GetOrderStatus(this OrderDto x)
         {
             return GetOrderStatus(x.Status);
+        }
+        internal static string GetOrderType(this TradeDto x)
+        {
+            return GetOrderStatus(x.OrderTypeId);
         }
     }
 }

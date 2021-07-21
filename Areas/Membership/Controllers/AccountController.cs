@@ -36,7 +36,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAccounts")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(_account.GetAll().Result.ToList());
+            return Ok(await _account.GetAll());
         }
         [HttpGet("GetByAuthStatus")]
         public async Task<IActionResult> GetByAuthStatus(Models.Enum.AuthUserItem.Status status)
