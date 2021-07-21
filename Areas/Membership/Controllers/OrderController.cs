@@ -81,25 +81,22 @@ namespace CurrencyExchange.Areas.Membership
             List<OrderDto> Result = null;
             if (dateFrom.DateIsValid() && dateTo.DateIsValid() && type != Models.Enum.Order.OrderType.None)
             {
-                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
-                                                                           && x.OrderDate >= _dateFrom.Date
-                                                                           && x.OrderDate.Date <= _dateTo.Date
-                                                                           && x.OrderTypeId == (byte)type));
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate >= _dateFrom.Date
+                                                                          && x.OrderDate.Date <= _dateTo.Date
+                                                                          && x.OrderTypeId == (byte)type));
             }
             else if (dateFrom.DateIsValid() && dateTo.DateIsValid() && type == Models.Enum.Order.OrderType.None)
             {
-                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
-                                                                           && x.OrderDate >= _dateFrom.Date
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderDate >= _dateFrom.Date
                                                                            && x.OrderDate.Date <= _dateTo.Date));
             }
-            else if (dateFrom.DateIsValid() == false || dateTo.DateIsValid() == false && type != Models.Enum.Order.OrderType.None)
+            else if ((dateFrom.DateIsValid() == false || dateTo.DateIsValid() == false) && type != Models.Enum.Order.OrderType.None)
             {
-                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
-                                                                           && x.OrderTypeId == (byte)type));
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.OrderTypeId == (byte)type));
             }
             else
             {
-                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation));
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetAll());
             }
 
             if (Result.Count == 0)
@@ -148,7 +145,7 @@ namespace CurrencyExchange.Areas.Membership
             }
             else
             {
-                return Ok(mapper.Map<List<OrderDto>>(Result.ToList()));
+                return Ok(mapper.Map<List<OrderDto>>(Result));
             }
         }
 
@@ -166,11 +163,11 @@ namespace CurrencyExchange.Areas.Membership
                 return Ok(Result);
             }
         }
-        [HttpGet("UpdateOrderStatus")]
+        [HttpPost("UpdateOrderStatus")]
         public async Task<IActionResult> UpdateOrderStatus(long OrderId, byte status)
         {
             Models.Enum.Order.Status status1 = (Models.Enum.Order.Status)status;
-            if (status1==Models.Enum.Order.Status.Confirmation)
+            if (status1 == Models.Enum.Order.Status.Confirmation)
             {
                 await Task.FromResult(false);
             }

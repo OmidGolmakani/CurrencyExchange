@@ -58,7 +58,7 @@ namespace CurrencyExchange.Models.Helper
         }
         internal static string GetOrderType(this TradeDto x)
         {
-            return GetOrderStatus(x.OrderTypeId);
+            return GetOrderType(x.OrderTypeId);
         }
     }
 }

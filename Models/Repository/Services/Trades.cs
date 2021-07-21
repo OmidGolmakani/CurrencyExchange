@@ -64,9 +64,18 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<Entity.Trades>> GetTradesByUserId(long UserId, string dateFrom, string dateTo)
         {
-            DateTime _dateFrom = dateFrom.ToMiladi();
-            DateTime _dateTo = dateTo.ToMiladi();
-            return TradesRepository.Find(x => x.Order.UserId == UserId && x.TradeDate.Date >= _dateFrom && x.TradeDate.Date <= _dateTo);
+            DateTime _dateFrom = DateTime.Now;
+            DateTime _dateTo = DateTime.Now;
+            if (dateFrom.DateIsValid() && dateTo.DateIsValid())
+            {
+                _dateFrom = dateFrom.ToMiladi();
+                _dateTo = dateTo.ToMiladi();
+                return TradesRepository.Find(x => x.Order.UserId == UserId);
+            }
+            else
+            {
+                return TradesRepository.Find(x => x.Order.UserId == UserId && x.TradeDate.Date >= _dateFrom && x.TradeDate.Date <= _dateTo);
+            }
         }
 
         public void Remove(long Id)

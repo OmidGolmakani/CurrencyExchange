@@ -53,7 +53,7 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<Entity.Order>> GetAll()
         {
-            return Task.FromResult(orderRepository.GetAll().Result.Where(x => x.Trades.Count == 0));
+            return Task.FromResult(orderRepository.GetAll().Result);
         }
 
         public Task<Entity.Order> GetById(long Id)
@@ -129,6 +129,10 @@ namespace CurrencyExchange.Models.Repository.Services
             {
                 Result.Status = (byte)status;
                 orderRepository.Update(Result);
+            }
+            else
+            {
+                throw new MyException(DefaultMessages.UserNotFound);
             }
         }
 

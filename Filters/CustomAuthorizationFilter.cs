@@ -157,50 +157,6 @@ namespace CurrencyExchange.Filter
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            //ErrorDto Err = null;
-            //bool hasAllowAnonymous = context.ActionDescriptor.EndpointMetadata
-            //                    .Any(em => em.GetType() == typeof(AllowAnonymousAttribute));
-            //if (!hasAllowAnonymous)
-            //{
-
-            //    if (context.HttpContext.Request.Headers["Authorization"].ToString().StartsWith("Bearer") == false)
-            //    {
-            //        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Err = new ErrorDto()
-            //        {
-            //            Message = "توکن ارسال نشده است",
-            //            StatusCode = context.HttpContext.Response.StatusCode
-            //        };
-            //        context.Result = new JsonResult(Err);
-            //        return;
-            //    }
-            //    var token = context.HttpContext.Request.Headers["Authorization"].ToString();
-            //    if (token == "")
-            //    {
-            //        context.Result = new UnauthorizedResult();
-            //        return;
-            //    }
-            //    token = token.Substring(6, token.Length - 6).Trim();
-
-
-            //    //var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            //    //var cookies = context.HttpContext.Request.Cookies;
-            //    var dbContext = context.HttpContext.RequestServices.GetRequiredService<ApplicationDbContext>();
-
-
-            //    if (Helpers.JWTTokenManager.ValidateToken(token, dbContext) == null)
-            //    {
-            //        context.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.Unauthorized;
-            //        Err = new ErrorDto()
-            //        {
-            //            Message = "توکن ارسال شده نا معتبر است",
-            //            StatusCode = context.HttpContext.Response.StatusCode
-            //        };
-            //        context.Result = new JsonResult(Err);
-            //        return;
-            //    }
-            //    var Climes = context.HttpContext.User.Claims.ToList();
-            //}
         }
 
     }

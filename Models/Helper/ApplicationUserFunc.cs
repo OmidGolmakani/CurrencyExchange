@@ -40,18 +40,18 @@ namespace CurrencyExchange.Models.Helper
                     on u.Id equals ur.UserId
                     join r in roles
                     on ur.RoleId equals r.Id
-                    join au in auths
-                    on u.Id equals au.UserId into _au
-                    from au in _au.DefaultIfEmpty()
 
 
                     select new ApplicationUserDto()
                     {
-                        AuthStatusId = au == null ? (byte)Enum.AuthUserItem.Status.Rejected : au.Status,
+                        AuthStatusId = auths.FirstOrDefault(x => x.UserId == u.Id) == null && r.Name != "Administrator" ?
+                                       (byte)Enum.AuthUserItem.Status.Rejected : r.Name == "Administrator" ?
+                                       (byte)Enum.AuthUserItem.Status.Accepted : auths.LastOrDefault(x => x.UserId == u.Id).Status,
                         ConcurrencyStamp = u.ConcurrencyStamp,
                         Email = u.Email,
                         Name = u.Name,
                         Family = u.Family,
+                        RoleName =r.Name,
                         Id = u.Id,
                         IsAdmin = r.Name == "Administrator" ? true : false,
                         NationalCode = u.NationalCode,

@@ -123,13 +123,13 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> GetTradeByUserId(long UserId, string dateFrom, string dateTo)
         {
             var Result = await _tradesSrv.GetTradesByUserId(UserId, dateFrom, dateTo);
-            if (Result == null)
+            if (Result == null || Result.Count() == 0)
             {
-                return NotFound(DefaultMessages.NotFound);
+                return NotFound(DefaultMessages.ListEmpty);
             }
             else
             {
-                return Ok(mapper.Map<List<TradeDto>>(Result.ToList()));
+                return Ok(mapper.Map<List<TradeDto>>(Result));
             }
         }
     }

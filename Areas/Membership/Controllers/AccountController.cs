@@ -42,7 +42,7 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> GetByAuthStatus(Models.Enum.AuthUserItem.Status status)
         {
             var Result = await _account.GetAccountByAuthStatus(status);
-            return Ok(Result.ToList());
+            return Ok(Result);
         }
         [HttpPost("Register")]
         [AllowAnonymous]
