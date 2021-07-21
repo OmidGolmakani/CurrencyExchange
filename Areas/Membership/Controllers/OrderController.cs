@@ -70,12 +70,38 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("Find")]
         public async Task<IActionResult> Find(string dateFrom, string dateTo, Models.Enum.Order.OrderType type)
         {
-            DateTime _dateFrom = dateFrom.ToMiladi().Date;
-            DateTime _dateTo = dateTo.ToMiladi().Date;
+            DateTime _dateFrom = DateTime.Now;
+            DateTime _dateTo = DateTime.Now;
+            if (dateFrom.DateIsValid() && dateTo.DateIsValid())
+            {
+                _dateFrom = dateFrom.ToMiladi();
+                _dateTo = dateTo.ToMiladi();
+            }
 
-            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation && x.OrderDate >= _dateFrom.Date
+            List<OrderDto> Result = null;
+            if (dateFrom.DateIsValid() && dateTo.DateIsValid() && type != Models.Enum.Order.OrderType.None)
+            {
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
+                                                                           && x.OrderDate >= _dateFrom.Date
                                                                            && x.OrderDate.Date <= _dateTo.Date
                                                                            && x.OrderTypeId == (byte)type));
+            }
+            else if (dateFrom.DateIsValid() && dateTo.DateIsValid() && type == Models.Enum.Order.OrderType.None)
+            {
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
+                                                                           && x.OrderDate >= _dateFrom.Date
+                                                                           && x.OrderDate.Date <= _dateTo.Date));
+            }
+            else if (dateFrom.DateIsValid() == false || dateTo.DateIsValid() == false && type != Models.Enum.Order.OrderType.None)
+            {
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation
+                                                                           && x.OrderTypeId == (byte)type));
+            }
+            else
+            {
+                Result = mapper.Map<List<OrderDto>>(await _OrderSrv.Find(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation));
+            }
+
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
