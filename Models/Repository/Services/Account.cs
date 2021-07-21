@@ -25,7 +25,10 @@ namespace CurrencyExchange.Models.Repository.Services
 {
     public class Account : IAccount<long>
     {
-        private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users.Include(u => u.ApplicationUserRoles).ThenInclude(ur => ur.Role);
+        private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
+        private IEnumerable<ApplicationUserRole> GetApplicationUserRoles() => _dbContext.UserRoles;
+        private IEnumerable<ApplicationRole> GetRoles() => _dbContext.Roles;
+        private IEnumerable<Entity.AuthUserItem> GetAuthUserItems() => _dbContext.AuthUserItems;
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
@@ -75,6 +78,8 @@ namespace CurrencyExchange.Models.Repository.Services
                 if (UserTask.Result.Succeeded)
                 {
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
+                    var UserRoleTask = _userManager.AddToRoleAsync(_user, "User");
+                    UserRoleTask.Wait();
                 }
                 return Task.FromResult(new CUserLoginDto() { UserName = _user.UserName, Password = RegisterInfo.Password });
             }
@@ -97,12 +102,20 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<ApplicationUserDto>> GetAll()
         {
-            return Task.FromResult(_mapper.Map<IEnumerable<ApplicationUserDto>>(GetAccounts()));
+
+            return Task.FromResult(ApplicationUserFunc.MapApplicationUser(GetAccounts(),
+                                                                          GetApplicationUserRoles(),
+                                                                          GetRoles(),
+                                                                          GetAuthUserItems()));
         }
 
         public Task<ApplicationUserDto> GetById(long Id)
         {
-            var Result = _mapper.Map<ApplicationUserDto>(GetAccounts().FirstOrDefault(x => x.Id == Id.ToLong()));
+            var Result = ApplicationUserFunc.MapApplicationUser(GetAccounts(),
+                                                                GetApplicationUserRoles(),
+                                                                GetRoles(),
+                                                                GetAuthUserItems()
+                                                                ).FirstOrDefault(x => x.Id == Id);
             return Task.FromResult(Result);
         }
 
@@ -374,27 +387,11 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<ApplicationUserDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status sttaus)
         {
-            var Result = (from u in GetAccounts()
-                          join a in this._dbContext.AuthUserItems
-                          on u.Id equals a.UserId into au
-                          from _au in au.DefaultIfEmpty()
-                          select new ApplicationUserDto()
-                          {
-                              AuthStatusId = _au == null ? (byte)Enum.AuthUserItem.Status.Waiting : _au.Status,
-                              Email = u.Email,
-                              ConcurrencyStamp = u.ConcurrencyStamp,
-                              Family = u.Family,
-                              Id = u.Id,
-                              Name = u.Name,
-                              NationalCode = u.NationalCode,
-                              NationalCodeConfirmed = u.NationalCodeConfirmed,
-                              PhoneNumber = u.PhoneNumber,
-                              SecurityStamp = u.SecurityStamp,
-                              Tel = u.Tel,
-                              TelConfirmed = u.TelConfirmed,
-                              UserName = u.UserName,
-                              CreateDate = _au == null ? null : _au.AdminConfirmDate
-                          }).Where(x => x.AuthStatusId == (byte)sttaus);
+            var Result = ApplicationUserFunc.MapApplicationUser(GetAccounts(),
+                                                                GetApplicationUserRoles(),
+                                                                GetRoles(),
+                                                                GetAuthUserItems()
+                                                                ).Where(x => x.AuthStatusId == (byte)sttaus);
             return Task.FromResult(Result);
         }
 
