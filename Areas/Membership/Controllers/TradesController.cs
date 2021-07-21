@@ -56,11 +56,21 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("Find")]
         public async Task<IActionResult> Find(string dateFrom, string dateTo)
         {
-            DateTime _dateFrom = dateFrom.ToMiladi();
-            DateTime _dateTo = dateTo.ToMiladi();
-
-            var Result = mapper.Map<List<TradeDto>>(await _tradesSrv.Find(x => x.TradeDate.Date >= _dateFrom
+            DateTime _dateFrom = DateTime.Now;
+            DateTime _dateTo = DateTime.Now;
+            List<TradeDto> Result = null;
+            if (dateTo.DateIsValid() && dateFrom.DateIsValid())
+            {
+                _dateFrom = dateFrom.ToMiladi();
+                _dateTo = dateTo.ToMiladi();
+                Result = mapper.Map<List<TradeDto>>(await _tradesSrv.Find(x => x.TradeDate.Date >= _dateFrom
                                                                             && x.TradeDate.Date <= _dateTo));
+            }
+            else
+            {
+                Result = mapper.Map<List<TradeDto>>(await _tradesSrv.GetAll());
+            }
+
             if (Result.Count == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
@@ -112,7 +122,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetTradeByUser")]
         public async Task<IActionResult> GetTradeByUserId(long UserId, string dateFrom, string dateTo)
         {
-            var Result =await _tradesSrv.GetTradesByUserId(UserId, dateFrom, dateTo);
+            var Result = await _tradesSrv.GetTradesByUserId(UserId, dateFrom, dateTo);
             if (Result == null)
             {
                 return NotFound(DefaultMessages.NotFound);
