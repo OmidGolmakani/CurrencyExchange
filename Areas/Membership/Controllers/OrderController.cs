@@ -170,9 +170,13 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> UpdateOrderStatus(long OrderId, byte status)
         {
             Models.Enum.Order.Status status1 = (Models.Enum.Order.Status)status;
+            if (status1==Models.Enum.Order.Status.Confirmation)
+            {
+                await Task.FromResult(false);
+            }
             _OrderSrv.UpdateOrderStatus(OrderId, status1);
             _OrderSrv.SaveChanges();
-            return Ok(await Task.FromResult(""));
+            return Ok(await Task.FromResult(true));
         }
     }
 }
