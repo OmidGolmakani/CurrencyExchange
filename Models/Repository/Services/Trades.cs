@@ -66,14 +66,14 @@ namespace CurrencyExchange.Models.Repository.Services
         {
             DateTime _dateFrom = DateTime.Now;
             DateTime _dateTo = DateTime.Now;
-            if (dateFrom.DateIsValid() && dateTo.DateIsValid())
+            if (dateFrom.DateIsValid() == false && dateTo.DateIsValid() == false)
             {
-                _dateFrom = dateFrom.ToMiladi();
-                _dateTo = dateTo.ToMiladi();
                 return TradesRepository.Find(x => x.Order.UserId == UserId);
             }
             else
             {
+                _dateFrom = dateFrom.ToMiladi();
+                _dateTo = dateTo.ToMiladi();
                 return TradesRepository.Find(x => x.Order.UserId == UserId && x.TradeDate.Date >= _dateFrom && x.TradeDate.Date <= _dateTo);
             }
         }

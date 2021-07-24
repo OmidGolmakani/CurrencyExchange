@@ -84,22 +84,22 @@ namespace CurrencyExchange.Models.Repository.Services
                 _dateTo = dateTo.ToMiladi();
                 if (type == Enum.Order.OrderType.None)
                 {
-                    return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
+                    return orderRepository.Find(x => x.Status != (byte)Enum.Order.Status.Confirmation && x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
                 }
                 else
                 {
-                    return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo && x.OrderTypeId == (byte)type);
+                    return orderRepository.Find(x => x.Status != (byte)Enum.Order.Status.Confirmation && x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo && x.OrderTypeId == (byte)type);
                 }
             }
             else
             {
                 if (type == Enum.Order.OrderType.None)
                 {
-                    return orderRepository.Find(x => x.UserId == UserId);
+                    return orderRepository.Find(x => x.Status != (byte)Enum.Order.Status.Confirmation && x.UserId == UserId);
                 }
                 else
                 {
-                    return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type);
+                    return orderRepository.Find(x => x.Status != (byte)Enum.Order.Status.Confirmation && x.UserId == UserId && x.OrderTypeId == (byte)type);
                 }
             }
         }

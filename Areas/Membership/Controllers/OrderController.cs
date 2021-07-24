@@ -112,14 +112,15 @@ namespace CurrencyExchange.Areas.Membership
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var Result = mapper.Map<List<OrderDto>>(await _OrderSrv.GetAll());
-            if (Result.Count == 0)
+            var Result = await _OrderSrv.GetAll();
+            Result = Result.Where(x => x.Status != (byte)Models.Enum.Order.Status.Confirmation).ToList();
+            if (Result.Count() == 0)
             {
                 return Ok(DefaultMessages.ListEmpty);
             }
             else
             {
-                return Ok(Result);
+                return Ok(mapper.Map<List<OrderDto>>(Result));
             }
         }
         [HttpGet("GetDetail{Id}")]
