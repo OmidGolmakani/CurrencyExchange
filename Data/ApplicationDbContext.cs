@@ -81,8 +81,8 @@ namespace CurrencyExchange.Data
             builder.Entity<ApplicationUser>().HasData(new ApplicationUser()
             {
                 Id = 1,
-                UserName = "Admin",
-                NormalizedUserName = "ADMIN",
+                UserName = "09150000000",
+                NormalizedUserName = "09150000000",
                 PasswordHash = "AQAAAAEAACcQAAAAENSkzWsQZKhTh+7aBZLEAWRHo8O3XC0qp1d1RFJEdvxKt3rGy+8Agyt38iYrVR5Zyw==",
                 SecurityStamp = "JF5Z6SA4QDPB246AF2WKXR5B5QAMMN7O",
                 ConcurrencyStamp = "b4c38214-364e-4c16-9028-a2d7448435b1",
@@ -216,6 +216,7 @@ namespace CurrencyExchange.Data
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
         public virtual DbSet<AuthItem> AuthItems { get; set; }
         public virtual DbSet<AuthUserItem> AuthUserItems { get; set; }
+        public virtual DbSet<BankAccount> BankAccounts { get; set; }
 
 
         #endregion Add DbSets

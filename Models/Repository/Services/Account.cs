@@ -29,6 +29,7 @@ namespace CurrencyExchange.Models.Repository.Services
         private IEnumerable<ApplicationUserRole> GetApplicationUserRoles() => _dbContext.UserRoles;
         private IEnumerable<ApplicationRole> GetRoles() => _dbContext.Roles;
         private IEnumerable<Entity.AuthUserItem> GetAuthUserItems() => _dbContext.AuthUserItems;
+        private IEnumerable<Entity.BankAccount> GetBankAccounts() => _dbContext.BankAccounts;
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
@@ -106,7 +107,8 @@ namespace CurrencyExchange.Models.Repository.Services
             return Task.FromResult(ApplicationUserFunc.MapApplicationUser(GetAccounts(),
                                                                           GetApplicationUserRoles(),
                                                                           GetRoles(),
-                                                                          GetAuthUserItems()));
+                                                                          GetAuthUserItems(),
+                                                                          GetBankAccounts()));
         }
 
         public Task<ApplicationUserDto> GetById(long Id)
@@ -114,7 +116,8 @@ namespace CurrencyExchange.Models.Repository.Services
             var Result = ApplicationUserFunc.MapApplicationUser(GetAccounts(),
                                                                 GetApplicationUserRoles(),
                                                                 GetRoles(),
-                                                                GetAuthUserItems()
+                                                                GetAuthUserItems(),
+                                                                GetBankAccounts()
                                                                 ).FirstOrDefault(x => x.Id == Id);
             return Task.FromResult(Result);
         }
@@ -390,7 +393,8 @@ namespace CurrencyExchange.Models.Repository.Services
             var Result = ApplicationUserFunc.MapApplicationUser(GetAccounts(),
                                                                 GetApplicationUserRoles(),
                                                                 GetRoles(),
-                                                                GetAuthUserItems()
+                                                                GetAuthUserItems(),
+                                                                GetBankAccounts()
                                                                 ).Where(x => x.AuthStatusId == (byte)sttaus);
             return Task.FromResult(Result);
         }

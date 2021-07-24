@@ -75,15 +75,32 @@ namespace CurrencyExchange.Models.Repository.Services
 
         public Task<IEnumerable<Entity.Order>> GetOrderByUserId(long UserId, Models.Enum.Order.OrderType type, string dateFrom, string dateTo)
         {
-            DateTime _dateFrom = dateFrom.ToMiladi();
-            DateTime _dateTo = dateTo.ToMiladi();
-            if (type == Enum.Order.OrderType.None)
+            DateTime _dateFrom = DateTime.Now;
+            DateTime _dateTo = DateTime.Now;
+
+            if (dateFrom.DateIsValid() && dateTo.DateIsValid())
             {
-                return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
+                _dateFrom = dateFrom.ToMiladi();
+                _dateTo = dateTo.ToMiladi();
+                if (type == Enum.Order.OrderType.None)
+                {
+                    return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
+                }
+                else
+                {
+                    return orderRepository.Find(x => x.UserId == UserId && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo && x.OrderTypeId == (byte)type);
+                }
             }
             else
             {
-                return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type && x.OrderDate.Date >= _dateFrom && x.OrderDate.Date <= _dateTo);
+                if (type == Enum.Order.OrderType.None)
+                {
+                    return orderRepository.Find(x => x.UserId == UserId);
+                }
+                else
+                {
+                    return orderRepository.Find(x => x.UserId == UserId && x.OrderTypeId == (byte)type);
+                }
             }
         }
 

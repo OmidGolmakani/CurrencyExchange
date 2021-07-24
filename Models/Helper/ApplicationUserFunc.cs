@@ -33,7 +33,8 @@ namespace CurrencyExchange.Models.Helper
         internal static IEnumerable<ApplicationUserDto> MapApplicationUser(IEnumerable<ApplicationUser> users,
                                                                            IEnumerable<ApplicationUserRole> userRoles,
                                                                            IEnumerable<ApplicationRole> roles,
-                                                                           IEnumerable<AuthUserItem> auths)
+                                                                           IEnumerable<AuthUserItem> auths,
+                                                                           IEnumerable<BankAccount> bankAccounts)
         {
             return (from u in users
                     join ur in userRoles
@@ -51,7 +52,7 @@ namespace CurrencyExchange.Models.Helper
                         Email = u.Email,
                         Name = u.Name,
                         Family = u.Family,
-                        RoleName =r.Name,
+                        RoleName = r.Name,
                         Id = u.Id,
                         IsAdmin = r.Name == "Administrator" ? true : false,
                         NationalCode = u.NationalCode,
@@ -60,7 +61,8 @@ namespace CurrencyExchange.Models.Helper
                         SecurityStamp = u.SecurityStamp,
                         Tel = u.Tel,
                         TelConfirmed = u.TelConfirmed,
-                        UserName = u.UserName
+                        UserName = u.UserName,
+                        BankAccouns = bankAccounts.Where(x => x.UserId == u.Id).Select(x => x.Value)
                     });
         }
     }

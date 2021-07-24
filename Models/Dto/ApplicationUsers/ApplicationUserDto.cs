@@ -46,6 +46,7 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         }
         public bool IsAdmin { get; set; }
         public string AuthStatus { get { return this.GetAuthStatus(); } }
+        public IEnumerable<string> BankAccouns { get; set; } = new List<string>();
         [JsonIgnore]
         public override bool Published { get => base.Published; set => base.Published = value; }
         [JsonIgnore]
