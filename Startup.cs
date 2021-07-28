@@ -74,7 +74,7 @@ namespace CurrencyExchange
             }
             else
             {
-                app.ConfigureExceptionHandler(logger);
+                //app.ConfigureExceptionHandler(logger);
 
             }
             app.UseHttpsRedirection();

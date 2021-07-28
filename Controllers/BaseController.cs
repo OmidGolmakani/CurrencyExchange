@@ -17,7 +17,7 @@ namespace CurrencyExchange.Controllers
     [Produces("application/json")]
     //[CustomExceptionFilter]
     [CustomAuthorizationFilter]
-    [AnyExceptExceptionFilter]
+    //[AnyExceptExceptionFilter]
     [AnyFilter]
     public class BaseController<T> : ControllerBase
     {
