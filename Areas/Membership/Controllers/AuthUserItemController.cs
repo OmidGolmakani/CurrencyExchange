@@ -136,7 +136,7 @@ namespace CurrencyExchange.Areas.Membership
             UploadFileInfo = await uploadSrv.Upload(UserImgFile, true);
             if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
             {
-                throw new MyException(UploadFileInfo.Description);
+                //throw new MyException(UploadFileInfo.Description);
             }
             var UserImg = new Models.Entity.Image()
             {
@@ -152,7 +152,7 @@ namespace CurrencyExchange.Areas.Membership
             UploadFileInfo = await uploadSrv.Upload(NationalCodeImgFile, true);
             if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
             {
-                throw new MyException(UploadFileInfo.Description);
+                //throw new MyException(UploadFileInfo.Description);
             }
             var NationalCodeImg = new Models.Entity.Image()
             {
@@ -168,7 +168,7 @@ namespace CurrencyExchange.Areas.Membership
             UploadFileInfo = await uploadSrv.Upload(BankCardImgFile, true);
             if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
             {
-                throw new MyException(UploadFileInfo.Description);
+                //throw new MyException(UploadFileInfo.Description);
             }
             var cardNoImg = new Models.Entity.Image()
             {
