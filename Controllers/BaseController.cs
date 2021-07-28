@@ -18,7 +18,6 @@ namespace CurrencyExchange.Controllers
     //[CustomExceptionFilter]
     [CustomAuthorizationFilter]
     [AnyExceptExceptionFilter]
-    [EnableCors("MyCorsPolicy")]
     [AnyFilter]
     public class BaseController<T> : ControllerBase
     {

@@ -40,21 +40,19 @@ namespace CurrencyExchange
         {
 
             services.AddMyDbContext(_configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Arzforosh_Cors", builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
             services.AddMyIdentity();
             services.AddHttpContextAccessor();
             services.AddScopeds();
             services.AutoMapperConfig();
             services.AddRazorPages();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("MyCorsPolicy", builder => builder
-                .WithOrigins("http://localhost:60658/", "http://localhost:60658/", "*", "http://localhost:3000/")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed((x) => true)
-                .AllowCredentials());
-            });
 
             services.AddControllers();
             services.AddSwagger(_env);
@@ -83,8 +81,7 @@ namespace CurrencyExchange
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors(config => config.WithOrigins("http://localhost:3000"));
-
+            app.UseCors("Arzforosh_Cors");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSwagger();
@@ -99,7 +96,6 @@ namespace CurrencyExchange
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Spad API V1");
                 c.RoutePrefix = string.Empty;
             });
-            app.UseCors("MyCorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
