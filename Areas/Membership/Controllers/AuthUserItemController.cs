@@ -181,7 +181,7 @@ namespace CurrencyExchange.Areas.Membership
             await _imageSrv.Add(cardNoImg);
             #endregion Upload And Save CardNo Image
             _accountSrv.SaveChanges();
-            return Ok(await Task.FromResult(0));
+            return Ok(await Task.FromResult(true));
         }
 
         [HttpPost("Delete{Id}")]
