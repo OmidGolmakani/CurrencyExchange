@@ -69,7 +69,7 @@ namespace CurrencyExchange.Models.Repository.Services
                 var _user = _mapper.Map<ApplicationUser>(RegisterInfo);
                 _user.PasswordHash = _userManager.PasswordHasher.HashPassword(_user, RegisterInfo.Password);
                 _user.UserName = RegisterInfo.PhoneNumber;
-                _user.PhoneNumberConfirmed = true;
+                //_user.PhoneNumberConfirmed = true;
                 ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _userManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
@@ -85,7 +85,9 @@ namespace CurrencyExchange.Models.Repository.Services
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                     var UserRoleTask = _userManager.AddToRoleAsync(_user, "User");
                     UserRoleTask.Wait();
-                    smsSvr.SendSMSWithPattern(_user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
+                    var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user, _user.PhoneNumber);
+                    PhoneNumberToken.Wait();
+                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
                 return Task.FromResult(new CUserLoginDto() { UserName = _user.UserName, Password = RegisterInfo.Password });
             }

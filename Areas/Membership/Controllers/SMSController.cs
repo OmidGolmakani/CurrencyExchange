@@ -22,11 +22,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("SendSMSWithPattern")]
         public IActionResult Index()
         {
-            svrSMS.SendSMSWithPattern(new OtherServices.SMS.Dto.SendWithPattern()
-            {
-                toNum="+989151241208",
-                inputData=  new OtherServices.SMS.Dto.InputData() { smstext= "1234" },
-            }, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
+            svrSMS.SendSMSWithPattern("1234","09151241208",OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
             return Ok("");
         }
 

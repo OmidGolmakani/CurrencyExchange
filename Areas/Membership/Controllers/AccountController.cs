@@ -2,7 +2,9 @@
 using CurrencyExchange.Controllers;
 using CurrencyExchange.CustomException;
 using CurrencyExchange.Data;
+using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
+using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -51,8 +53,7 @@ namespace CurrencyExchange.Areas.Membership
             try
             {
                 var Register = await _account.AddUserWithPhone(RegisterInfo);
-                var Login = await _account.SignIn(Register);
-                return Ok(Login);
+                return Ok(Register);
             }
             catch (MyException ex)
             {
@@ -70,12 +71,13 @@ namespace CurrencyExchange.Areas.Membership
         {
             try
             {
+                
                 var Result = await _account.VerifyPhoneNumber(UserId, Token);
                 if (Result.Errors.Count() != 0)
                 {
                     return new ObjectResult(Result.Errors);
                 }
-                return Ok(Result);
+                return Ok(Result.Succeeded);
             }
             catch (MyException ex)
             {
