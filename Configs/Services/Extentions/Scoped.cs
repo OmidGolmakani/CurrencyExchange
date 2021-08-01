@@ -3,6 +3,7 @@ using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Repository.Services;
 using CurrencyExchange.OtherServices.FileTransfer.Services;
+using CurrencyExchange.OtherServices.SMS.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<ApplicationUserToken>();
             #endregion Identity
             services.AddScoped<UploadService, UploadService>();
+            services.AddScoped<SMSService, SMSService>();
             services.AddScoped<Account, Account>();
             services.AddScoped<CurrencyExchangeHub, CurrencyExchangeHub>();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));

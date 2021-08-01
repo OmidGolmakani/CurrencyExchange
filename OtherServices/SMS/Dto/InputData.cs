@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CurrencyExchange.OtherServices.SMS.Services
+namespace CurrencyExchange.OtherServices.SMS.Dto
 {
-    public class SNSService : Base.BaseSevice
+    public class InputData
     {
-
+        public string smstext { get; set; }
     }
 }
