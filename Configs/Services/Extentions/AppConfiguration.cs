@@ -22,6 +22,10 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             var UploadConfig = configuration.GetSection("UploadConfig");
             services.Configure<UploadConfig>(UploadConfig);
             #endregion Upload Config
+            #region SMS Config
+            var SMSConfig = configuration.GetSection("SMSConfig");
+            services.Configure<OtherServices.SMS.Dto.SMSConfig>(SMSConfig);
+            #endregion SMS Config
             return services;
         }
     }
