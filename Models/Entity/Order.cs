@@ -36,6 +36,8 @@ namespace CurrencyExchange.Models.Entity
         public string Description { get; set; }
         [StringLength(150)]
         public string WaletCode { get; set; }
+        [StringLength(15)]
+        public string IssueTracking { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser OrderUser { get; set; }
         [ForeignKey("CurrencyId")]
