@@ -25,6 +25,9 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             #region SMS Config
             var SMSConfig = configuration.GetSection("SMSConfig");
             services.Configure<OtherServices.SMS.Dto.SMSConfig>(SMSConfig);
+
+            var SMSConfig1 = configuration.GetSection("SmsConfigurations");
+            services.Configure<OtherServices.SMS.Dto.MeliPayamak.SmsConfig>(SMSConfig1);
             #endregion SMS Config
             return services;
         }
