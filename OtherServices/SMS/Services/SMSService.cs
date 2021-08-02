@@ -26,8 +26,10 @@ namespace CurrencyExchange.OtherServices.SMS.Services
             smsDataPatern.user = _SMSConfig.Value.UserName;
             smsDataPatern.pass = _SMSConfig.Value.Password;
             smsDataPatern.op = "patternV2";
+            smsDataPatern.inputData.smstext = smsData;
             smsDataPatern.patternCode = _SMSConfig.Value.Patterns.FirstOrDefault(x => x.Name == patternType.ToString()).Value;
             smsDataPatern.fromNum = _SMSConfig.Value.SMSNumbers.FirstOrDefault();
+            smsDataPatern.toNum = PhoneNumber;
             var request = new RestRequest(Method.POST);
             request.AddHeader("cache-control", "no-cache");
             request.AddHeader("Content-Type", "application/json");

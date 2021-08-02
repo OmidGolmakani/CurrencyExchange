@@ -62,7 +62,7 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<CUserLoginDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
+        public Task<long> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace CurrencyExchange.Models.Repository.Services
                     PhoneNumberToken.Wait();
                     smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
-                return Task.FromResult(new CUserLoginDto() { UserName = _user.UserName, Password = RegisterInfo.Password });
+                return Task.FromResult(_user.Id);
             }
             catch (MyException ex)
             {

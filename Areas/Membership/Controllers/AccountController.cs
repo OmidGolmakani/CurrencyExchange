@@ -67,17 +67,27 @@ namespace CurrencyExchange.Areas.Membership
             return Ok(await _account.GetById(Id));
         }
         [HttpPost("VerifyPhoneNumber")]
-        public async Task<IActionResult> VerifyPhoneNumber(string UserId, string Token)
+        public async Task<IActionResult> VerifyPhoneNumber(string UserId, string Password, string Token)
         {
             try
             {
-                
+
                 var Result = await _account.VerifyPhoneNumber(UserId, Token);
+                SignInResultDto signInResult = null;
                 if (Result.Errors.Count() != 0)
                 {
-                    return new ObjectResult(Result.Errors);
+                    return new ObjectResult(new { code = 16, description = "کد ارسال شده نامعتبر می باشد" });
                 }
-                return Ok(Result.Succeeded);
+                if (Result.Succeeded)
+                {
+                    var user = await _account.GetById(UserId.ToLong());
+                    signInResult = await _account.SignIn(new CUserLoginDto()
+                    {
+                        UserName = user.UserName,
+                        Password = Password
+                    });
+                }
+                return Ok(Result.Succeeded ? signInResult : false);
             }
             catch (MyException ex)
             {
