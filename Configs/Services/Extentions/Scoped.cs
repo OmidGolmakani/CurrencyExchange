@@ -32,8 +32,13 @@ namespace CurrencyExchange.Configs.Servises.Extentions
             services.AddScoped<ApplicationUserLogin>();
             services.AddScoped<ApplicationUserToken>();
             #endregion Identity
+            #region Rest Sharp
+            services.AddScoped<RestSharp.RestRequest, RestSharp.RestRequest>();
+            services.AddScoped<RestSharp.RestClient, RestSharp.RestClient>();
+            #endregion Rest Sharp
             services.AddScoped<UploadService, UploadService>();
             services.AddScoped<SMSService, SMSService>();
+            services.AddScoped<OtherServices.SMS.Services.MeliPayamak.SendMessageService, OtherServices.SMS.Services.MeliPayamak.SendMessageService>();
             services.AddScoped<Account, Account>();
             services.AddScoped<CurrencyExchangeHub, CurrencyExchangeHub>();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
