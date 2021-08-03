@@ -23,8 +23,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("SendSMSWithPattern")]
         public IActionResult Index()
         {
-            svrSMS.SendMessage("09151241208", "تست");
-            return Ok("");
+            return Ok(svrSMS.SendMessage("09151241208", "تست"));
         }
 
     }
