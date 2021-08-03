@@ -50,6 +50,7 @@ namespace CurrencyExchange.Models.Dto.Orders
         public string StatusName { get { return this.GetOrderStatus(); } }
         public string Description { get; set; }
         public string WaletCode { get; set; }
+        public string IssueTracking { get; set; }
 
     }
 }

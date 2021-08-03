@@ -43,5 +43,6 @@ namespace CurrencyExchange.Models.Dto.Trades
             get { return this.GetOrderType(); }
         }
         public string Description { get; set; }
+        public string IssueTracking { get; set; }
     }
 }

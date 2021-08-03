@@ -8,6 +8,7 @@ using CurrencyExchange.Models.Entity;
 using CurrencyExchange.Models.Helper;
 using CurrencyExchange.Models.Repository.Interfaces;
 using CurrencyExchange.Models.Validation;
+using CurrencyExchange.OtherServices.SMS.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace CurrencyExchange.Models.Repository.Services
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
+                       OtherServices.SMS.Services.SMSService smsSvr,
                        IMapper mapper,
                        ApplicationDbContext dbContext)
         {
@@ -41,12 +43,14 @@ namespace CurrencyExchange.Models.Repository.Services
             this._dbContext = dbContext;
             this._signInManager = signInManager;
             this._authUserItemSrv = authUserItemSrv;
+            this.smsSvr = smsSvr;
         }
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAuthUserItem _authUserItemSrv;
+        private readonly SMSService smsSvr;
 
         public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
         {
@@ -58,14 +62,14 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<CUserLoginDto> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
+        public Task<long> AddUserWithPhone(RegisterWithPhoneDto RegisterInfo)
         {
             try
             {
                 var _user = _mapper.Map<ApplicationUser>(RegisterInfo);
                 _user.PasswordHash = _userManager.PasswordHasher.HashPassword(_user, RegisterInfo.Password);
                 _user.UserName = RegisterInfo.PhoneNumber;
-                _user.PhoneNumberConfirmed = true;
+                //_user.PhoneNumberConfirmed = true;
                 ApplicationUserValidator validator = new ApplicationUserValidator(_dbContext, _userManager);
                 validator.ValidateAndThrow(_user);
                 Task<IdentityResult> UserTask;
@@ -81,8 +85,11 @@ namespace CurrencyExchange.Models.Repository.Services
                     _user = _userManager.FindByIdAsync(_user.Id.ToString()).Result;
                     var UserRoleTask = _userManager.AddToRoleAsync(_user, "User");
                     UserRoleTask.Wait();
+                    var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user, _user.PhoneNumber);
+                    PhoneNumberToken.Wait();
+                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
-                return Task.FromResult(new CUserLoginDto() { UserName = _user.UserName, Password = RegisterInfo.Password });
+                return Task.FromResult(_user.Id);
             }
             catch (MyException ex)
             {

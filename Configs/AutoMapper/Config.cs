@@ -70,6 +70,9 @@ namespace CurrencyExchange.Configs
             }).ForMember(dest => dest.OrderTypeId, opts =>
               {
                   opts.MapFrom(src => src.Order.OrderTypeId);
+              }).ForMember(dest => dest.IssueTracking, opts =>
+              {
+                  opts.MapFrom(src => src.Order.IssueTracking);
               });
             CreateMap<TradeDto, Trades>();
             CreateMap<Trades, CUTradeDto>().ReverseMap();

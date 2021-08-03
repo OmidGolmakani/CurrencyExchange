@@ -61,5 +61,6 @@ namespace CurrencyExchange.Models.Dto.Orders
         public byte Status { get; set; }
         public string Description { get; set; }
         public string WaletCode { get; set; }
+        public string IssueTracking { get; set; }
     }   
 }
