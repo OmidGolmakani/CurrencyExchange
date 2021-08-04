@@ -14,16 +14,16 @@ namespace CurrencyExchange.Areas.Membership
 {
     public class SMSController : ControllerBase/*BaseController<HomeController>, IController<HomeController>*/
     {
-        private readonly SendMessageService svrSMS;
+        private readonly SMSService svrSMS;
 
-        public SMSController(OtherServices.SMS.Services.MeliPayamak.SendMessageService SvrSMS)
+        public SMSController(SMSService SvrSMS)
         {
             svrSMS = SvrSMS;
         }
         [HttpPost("SendSMSWithPattern")]
         public IActionResult Index()
         {
-            svrSMS.SendMessage("09151241208", "تست");
+            svrSMS.SendSMSWithPattern("تست", "09153444686", OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
             return Ok("");
         }
 
