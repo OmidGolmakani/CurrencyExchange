@@ -23,7 +23,7 @@ namespace CurrencyExchange.Areas.Membership
         [HttpPost("SendSMSWithPattern")]
         public IActionResult Index()
         {
-            svrSMS.SendSMSWithPattern("تست", "09153444686", OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
+            svrSMS.SendSMSWithPattern("1234", "09151241208", OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
             return Ok("");
         }
 

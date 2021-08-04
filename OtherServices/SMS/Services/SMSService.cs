@@ -18,7 +18,7 @@ namespace CurrencyExchange.OtherServices.SMS.Services
         {
             _SMSConfig = SMSConfig;
         }
-        internal Task<IRestResponse> SendSMSWithPattern(string smsData,string PhoneNumber,Enum.Pattern.type patternType)
+        internal Task<IRestResponse> SendSMSWithPattern(string smsData, string PhoneNumber, Enum.Pattern.type patternType)
         {
             SendWithPattern smsDataPatern = new SendWithPattern();
             string Url = string.Format("{0}{1}", _SMSConfig.Value.Url, _SMSConfig.Value.APIKey);
@@ -31,7 +31,7 @@ namespace CurrencyExchange.OtherServices.SMS.Services
             //smsDataPatern.fromNum = _SMSConfig.Value.SMSNumbers.FirstOrDefault();
             //smsDataPatern.toNum = PhoneNumber;
 
-           
+
 
             //var request = new RestRequest(Method.POST);
             //request.AddHeader("cache-control", "no-cache");
@@ -45,14 +45,14 @@ namespace CurrencyExchange.OtherServices.SMS.Services
             //    ",\"patternCode\": \"545\"" +
             //    ",\"inputData\" : {\"smstext\": \"asdadas\"}}"
             //, ParameterType.RequestBody);
-            
+
             string patternCode = _SMSConfig.Value.Patterns.FirstOrDefault(x => x.Name == patternType.ToString()).Value;
             string fromNumber = _SMSConfig.Value.SMSNumbers.FirstOrDefault();
             string username = _SMSConfig.Value.UserName,
                 password = _SMSConfig.Value.Password;
 
             string requestGET = $"http://ippanel.com:8080/?apikey={_SMSConfig.Value.APIKey}&pid={patternCode}&fnum={fromNumber}&tnum={PhoneNumber}&p1=number&v1={smsData}";
-                var request = new RestRequest(requestGET, Method.GET);
+            var request = new RestRequest(requestGET, Method.GET);
             IRestResponse response = client.Execute(request);
             return Task.FromResult(response);
         }

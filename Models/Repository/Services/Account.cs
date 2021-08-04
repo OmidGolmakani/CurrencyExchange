@@ -35,7 +35,7 @@ namespace CurrencyExchange.Models.Repository.Services
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
-                       SendMessageService smsSvr,
+                       SMSService smsSvr,
                        IMapper mapper,
                        ApplicationDbContext dbContext)
         {
@@ -51,7 +51,7 @@ namespace CurrencyExchange.Models.Repository.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAuthUserItem _authUserItemSrv;
-        private readonly SendMessageService smsSvr;
+        private readonly SMSService smsSvr;
 
         public Task<EntityEntry<ApplicationUserDto>> Add(ApplicationUserDto entity)
         {
@@ -88,7 +88,7 @@ namespace CurrencyExchange.Models.Repository.Services
                     UserRoleTask.Wait();
                     var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user, _user.PhoneNumber);
                     PhoneNumberToken.Wait();
-                    //smsSvr.SendMessage(_user.PhoneNumber, "");
+                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result,_user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
                 return Task.FromResult(_user.Id);
             }
