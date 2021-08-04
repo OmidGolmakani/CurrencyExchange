@@ -13,16 +13,19 @@ namespace CurrencyExchange.OtherServices.SMS.Services
     public class SMSService : BaseSevice
     {
         private readonly IOptions<SMSConfig> _SMSConfig;
+        private readonly RestClient _restClient;
 
-        public SMSService(IOptions<SMSConfig> SMSConfig)
+        public SMSService(IOptions<SMSConfig> SMSConfig,
+                          RestClient restClient)
         {
             _SMSConfig = SMSConfig;
+            this._restClient = restClient;
         }
         internal Task<IRestResponse> SendSMSWithPattern(string smsData, string PhoneNumber, Enum.Pattern.type patternType)
         {
             SendWithPattern smsDataPatern = new SendWithPattern();
             string Url = string.Format("{0}{1}", _SMSConfig.Value.Url, _SMSConfig.Value.APIKey);
-            var client = new RestClient(Url);
+            _restClient.BaseUrl = new Uri(Url);
             //smsDataPatern.user = _SMSConfig.Value.UserName;
             //smsDataPatern.pass = _SMSConfig.Value.Password;
             //smsDataPatern.op = "patternV2";
@@ -53,7 +56,7 @@ namespace CurrencyExchange.OtherServices.SMS.Services
 
             string requestGET = $"http://ippanel.com:8080/?apikey={_SMSConfig.Value.APIKey}&pid={patternCode}&fnum={fromNumber}&tnum={PhoneNumber}&p1=number&v1={smsData}";
             var request = new RestRequest(requestGET, Method.GET);
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = _restClient.Execute(request);
             return Task.FromResult(response);
         }
     }

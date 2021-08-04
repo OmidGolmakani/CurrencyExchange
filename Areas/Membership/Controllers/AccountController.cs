@@ -66,6 +66,7 @@ namespace CurrencyExchange.Areas.Membership
         {
             return Ok(await _account.GetById(Id));
         }
+        [AllowAnonymous]
         [HttpPost("VerifyPhoneNumber")]
         public async Task<IActionResult> VerifyPhoneNumber(string UserId, string Password, string Token)
         {
