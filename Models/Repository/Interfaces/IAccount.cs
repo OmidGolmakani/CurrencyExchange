@@ -21,8 +21,8 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         public Task<string> SendVerifyChangeEmail(string UserId, string newEmail, string Token);
         public Task<IdentityResult> VerifyEmail(string UserId, string Token);
         public Task<bool> VerifyChangeEmail(string UserId, string Token);
-        public Task<string> SendResetPasswordToken(string UserInfo);
-        public Task<IdentityResult> ResetPassword(string UserInfo);
+        public Task SendResetPasswordToken(string UserInfo);
+        public Task<IdentityResult> ResetPassword(string UserInfo, string token, string newPassword);
         public Task<PhoneNumberTokenResultDto> SendPhoneNumberToken(long UserId, string Token, string newPassword);
         public Task<PhoneNumberTokenResultDto> ChangePhoneNumberToken(string UserId, string PhoneNumber);
         public Task<IdentityResult> VerifyPhoneNumber(string UserId, string Token, string PhoneNumber = "");

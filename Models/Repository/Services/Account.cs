@@ -88,7 +88,7 @@ namespace CurrencyExchange.Models.Repository.Services
                     UserRoleTask.Wait();
                     var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user, _user.PhoneNumber);
                     PhoneNumberToken.Wait();
-                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result,_user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
+                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
                 return Task.FromResult(_user.Id);
             }
@@ -145,9 +145,21 @@ namespace CurrencyExchange.Models.Repository.Services
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> ResetPassword(string UserInfo)
+        public Task<IdentityResult> ResetPassword(string UserInfo, string token, string newPassword)
         {
-            throw new NotImplementedException();
+            Task<IdentityResult> ResetPasswordResult = null;
+            var user = _userManager.Users.FirstOrDefaultAsync(x=> x.PhoneNumber == UserInfo.ToString() || 
+                                                              x.UserName== UserInfo.ToString() || 
+                                                              x.Email== UserInfo.ToString()).Result;
+            var VerifyPhoneNumber = _userManager.VerifyChangePhoneNumberTokenAsync(user, token, user.PhoneNumber);
+            VerifyPhoneNumber.Wait();
+            if (VerifyPhoneNumber.Result == true)
+            {
+                var PasswordToken = _userManager.GeneratePasswordResetTokenAsync(user);
+                PasswordToken.Wait();
+                ResetPasswordResult = _userManager.ResetPasswordAsync(user, PasswordToken.Result, newPassword);
+            }
+            return ResetPasswordResult;
         }
 
         public Task<bool> SendEmailToken(long UserId)
@@ -156,11 +168,6 @@ namespace CurrencyExchange.Models.Repository.Services
         }
 
         public Task<PhoneNumberTokenResultDto> SendPhoneNumberToken(long UserId, string Token, string newPassword)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> SendResetPasswordToken(string UserInfo)
         {
             throw new NotImplementedException();
         }
@@ -292,20 +299,22 @@ namespace CurrencyExchange.Models.Repository.Services
                 throw ex;
             }
         }
-        public Task<string> ResetPasswordToken(string UserInfo)
+        public Task SendResetPasswordToken(string UserInfo)
         {
             try
             {
-                var user = _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserInfo ||
+                var _user = _userManager.Users.FirstOrDefaultAsync(x => x.UserName == UserInfo ||
                                                                   x.Email == UserInfo ||
                                                                   x.PhoneNumber == UserInfo);
-                if (user.Result == null)
+                if (_user.Result == null)
                 {
                     throw GetAccountExceptions(ErrorMessageType.UserNotFound);
                 }
-                return _userManager.GeneratePasswordResetTokenAsync(user.Result);
+                var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user.Result, _user.Result.UserName);
+                PhoneNumberToken.Wait();
+                return smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.Result.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
             }
-            catch (Exception ex)
+            catch (MyException ex)
             {
 
                 throw ex;
