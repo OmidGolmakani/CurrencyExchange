@@ -198,7 +198,7 @@ namespace CurrencyExchange.Data
                  AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.ShebaNo,
                  CreateDate = DateTime.Now,
                  Deleted = false,
-                 Order = 2,
+                 Order = 5,
                  Required = true,
                  Description = "احراز شماره شبا"
 
