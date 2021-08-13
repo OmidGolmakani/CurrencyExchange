@@ -125,6 +125,27 @@ namespace CurrencyExchange.Areas.Membership
             }
             catch (MyException ex) { throw ex; }
         }
+        [AllowAnonymous]
+        [HttpPost("SendResetPasswordToken")]
+        public async Task<IActionResult> SendResetPasswordToken(string UserInfo)
+        {
+            await _account.SendResetPasswordToken(UserInfo);
+            return Ok(true);
+        }
+        [AllowAnonymous]
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string UserInfo, string Token, string newPassword)
+        {
+            var Result = await _account.ResetPassword(UserInfo, Token, newPassword);
+            if (Result.Succeeded == false)
+            {
+                return BadRequest(Result.Errors.FirstOrDefault());
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
         [HttpPost("VerifyChangeEmail")]
         public async Task<IActionResult> VerifyChangeEmail(string UserId, string newEmail, string Token)
         {
