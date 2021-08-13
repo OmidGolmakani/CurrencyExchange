@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CurrencyExchange.Areas.Membership.Interfaces;
 using CurrencyExchange.CustomException;
+using CurrencyExchange.CustomException.Dto;
 using CurrencyExchange.Data;
 using CurrencyExchange.Helpers;
 using CurrencyExchange.Models.Dto.ApplicationUsers;
@@ -148,9 +149,9 @@ namespace CurrencyExchange.Models.Repository.Services
         public Task<IdentityResult> ResetPassword(string UserInfo, string token, string newPassword)
         {
             Task<IdentityResult> ResetPasswordResult = null;
-            var user = _userManager.Users.FirstOrDefaultAsync(x=> x.PhoneNumber == UserInfo.ToString() || 
-                                                              x.UserName== UserInfo.ToString() || 
-                                                              x.Email== UserInfo.ToString()).Result;
+            var user = _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == UserInfo.ToString() ||
+                                                              x.UserName == UserInfo.ToString() ||
+                                                              x.Email == UserInfo.ToString()).Result;
             var VerifyPhoneNumber = _userManager.VerifyChangePhoneNumberTokenAsync(user, token, user.PhoneNumber);
             VerifyPhoneNumber.Wait();
             if (VerifyPhoneNumber.Result == true)
@@ -190,9 +191,15 @@ namespace CurrencyExchange.Models.Repository.Services
                 Tuple<string, double> tokenInfo = null;
                 SignInResultDto Result = null;
                 _user.Wait();
+                List<ErrorDto> errors = new List<ErrorDto>();
                 if (_user.Result == null || _user.Result.Id == 0)
                 {
-                    return Task.FromResult(new SignInResultDto() { SignIn = SignInResult.Failed });
+                    errors.Add(new ErrorDto()
+                    {
+                        StatusCode = 1,
+                        Message = "نام کاربری یا رمز عبور اشتباه می باشد"
+                    });
+                    return Task.FromResult(new SignInResultDto() { SignIn = SignInResult.Failed, Errors = errors });
                 }
                 else
                 {
@@ -209,15 +216,33 @@ namespace CurrencyExchange.Models.Repository.Services
                             Token = tokenInfo.Item1,
                             ExprireDate = tokenInfo.Item2,
                             IsAdmin = _userManager.GetRolesAsync(_user.Result).Result.Count(x => x == "Administrator") == 0 ? false : true,
-                            AuthUserStatusId = authStatus.StatusId
+                            AuthUserStatusId = authStatus.StatusId,
+                            Errors = errors
                         };
                     }
                     else
                     {
+                        if (_user.Result.PhoneNumberConfirmed == false)
+                        {
+                            errors.Add(new ErrorDto()
+                            {
+                                StatusCode = 2,
+                                Message = "تلفن همراه فعال نشده است"
+                            });
+                        }
+                        if (_user.Result.LockoutEnabled && _user.Result.LockoutEnd != null && _user.Result.LockoutEnd > DateTimeOffset.Now)
+                        {
+                            errors.Add(new ErrorDto()
+                            {
+                                StatusCode = 3,
+                                Message = "حساب کاربری شما توسط مدیران سایت غیر فعال شده است"
+                            });
+                        }
                         Result = new SignInResultDto()
                         {
                             UserId = _user.Result.Id,
-                            SignIn = SigninResult.Result
+                            SignIn = SigninResult.Result,
+                            Errors = errors
                         };
                     }
                 }
