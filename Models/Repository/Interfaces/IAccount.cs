@@ -27,5 +27,6 @@ namespace CurrencyExchange.Models.Repository.Interfaces
         public Task<PhoneNumberTokenResultDto> ChangePhoneNumberToken(string UserId, string PhoneNumber);
         public Task<IdentityResult> VerifyPhoneNumber(string UserId, string Token, string PhoneNumber = "");
         public Task<IEnumerable<ApplicationUserDto>> GetAccountByAuthStatus(Enum.AuthUserItem.Status status);
+        public Task<IdentityResult> DeActiveUser(DeActiveUserDto deActiveUser);
     }
 }

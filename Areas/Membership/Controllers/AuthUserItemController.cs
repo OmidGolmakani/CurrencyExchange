@@ -71,16 +71,19 @@ namespace CurrencyExchange.Areas.Membership
         public async Task<IActionResult> AddAll(IFormFile UserImgFile,
                                                 IFormFile NationalCodeImgFile,
                                                 IFormFile BankCardImgFile,
+                                                IFormFile OtherImgFile,
                                                 [FromForm] CAuthUserItemsDto entity)
         {
             var Admin = _accountSrv.GetAll().Result.FirstOrDefault();
             var Auth = _authItemsSrv.GetAll().Result.ToList();
             var userInfo = _accountSrv.GetById(entity.UserId).Result;
             Models.Entity.BankAccount bankAccount = new BankAccount();
+            Models.Entity.BankAccount shebaAccount = new BankAccount();
             Response UploadFileInfo = null;
             ImageValidator imgValidator = new ImageValidator(dbContext);
             ApplicationUserValidator userValidator = new ApplicationUserValidator(dbContext, _userManager);
             BankAccountValidator bankAccountValidator = new BankAccountValidator(dbContext);
+            BankAccountValidator ShebaValidator = new BankAccountValidator(dbContext);
             if (userInfo == null)
             {
                 return NotFound("کاربر مورد نظر یافت نشد");
@@ -99,6 +102,13 @@ namespace CurrencyExchange.Areas.Membership
                 UserId = userInfo.Id,
                 VerifyType = 1,
                 AuthItemId = 2,
+                Status = (int)Models.Enum.AuthUserItem.Status.Waiting
+            });
+            var ShebaNOAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
+            {
+                UserId = userInfo.Id,
+                VerifyType = 1,
+                AuthItemId = 5,
                 Status = (int)Models.Enum.AuthUserItem.Status.Waiting
             });
             var UserAuth = await _authUserItemSrv.Add(new Models.Entity.AuthUserItem()
@@ -132,6 +142,14 @@ namespace CurrencyExchange.Areas.Membership
             bankAccountValidator.ValidateAndThrow(bankAccount);
             await _bankAccountSrv.Add(bankAccount);
             #endregion Bank Account
+            #region Sheba Account
+            shebaAccount.IdType = (byte)Models.Enum.BankAccount.IdType.Shaba;
+            shebaAccount.Value = entity.Step3.ShebaNo;
+            shebaAccount.UserId = userInfo.Id;
+            shebaAccount.AuthUserItem = ShebaNOAuth.Entity;
+            bankAccountValidator.ValidateAndThrow(shebaAccount);
+            await _bankAccountSrv.Add(shebaAccount);
+            #endregion Sheba Account
             #region Upload And Save User Image
             UploadFileInfo = await uploadSrv.Upload(UserImgFile, true);
             if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
@@ -180,6 +198,21 @@ namespace CurrencyExchange.Areas.Membership
             imgValidator.ValidateAndThrow(cardNoImg);
             await _imageSrv.Add(cardNoImg);
             #endregion Upload And Save CardNo Image
+            #region Upload And Save Other Image
+            UploadFileInfo = await uploadSrv.Upload(OtherImgFile, true);
+            if (UploadFileInfo.Code != System.Net.FtpStatusCode.CommandOK)
+            {
+                //throw new MyException(UploadFileInfo.Description);
+            }
+            var OtherImg = new Models.Entity.Image()
+            {
+                UserId = userInfo.Id,
+                ImageTypeId = (byte)Models.Enum.Image.Type.OtherImage,
+                FileName = UploadFileInfo.Url
+            };
+            imgValidator.ValidateAndThrow(OtherImg);
+            await _imageSrv.Add(OtherImg);
+            #endregion Upload And Save Other Image
             _accountSrv.SaveChanges();
             return Ok(await Task.FromResult(true));
         }

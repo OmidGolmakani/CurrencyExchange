@@ -190,7 +190,19 @@ namespace CurrencyExchange.Data
                 Required = true,
                 Description = "احراز تلفن ثابت"
 
-            });
+            },
+             new AuthItem()
+             {
+                 Id = 5,
+                 AuthName = "شماره شبا",
+                 AuthTypeId = (byte)Models.Enum.AuthItems.AuthTypeId.ShebaNo,
+                 CreateDate = DateTime.Now,
+                 Deleted = false,
+                 Order = 2,
+                 Required = true,
+                 Description = "احراز شماره شبا"
+
+             });
             #endregion Auth Items
             #region Currency
             builder.Entity<Currency>().HasData(new Currency()

@@ -88,7 +88,7 @@ namespace CurrencyExchange.Models.Repository.Services
                     UserRoleTask.Wait();
                     var PhoneNumberToken = _userManager.GenerateChangePhoneNumberTokenAsync(_user, _user.PhoneNumber);
                     PhoneNumberToken.Wait();
-                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result,_user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
+                    smsSvr.SendSMSWithPattern(PhoneNumberToken.Result, _user.PhoneNumber, OtherServices.SMS.Enum.Pattern.type.VerifyPhoneNumber);
                 }
                 return Task.FromResult(_user.Id);
             }
@@ -406,7 +406,15 @@ namespace CurrencyExchange.Models.Repository.Services
                                                                 ).Where(x => x.AuthStatusId == (byte)sttaus);
             return Task.FromResult(Result);
         }
-
+        public Task<IdentityResult> DeActiveUser(DeActiveUserDto deActiveUser)
+        {
+            var _user = _userManager.Users.FirstOrDefault(x => x.Id == deActiveUser.UserId);
+            if (_user == null) throw new Exception(DefaultMessages.UserNotFound);
+            _userManager.SetLockoutEnabledAsync(_user, true).Wait();
+            _user.Description = deActiveUser.Reason;
+            _userManager.UpdateAsync(_user).Wait();
+            return _userManager.SetLockoutEndDateAsync(_user, DateTime.Now.AddYears(10));
+        }
 
         private enum ErrorMessageType { UserNotFound = 1 }
     }

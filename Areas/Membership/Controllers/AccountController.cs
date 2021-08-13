@@ -138,5 +138,10 @@ namespace CurrencyExchange.Areas.Membership
                 throw ex;
             }
         }
+        [HttpPost("deActiveUser")]
+        public async Task<IActionResult> deActiveUser(DeActiveUserDto deActiveUser)
+        {
+            return Ok(await _account.DeActiveUser(deActiveUser));
+        }
     }
 }

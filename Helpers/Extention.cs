@@ -365,6 +365,18 @@ namespace CurrencyExchange.Helpers
                 throw new MyException("ToShamsi", ex);
             }
         }
+        public static string ToShamsi(this DateTimeOffset x, bool withTime)
+        {
+            try
+            {
+                return PersionDate.GetShamsi(x, withTime);
+            }
+            catch (MyException ex)
+            {
+
+                throw new MyException("ToShamsi", ex);
+            }
+        }
         /// <summary>
         /// تبدیل رشته به Boolean
         /// </summary>

@@ -49,6 +49,12 @@ namespace CurrencyExchange.Models.Entity
         public string Tel { get; set; }
         [DefaultValue(false)]
         public bool TelConfirmed { get; set; }
+        [MaxLength(200)]
+        public string Address { get; set; }
+        [MaxLength(10)]
+        public string PostalCode { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Trades> Trades { get; set; }
         public virtual ICollection<Image> Images { get; set; }

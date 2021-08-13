@@ -13,7 +13,8 @@ namespace CurrencyExchange.Models.Enum
             BirthCertificate = 1,
             NationalCard = 2,
             BankCard = 3,
-            UserPicture = 4
+            UserPicture = 4,
+            OtherImage = 5
         }
     }
 }

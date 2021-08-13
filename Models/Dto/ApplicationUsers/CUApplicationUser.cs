@@ -20,5 +20,8 @@ namespace CurrencyExchange.Models.Dto.ApplicationUsers
         public string Family { get; set; }
         public string NationalCode { get; set; }
         public string Tel { get; set; }
+        public string PostalCode { get; set; }
+        public string Address { get; set; }
+        public string Description { get; set; }
     }
 }

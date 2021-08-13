@@ -1,4 +1,5 @@
-﻿using CurrencyExchange.Models.Dto.ApplicationUsers;
+﻿using CurrencyExchange.Helpers;
+using CurrencyExchange.Models.Dto.ApplicationUsers;
 using CurrencyExchange.Models.Entity;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,8 @@ namespace CurrencyExchange.Models.Helper
                         Tel = u.Tel,
                         TelConfirmed = u.TelConfirmed,
                         UserName = u.UserName,
-                        BankAccouns = bankAccounts.Where(x => x.UserId == u.Id).Select(x => x.Value)
+                        BankAccouns = bankAccounts.Where(x => x.UserId == u.Id).Select(x => x.Value),
+                        IsLockout = u.LockoutEnd.HasValue && u.LockoutEnd.Value.DateTime > DateTime.Now ? true : false
                     });
         }
     }

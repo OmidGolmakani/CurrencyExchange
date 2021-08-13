@@ -11,5 +11,7 @@ namespace CurrencyExchange.Models.Dto.AuthUserItems
         public string Name { get; set; }
         public string Family { get; set; }
         public string Tel { get; set; }
+        public string PostalCode { get; set; }
+        public string Address { get; set; }
     }
 }
