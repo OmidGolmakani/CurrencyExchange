@@ -93,6 +93,8 @@ namespace CurrencyExchange.Areas.Membership
             userInfo.Family = entity.Step1.Family;
             userInfo.NationalCode = entity.Step2.NationalCode;
             userInfo.Tel = entity.Step1.Tel;
+            userInfo.PostalCode = entity.Step1.PostalCode;
+            userInfo.Address = entity.Step1.Address;
             userValidator.ValidateAndThrow(mapper.Map<ApplicationUser>(userInfo));
             _accountSrv.Update(userInfo);
             #endregion User Info
