@@ -31,8 +31,9 @@ namespace CurrencyExchange.Models.Repository.Services
         private IEnumerable<ApplicationUser> GetAccounts() => _dbContext.Users;
         private IEnumerable<ApplicationUserRole> GetApplicationUserRoles() => _dbContext.UserRoles;
         private IEnumerable<ApplicationRole> GetRoles() => _dbContext.Roles;
-        private IEnumerable<Entity.AuthUserItem> GetAuthUserItems() => _dbContext.AuthUserItems;
-        private IEnumerable<Entity.BankAccount> GetBankAccounts() => _dbContext.BankAccounts;
+        private IEnumerable<Entity.AuthUserItem> GetAuthUserItems() => _dbContext.AuthUserItems.Where(x => x.Deleted == false);
+        private IEnumerable<Entity.BankAccount> GetBankAccounts() => _dbContext.BankAccounts.Where(x => x.Deleted == false &&
+                                                                                                   x.AuthUserItem.Status != (byte)Models.Enum.AuthUserItem.Status.Rejected);
         public Account(UserManager<ApplicationUser> userManager,
                        SignInManager<ApplicationUser> signInManager,
                        IAuthUserItem authUserItemSrv,
